@@ -1,7 +1,7 @@
 #	$LAAS$
 
 #
-#  Copyright (c) 2001 LAAS/CNRS                       --  Sat Oct  6 2001
+#  Copyright (c) 2001-2003 LAAS/CNRS                  --  Sat Oct  6 2001
 #  All rights reserved.                                    Anthony Mallet
 #
 #
@@ -30,7 +30,7 @@
 #
 
 # Make packages in that directory available
-lappend auto_path $eltcl_library
+lappend auto_path [file join $eltcl_library ..]
 
 # Install default signal handlers (if the signal command exists)
 if { [info command signal] != "" } { namespace eval el {

@@ -1,5 +1,7 @@
 $LAAS$
 
+eltclsh 1.5 released march 17, 2004
+
  18. Improve autoconf stuff: cross-compilation, select between termcap or
  ncurses libs, option to disable Tk.
 

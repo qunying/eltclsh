@@ -1,7 +1,7 @@
 /*	$LAAS$ */
 
 /* 
- * Copyright (c) 2001 LAAS/CNRS                       --  Tue Oct 16 2001
+ * Copyright (c) 2001-2004 LAAS/CNRS                  --  Tue Oct 16 2001
  * All rights reserved.                                    Anthony Mallet
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -39,7 +39,7 @@ __RCSID("$LAAS$");
 
 #include "eltclsh.h"
 
-static char copyright[] = " - Copyright (C) 2001-2003 LAAS-CNRS";
+static char copyright[] = " - Copyright (C) 2001-2004 LAAS-CNRS";
 
 
 /*

@@ -45,7 +45,7 @@ ELTCLSH=	@ELTCLSH@
 ELWISH=		@ELWISH@
 
 ELTCLSH_MAJOR=	1
-ELTCLSH_MINOR=	4
+ELTCLSH_MINOR=	5
 
 
 # --- Flags -------------------------------------------------------------

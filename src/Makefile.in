@@ -71,8 +71,11 @@ elwishobjs = $(elwishsrcs:.c=.o)
 
 # --- basic rules --------------------------------------------------------
 
-all: $(ELTCLSH) $(ELWISH)
+all: $(ELTCLSH)
 
+ifeq (yes,$(HAS_TK))
+all: $(ELWISH)
+endif
 
 # binaries
 $(ELTCLSH): $(eltclshobjs) $(commonobjs)
@@ -97,9 +100,13 @@ ${elwishobjs}:%.o: %.c
 .PHONY: install
 install: install-bin
 
-install-bin: $(ELTCLSH) $(ELWISH)
+install-bin:: $(ELTCLSH)
 	$(INSTALL) $(ELTCLSH) $(bindir)/$(ELTCLSH)
+
+ifeq (yes,$(HAS_TK))
+install-bin:: $(ELWISH)
 	$(INSTALL) $(ELWISH) $(bindir)/$(ELWISH)
+endif
 
 
 # --- cleaning ----------------------------------------------------------
@@ -114,8 +121,10 @@ clean:
 
 depends dependencies:: $(eltclshsrcs) $(commonsrcs)
 	$(MKDEP) -c$(CC) -odependencies $(CPPFLAGS) $?
+ifeq (yes,$(HAS_TK))
 depends dependencies:: $(elwishsrcs)
 	$(MKDEP) -c$(CC) -odependencies $(CPPFLAGS) $(ELWISH_CPPFLAGS) $?
+endif
 
 init.o: Makefile
 

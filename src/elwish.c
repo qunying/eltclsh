@@ -45,8 +45,13 @@ static int	elWishAppInit(ElTclInterpInfo *iinfo);
  * elwish main
  */
 
+#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
 int 
 main(int argc, const char *argv[])
+#else
+int 
+main(int argc, char *argv[])
+#endif /* TCL_VERSION */
 {
    elTclshLoop(argc, argv, elWishAppInit);
    return 0;

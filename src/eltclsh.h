@@ -84,8 +84,13 @@ typedef int (*ElTclAppInitProc)(ElTclInterpInfo *);
  * Prototypes -----------------------------------------------------------
  */
 
+#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
 void		elTclshLoop(int argc, const char **argv,
 			ElTclAppInitProc appInitProc);
+#else
+void		elTclshLoop(int argc, char **argv,
+			ElTclAppInitProc appInitProc);
+#endif /* TCL_VERSION */
 int		elTclExit(ClientData data, Tcl_Interp *interp, int objc,
 			Tcl_Obj *const objv[]);
 

@@ -48,14 +48,23 @@ static char copyright[] = " - Copyright (C) 2001-2003 LAAS-CNRS";
  * Main loop: it reads commands and execute them
  */
 
+#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
 void
 elTclshLoop(int argc, const char **argv, ElTclAppInitProc appInitProc)
+#else
+void
+elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
+#endif /* TCL_VERSION */
 {
    ElTclInterpInfo *iinfo;
    HistEvent ev;
 
    Tcl_Obj *resultPtr, *command;
+#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
    const char *fileName, *args;
+#else
+   char *fileName, *args;
+#endif /* TCL_VERSION */
    char buffer[1000], *bytes;
    int code, tty, length;
    int exitCode = 0;
@@ -106,7 +115,11 @@ elTclshLoop(int argc, const char **argv, ElTclAppInitProc appInitProc)
    if ((*appInitProc)(iinfo) != TCL_OK) {
       errChannel = Tcl_GetStdChannel(TCL_STDERR);
       if (errChannel) {
+#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
 	 const char *msg;
+#else
+	 char *msg;
+#endif /* TCL_VERSION */
 
 	 msg = Tcl_GetVar(iinfo->interp, "errorInfo", TCL_GLOBAL_ONLY);
 	 if (msg != NULL) {

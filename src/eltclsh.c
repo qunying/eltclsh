@@ -73,8 +73,14 @@ rtclshReal(char *script)
    return OK;
 }
 #else /* UNIX */
+
+#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
 int 
 main(int argc, const char *argv[])
+#else
+int 
+main(int argc, char *argv[])
+#endif /* TCL_VERSION */
 {
    elTclshLoop(argc, argv, elTclAppInit);
    return 0;

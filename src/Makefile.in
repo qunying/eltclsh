@@ -102,7 +102,7 @@ install-bin: $(ELTCLSH) $(ELWISH)
 # --- cleaning ----------------------------------------------------------
 
 clean:
-	rm -f $(commonobjs) $(eltclshobjs) $(elwishobjs)
+	rm -f $(commonobjs) $(eltclshobjs) $(elwishobjs) dependencies
 
 
 # --- dependencies ------------------------------------------------------

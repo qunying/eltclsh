@@ -1,5 +1,9 @@
 $LAAS$
 
+  7. Use tclsh instead of eltclsh for building pkgIndex
+
+  6. fix for build against Tcl 8.4 after const poisoning fix (#2).
+
   5.  Improved command-line completion engine   when the smallest  common
   denominator of   the  available matches  is   smaller  than the current
   command-line.

@@ -52,7 +52,11 @@ static const char *	elTclPrompt(EditLine *el);
 int
 elTclAppInit(ElTclInterpInfo *iinfo)
 {
+#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
    const char *eltclLibrary[2];
+#else
+   char *eltclLibrary[2];
+#endif /* TCL_VERSION */
    Tcl_Channel inChannel;
    Tcl_DString initFile;
    Tcl_Obj *obj;
@@ -219,7 +223,11 @@ elTclPrompt(EditLine *el)
 	 outChannel = Tcl_GetStdChannel(TCL_STDOUT);
 	 errChannel = Tcl_GetStdChannel(TCL_STDERR);
 	 if (errChannel) {
+#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
 	    const char *bytes;
+#else
+	    char *bytes;
+#endif /* TCL_VERSION */
 	    bytes = Tcl_GetStringResult(iinfo->interp);
 	    Tcl_Write(errChannel, bytes, strlen(bytes));
 	    Tcl_Write(errChannel, "\n", 1);

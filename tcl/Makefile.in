@@ -39,6 +39,9 @@ datadir=	@datadir@/eltcl
 
 VPATH=		$(srcdir)
 
+ifeq (,$(HOST_ELTCLSH))
+HOST_ELTCLSH=$(TOPBUILD)/src/$(ELTCLSH)
+endif
 
 # -----------------------------------------------------------------------
 
@@ -67,8 +70,16 @@ install-data: $(tclsrcs)
 		cmd="${INSTALL_DATA} $${srcfile} ${datadir}"; \
 		printf "$${cmd}\n"; \
 		$${cmd}; \
-	done;
-	$(TOPBUILD)/src/$(ELTCLSH) ${topsrcdir}/mkIndex ${datadir}
+	done
+	@if test "x$(HOST_ELTCLSH)" = "x:"; then \
+		echo "***"; \
+		echo "*** NOT rebuilding package index in ${datadir}"; \
+		echo "***"; \
+	else \
+		cmd="$(HOST_ELTCLSH) ${topsrcdir}/mkIndex ${datadir}"; \
+		printf "$${cmd}\n"; \
+		$${cmd}; \
+	fi
 
 
 

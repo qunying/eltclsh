@@ -115,6 +115,7 @@ done
 if test "x$ac_edit_header" = "x"; then
   AC_MSG_RESULT([not found (fatal)])
   AC_MSG_RESULT([Please use --with-includes to specify a valid path to your libedit headers]) 
+  AC_MSG_RESULT([Also, make sure you have the EL_GETCFN function.]) 
   exit 2;
 fi
 AC_MSG_RESULT([$ac_edit_header])
@@ -136,8 +137,7 @@ for ac_dir in \
 done
 if test "x$ac_edit_lib" = "x"; then
   AC_MSG_RESULT([not found (fatal)])
-  AC_MSG_RESULT([Please use --with-libs to specify a valid path to your libedit library]) 
-  exit 2;
+  AC_MSG_ERROR([Please use --with-libs to specify a valid path to your libedit library], 2) 
 fi
 AC_MSG_RESULT([$ac_edit_lib])
 

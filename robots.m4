@@ -282,6 +282,7 @@ AC_DEFUN(ROBOT_LIB_TCL,
    AC_MSG_CHECKING([for tcl library])
    test -z "$tcl_test_lib" && tcl_test_lib="${TCL_LIB_FILE}"
    for ac_dir in \
+      $TCL_EXEC_PREFIX/lib                    \
       $TCL_PREFIX/lib                         \
       /usr/local/lib                          \
       /usr/lib                                \
@@ -342,11 +343,15 @@ AC_DEFUN(ROBOT_LIB_TK,
              break
           fi
        done])
-       file=${tk_prefix}/tkConfig.sh
-       . $file
-       dnl substitute variables in TK_LIB_FILE
-       eval TK_LIB_FILE=${TK_LIB_FILE}
 
+   if test "x${tk_prefix}" = "xno"; then
+	HAS_TK=no
+   else
+
+   file=${tk_prefix}/tkConfig.sh
+   . $file
+   dnl substitute variables in TK_LIB_FILE
+   eval TK_LIB_FILE=${TK_LIB_FILE}
 
    AC_MSG_CHECKING([for tk headers])
    test -z "$tk_test_include" && tk_test_include=tk.h
@@ -403,6 +408,12 @@ AC_DEFUN(ROBOT_LIB_TK,
    else 
       TK_LDFLAGS=""
    fi
+
+   HAS_TK=yes
+
+   fi # --with-tk=no
+
+   AC_SUBST(HAS_TK)
    AC_SUBST(TK_CPPFLAGS)
    AC_SUBST(TK_XINCLUDES)
    AC_SUBST(TK_LDFLAGS)

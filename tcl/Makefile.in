@@ -68,7 +68,7 @@ install-data: $(tclsrcs)
 		printf "$${cmd}\n"; \
 		$${cmd}; \
 	done;
-	${topsrcdir}/mkIndex ${datadir}
+	$(TOPBUILD)/src/$(ELTCLSH) ${topsrcdir}/mkIndex ${datadir}
 
 
 

@@ -9,6 +9,8 @@ AC_REVISION($LAAS$)
 AC_INIT(src/eltclsh.h)
 AC_CONFIG_HEADER(config.h)
 
+AC_CANONICAL_HOST
+
 dnl --- config.h stuff --------------------------------------------------
 dnl
 AH_TOP([
@@ -42,6 +44,7 @@ AC_SUBST(LIBTOOL_DEPS)
 
 AC_PROG_MAKE_SET
 AC_PROG_CC
+AC_CHECK_PROGS(GROFF, groff)
 
 ROBOT_CFLAGS
 

@@ -32,7 +32,10 @@ include config.mk
 
 topsrcdir=	@top_srcdir@
 srcdir=		@srcdir@
-
+prefix=		@prefix@
+mandir=		@mandir@/man
+catdir=		@mandir@/cat
+host=		@host@
 
 config_files = \
 	config.mk		\
@@ -46,6 +49,7 @@ config_headers = \
 dist_path= bin/eltclsh
 dist_name= eltclsh-1.0
 
+VPATH=		$(srcdir)
 
 # --- Directory recursion -----------------------------------------------
 
@@ -53,11 +57,62 @@ SUBDIRS= src tcl
 
 make_subdirs= @for d in ${SUBDIRS}; do (cd $$d; ${MAKE} $@ ); done
 
-all install depends: $(config_files) $(config_headers)
+all depends: $(config_files) $(config_headers) doc
 	$(make_subdirs)
 
 clean:
 	$(make_subdirs)
+
+install: $(config_files) install-doc install-catdoc
+	$(make_subdirs)
+
+
+# --- man pages ---------------------------------------------------------
+
+MAN=		eltclsh.1
+CATMAN=		${MAN:=.cat}
+
+doc: ${CATMAN}
+
+%.cat: %
+	@if test "X${GROFF}" != "X"; then \
+		cmd="${GROFF} -mandoc -Tascii $<"; \
+		echo $${cmd} "> $@"; \
+		$${cmd} > $@; \
+	fi
+
+install-doc:
+	@for man in ${MAN}; do \
+		section=`echo $${man} | sed 's/.*\.\([^\.]*\)$$/\1/'`; \
+		file=${srcdir}/${distdir}/$${man}; \
+		cmd="${INSTALL} -d ${mandir}$${section}"; \
+		echo $${cmd}; \
+		$${cmd}; \
+		cmd="${INSTALL_DATA} $${file} ${mandir}$${section}"; \
+		echo $${cmd}; \
+		$${cmd}; \
+	done;
+
+install-catdoc:
+	@case "${host}" in \
+		*-*-openbsd*) \
+			transform="s/\.[0-9]$$/.0/";; \
+		*-*-netbsd*) \
+			transform="s/\.[0-9]$$/.0/";; \
+		*) \
+			transform="";; \
+	esac; \
+	for man in ${MAN}; do \
+		section=`echo $${man} | sed 's/.*\.\([^\.]*\)$$/\1/'`; \
+		dest=`echo $${man} | sed "$${transform}"`; \
+		cmd="${INSTALL} -d ${catdir}$${section}"; \
+		echo $${cmd}; \
+		$${cmd}; \
+		cmd="${INSTALL_DATA} $${man}.cat \
+			${catdir}$${section}/$${dest}"; \
+		echo $${cmd}; \
+		$${cmd}; \
+	done;
 
 
 # --- build distribution ------------------------------------------------

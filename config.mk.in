@@ -35,6 +35,7 @@ PURIFY=
 CC=		@CC@
 LTLD=           $(TOPBUILD)/libtool --mode=link $(PURIFY) $(CC)
 MKDEP=		@MKDEP@
+GROFF=		@GROFF@
 INSTALL=	${topsrcdir}/install-sh -c
 INSTALL_DATA=	${INSTALL} -m 644
 

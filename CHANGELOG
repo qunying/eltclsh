@@ -1,5 +1,7 @@
 $LAAS$
 
+eltclsh 1.4 released december 3, 2003
+
  14. Source eltclsh libraries after appInitProc() to make packages loaded
  with the -package option and requiring Tk happy.
 

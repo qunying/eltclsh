@@ -62,11 +62,9 @@ if { [info command signal] != "" } { namespace eval el {
 }}
 
 # Require command-line completion
-if { [ catch {
+catch {
     package require el::tools
     package require el::complete
-} ] } {
-    puts $errorInfo
 }
 
 # Preload packages

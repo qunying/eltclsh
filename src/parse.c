@@ -41,6 +41,7 @@
 __RCSID("$LAAS$");
 
 #include <ctype.h>
+#include <string.h>
 #include <tcl.h>
 #include "eltclsh.h"
 #include "parse.h"

@@ -6176,7 +6176,46 @@ ac_tmp_libs=$LIBS
 
 echo "$as_me:$LINENO: checking for libedit headers" >&5
 echo $ECHO_N "checking for libedit headers... $ECHO_C" >&6
-for ac_dir in \
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <histedit.h>
+int
+main ()
+{
+int a = EL_GETCFN
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+
+  echo "$as_me:$LINENO: result: found" >&5
+echo "${ECHO_T}found" >&6
+  EL_CPPFLAGS=
+
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+
+  for ac_dir in \
 	$prefix/include		\
 	$extra_include		\
 	/usr/local/include	\
@@ -6224,22 +6263,65 @@ rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
     ac_edit_header=$ac_dir
     break
   fi
-done
-if test "x$ac_edit_header" = "x"; then
-  echo "$as_me:$LINENO: result: not found (fatal)" >&5
+  done
+  if test "x$ac_edit_header" = "x"; then
+    echo "$as_me:$LINENO: result: not found (fatal)" >&5
 echo "${ECHO_T}not found (fatal)" >&6
-  echo "$as_me:$LINENO: result: Please use --with-includes to specify a valid path to your libedit headers" >&5
+    echo "$as_me:$LINENO: result: Please use --with-includes to specify a valid path to your libedit headers" >&5
 echo "${ECHO_T}Please use --with-includes to specify a valid path to your libedit headers" >&6
-  echo "$as_me:$LINENO: result: Also, make sure you have the EL_GETCFN function." >&5
+    echo "$as_me:$LINENO: result: Also, make sure you have the EL_GETCFN function." >&5
 echo "${ECHO_T}Also, make sure you have the EL_GETCFN function." >&6
-  exit 2;
-fi
-echo "$as_me:$LINENO: result: $ac_edit_header" >&5
+    exit 2;
+  fi
+  echo "$as_me:$LINENO: result: $ac_edit_header" >&5
 echo "${ECHO_T}$ac_edit_header" >&6
+  EL_CPPFLAGS="-I$ac_edit_header"
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 
 echo "$as_me:$LINENO: checking for libedit library" >&5
 echo $ECHO_N "checking for libedit library... $ECHO_C" >&6
-for ac_dir in \
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <histedit.h>
+int
+main ()
+{
+el_set(0, EL_GETCFN)
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+
+  echo "$as_me:$LINENO: result: found" >&5
+echo "${ECHO_T}found" >&6
+  EL_LIB_SPEC="-ledit -ltermcap"
+
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+
+  for ac_dir in \
 	$exec_prefix/lib	\
 	$prefix/lib		\
 	$extra_lib		\
@@ -6289,24 +6371,26 @@ rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
     ac_edit_lib=$ac_dir
     break
   fi
-done
-if test "x$ac_edit_lib" = "x"; then
-  echo "$as_me:$LINENO: result: not found (fatal)" >&5
+  done
+  if test "x$ac_edit_lib" = "x"; then
+    echo "$as_me:$LINENO: result: not found (fatal)" >&5
 echo "${ECHO_T}not found (fatal)" >&6
-  { { echo "$as_me:$LINENO: error: Please use --with-libs to specify a valid path to your libedit library" >&5
+    { { echo "$as_me:$LINENO: error: Please use --with-libs to specify a valid path to your libedit library" >&5
 echo "$as_me: error: Please use --with-libs to specify a valid path to your libedit library" >&2;}
    { (exit 2); exit 2; }; }
-fi
-echo "$as_me:$LINENO: result: $ac_edit_lib" >&5
+  fi
+  echo "$as_me:$LINENO: result: $ac_edit_lib" >&5
 echo "${ECHO_T}$ac_edit_lib" >&6
 
+  EL_LIB_SPEC="-L$ac_edit_lib -ledit -ltermcap"
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 
 CPPFLAGS="$ac_tmp_cppflags"
 LDFLAGS="$ac_tmp_ldflags"
 LIBS="$ac_tmp_libs"
 
-EL_CPPFLAGS="-I$ac_edit_header"
-EL_LIB_SPEC="-L$ac_edit_lib -ledit -ltermcap"
 
 
 

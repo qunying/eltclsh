@@ -4666,10 +4666,10 @@ withval=""
 # Check whether --with-includes or --without-includes was given.
 if test "${with_includes+set}" = set; then
   withval="$with_includes"
-  withval=
+
 fi;
-for ac_dir in x $withval ; do\
-   if test "x$ac_dir" != "xx"; then
+for ac_dir in NONE $withval ; do\
+   if test "x$ac_dir" != "xNONE"; then
 	if test ! -d $ac_dir; then
 		echo "$as_me:$LINENO: result: Warning: directory $ac_dir does not exist" >&5
 echo "${ECHO_T}Warning: directory $ac_dir does not exist" >&6
@@ -4686,10 +4686,10 @@ withval=""
 # Check whether --with-libraries or --without-libraries was given.
 if test "${with_libraries+set}" = set; then
   withval="$with_libraries"
-  withval=
+
 fi;
-for ac_dir in x $withval ; do \
-   if test "x$ac_dir" != "xx"; then
+for ac_dir in NONE $withval ; do \
+   if test "x$ac_dir" != "xNONE"; then
 	if test ! -d $ac_dir; then
 		echo "$as_me:$LINENO: result: Warning: directory $ac_dir does not exist" >&5
 echo "${ECHO_T}Warning: directory $ac_dir does not exist" >&6

@@ -60,10 +60,9 @@ dnl --- check for extra includes or lib dirs ----------------------------
 dnl
 withval=""
 AC_ARG_WITH(includes,
-	[  --with-includes=DIR     search include DIR for optional packages],
-	[withval=])
-for ac_dir in x $withval ; do\
-   if test "x$ac_dir" != "xx"; then
+	[  --with-includes=DIR     search include DIR for optional packages])
+for ac_dir in NONE $withval ; do\
+   if test "x$ac_dir" != "xNONE"; then
 	if test ! -d $ac_dir; then
 		AC_MSG_RESULT([Warning: directory $ac_dir does not exist])
 	else
@@ -75,10 +74,9 @@ done
 
 withval=""
 AC_ARG_WITH(libraries,
-	[  --with-libraries=DIR    search library DIR for optional packages],
-	[withval=])
-for ac_dir in x $withval ; do \
-   if test "x$ac_dir" != "xx"; then
+	[  --with-libraries=DIR    search library DIR for optional packages])
+for ac_dir in NONE $withval ; do \
+   if test "x$ac_dir" != "xNONE"; then
 	if test ! -d $ac_dir; then
 		AC_MSG_RESULT([Warning: directory $ac_dir does not exist])
 	else

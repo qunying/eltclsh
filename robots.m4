@@ -216,9 +216,12 @@ AC_DEFUN(ROBOT_LIB_TCL,
       [tcl_prefix=$withval],
       [for ac_dir in \
          ${exec_prefix}/lib      \
+         /usr/local/lib/tcl8.4   \
          /usr/local/lib/tcl8.3   \
          /usr/local/lib          \
          /usr/pkg/lib            \
+         /usr/lib/tcl8.4	 \
+         /usr/lib/tcl8.3	 \
          /usr/lib                \
         ; \
        do
@@ -319,6 +322,7 @@ AC_DEFUN(ROBOT_LIB_TK,
          /usr/local/lib/tk$TCL_VERSION   \
          /usr/local/lib                  \
          /usr/pkg/lib                    \
+         /usr/lib/tk$TCL_VERSION	 \
          /usr/lib                        \
          ; \
        do

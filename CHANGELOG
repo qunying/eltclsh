@@ -1,5 +1,7 @@
 $LAAS$
 
+  9. Add standard paths to tclConfig.sh for Linux Debian distributions
+
 eltclsh 1.2 released september 28, 2003
 
   8. Allow configure scripts to work without mkdep

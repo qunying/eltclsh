@@ -51,6 +51,15 @@ ROBOT_CFLAGS
 ROBOT_PROG_MKDEP
 
 
+dnl try to find an eltclsh for the host machine
+if test "x${cross_compiling}" = "xyes"; then
+   AC_PATH_PROG(HOST_ELTCLSH, eltclsh, [:],	${PATH})
+else
+   HOST_ELTCLSH=
+fi
+AC_SUBST(HOST_ELTCLSH)
+
+
 dnl --- checks for typedefs ---------------------------------------------
 dnl
 AC_TYPE_SIGNAL
@@ -90,9 +99,10 @@ done
 dnl --- checks for libraries --------------------------------------------
 dnl
 AC_PATH_XTRA
-AC_CHECK_LIB(termcap, tgetent)
 ROBOT_LIB_TCL
 ROBOT_LIB_TK
+
+AC_SEARCH_LIBS([tputs], [termcap ncurses])
 
 dnl libedit
 AC_LANG_C
@@ -137,7 +147,7 @@ AC_MSG_CHECKING([for libedit library])
 AC_TRY_LINK([#include <histedit.h>], [el_set(0, EL_GETCFN)],
 [
   AC_MSG_RESULT([found])
-  EL_LIB_SPEC="-ledit -ltermcap"
+  EL_LIB_SPEC="-ledit $LIBS"
 ],
 [
   for ac_dir in \
@@ -163,7 +173,7 @@ AC_TRY_LINK([#include <histedit.h>], [el_set(0, EL_GETCFN)],
   fi
   AC_MSG_RESULT([$ac_edit_lib])
 
-  EL_LIB_SPEC="-L$ac_edit_lib -ledit -ltermcap"
+  EL_LIB_SPEC="-L$ac_edit_lib -ledit ${ac_tmp_libs}"
 ])
 
 CPPFLAGS="$ac_tmp_cppflags"

@@ -1,6 +1,11 @@
 $LAAS$
 
- 16.  Initialize iinfo structure to 0. Bugzilla #6 from Matthieu Herrb.
+ 18. Improve autoconf stuff: cross-compilation, select between termcap or
+ ncurses libs, option to disable Tk.
+
+ 17. Print an error message when init files are not found.
+
+ 16. Initialize iinfo structure to 0. Bugzilla #6 from Matthieu Herrb.
 
  15.  Do  more   robust checking  when    looking  for  the LAAS    mkdep
  executable. Bugzilla #4 from Matthieu Herrb.

@@ -31,9 +31,6 @@
 #ifndef H_ELTCLSH_CONFIG
 #define H_ELTCLSH_CONFIG
 
-/* Define to 1 if you have the `termcap' library (-ltermcap). */
-#undef HAVE_LIBTERMCAP
-
 /* Define to 1 if you have the <sys/cdefs.h> header file. */
 #undef HAVE_SYS_CDEFS_H
 

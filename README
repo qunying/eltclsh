@@ -1,0 +1,72 @@
+#	$Id$
+
+Copyright (c) 2001-2003 LAAS/CNRS
+
+eltclsh stands for ``editline tcl shell''. This is an interactive shell
+for the TCL programming language. It provides command line editing,
+history browsing as well as variables and command completion thanks to
+editline features. The completion engine is programmable in a way similar
+to tcsh, and comes with built in completion for the entire Tcl language
+by default.
+
+Similarly, elwish (editline windowing shell) is an interactive
+interpreter for the Tk toolkit.
+
+
+--- PREREQUISITES -------------------------------------------------------
+
+You need the following tools installed on the system before you can
+compile eltclsh:
+
+- Tcl/Tk. 8.4 is recommended, but it works with 8.3 too, and might work
+  with all versions from 8.0.
+  (<http://tcl.tk/>). 
+
+- editline library (a.k.a. libedit). The editline library provides
+  generic line editing and history functions, similar to those found in
+  sh(1). It is present by default on *BSD systems, but you probably need
+  to install it if you run another system. You need a decently recent
+  version, as eltclsh need some features that have been added by October
+  2001. We maintain a packaged version of the library here:
+  (<http://softs.laas.fr/openrobots/libs/editline.php>). 
+
+- The GNU make utility, version 3.79 or higher. eltclsh Makefiles use
+  some GNU make extensions and thus won't work with other make
+  implementations. Note the GNU make is the standard make on most Linux
+  systems. (<http://www.gnu.org/software/make/make.html>).
+
+
+--- SUPPORTED PLATFORMS -------------------------------------------------
+
+eltclsh is known to run on the following platforms:
+
+- Sparc Solaris (tested on Solaris 2.5.1 through 9).
+- ix86 Linux (tested on RedHat, Debian)
+- NetBSD 1.6
+- OpenBSD 3.2
+
+
+--- GETTING ELTCLSH -----------------------------------------------------
+
+The lastest version is available from:
+<http://softs.laas.fr/openrobots/tools/eltclsh.php>
+
+
+--- INSTALLATION INSTRUCTIONS -------------------------------------------
+
+eltclsh uses the GNU configure system to handle most of the system
+dependancies configuration. So you can build and install it with the
+following commands: 
+
+        ./configure [options]
+        make
+        make install
+
+Use './configure --help' to find out all the available configure
+options. On most systems, --with-tcl=DIR and --with-tk=DIR will be
+required to specify where to find tclConfig.sh (resp. tkConfig.h). 
+You might also need to use --with-includes and --with-libraries to
+specify the path to editline headers and library, respectively.
+
+The --prefix option (default: /usr/local) defines the base directory
+of the installation. 

@@ -1,5 +1,8 @@
 $LAAS$
 
+ 15.  Do  more   robust checking  when    looking  for  the LAAS    mkdep
+ executable. Bugzilla #4 from Matthieu Herrb.
+
 eltclsh 1.4 released december 3, 2003
 
  14. Source eltclsh libraries after appInitProc() to make packages loaded

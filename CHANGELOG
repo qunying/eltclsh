@@ -1,5 +1,7 @@
 $LAAS$
 
+ 12. Define revision numbers in a single place (config.mk)
+
  11. Added a README file.
 
 eltclsh 1.3 released october 17, 2003

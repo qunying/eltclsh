@@ -42,6 +42,10 @@ INSTALL_DATA=	${INSTALL} -m 644
 ELTCLSH=	@ELTCLSH@
 ELWISH=		@ELWISH@
 
+ELTCLSH_MAJOR=	1
+ELTCLSH_MINOR=	3
+
+
 # --- Flags -------------------------------------------------------------
 
 CPPFLAGS=	@CPPFLAGS@

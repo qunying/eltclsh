@@ -41,7 +41,6 @@
 #include <tcl.h>
 #include <histedit.h>
 
-#include "version.h"
 #include "parse.h"
 
 /* A structure that groups together the various parameters that control

@@ -152,7 +152,7 @@ elTclAppInit(ElTclInterpInfo *iinfo)
    /* source standard eltclsh libraries */
    eltclLibrary[0] = getenv("ELTCL_LIBRARY");
    if (eltclLibrary[0] == NULL) {
-      eltclLibrary[0] = ELTCL_DATA;
+      eltclLibrary[0] = ELTCLSH_DATA;
    }
    eltclLibrary[1] = "init.tcl";
    Tcl_SetVar(iinfo->interp,

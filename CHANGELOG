@@ -1,5 +1,8 @@
 $LAAS$
 
+ 14. Source eltclsh libraries after appInitProc() to make packages loaded
+ with the -package option and requiring Tk happy.
+
  13. Look for packages in libdir and datadir by default.
 
  12. Define revision numbers in a single place (config.mk).

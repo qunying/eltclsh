@@ -62,9 +62,12 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
    Tcl_Obj *resultPtr, *command;
 #if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
    const char *fileName, *args;
+   const char *eltclLibrary[2];
 #else
    char *fileName, *args;
+   char *eltclLibrary[2];
 #endif /* TCL_VERSION */
+   Tcl_DString initFile;
    char buffer[1000], *bytes;
    int code, tty, length;
    int exitCode = 0;
@@ -135,6 +138,30 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
       exitCode = 2;
       goto done;
    }
+
+   /* source standard eltclsh libraries */
+   eltclLibrary[0] = getenv("ELTCL_LIBRARY");
+   if (eltclLibrary[0] == NULL) {
+      eltclLibrary[0] = ELTCLSH_DATA;
+   }
+   eltclLibrary[1] = "init.tcl";
+   Tcl_SetVar(iinfo->interp,
+	      "eltcl_library", eltclLibrary[0], TCL_GLOBAL_ONLY);
+   Tcl_DStringInit(&initFile);
+   if (Tcl_EvalFile(iinfo->interp, 
+		    Tcl_JoinPath(2, eltclLibrary, &initFile)) != TCL_OK) {
+      Tcl_AppendResult(iinfo->interp,
+		       "\nThe directory ",
+		       eltclLibrary[0],
+		       " does not contain a valid ",
+		       eltclLibrary[1],
+		       " file.\nPlease check your installation.\n",
+		       NULL);
+      Tcl_DStringFree(&initFile);
+      exitCode = 2;
+      goto done;
+   }
+   Tcl_DStringFree(&initFile);
 
    (void)Tcl_SourceRCFile(iinfo->interp);
    Tcl_Flush(Tcl_GetStdChannel(TCL_STDERR));

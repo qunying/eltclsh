@@ -43,6 +43,9 @@ config_files = \
 config_headers = \
 	config.h
 
+dist_path= bin/eltclsh
+dist_name= eltclsh-1.0
+
 
 # --- Directory recursion -----------------------------------------------
 
@@ -55,6 +58,17 @@ all install depends: $(config_files) $(config_headers)
 
 clean:
 	$(make_subdirs)
+
+
+# --- build distribution ------------------------------------------------
+
+dist:
+	mkdir -p $(dist_path)
+	(cd $(topsrcdir); tar cf - .) | (cd $(dist_path); tar xpf -)
+	find $(dist_path) \( -name "CVS" -o -name "*~" \) -exec rm -rf {} \;
+	rm -rf $(dist_path)/autom4te.cache
+	tar cf - $(dist_path) | gzip -c -9 > $(dist_name).tar.gz
+	rm -rf $(dist_path)
 
 
 # --- autoconf/autoheader -----------------------------------------------

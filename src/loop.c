@@ -74,7 +74,7 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
    Tcl_Channel inChannel, outChannel, errChannel;
 
    /* create main data structure */
-   iinfo = malloc(sizeof(*iinfo));
+   iinfo = calloc(1, sizeof(*iinfo));
    if (iinfo == NULL) {
       fputs("cannot alloc %d bytes\n", stderr);
       return;

@@ -61,7 +61,7 @@ dnl
 withval=""
 AC_ARG_WITH(includes,
 	[  --with-includes=DIR     search include DIR for optional packages],
-	[$withval=])
+	[withval=])
 for ac_dir in x $withval ; do\
    if test "x$ac_dir" != "xx"; then
 	if test ! -d $ac_dir; then
@@ -76,7 +76,7 @@ done
 withval=""
 AC_ARG_WITH(libraries,
 	[  --with-libraries=DIR    search library DIR for optional packages],
-	[$withval=])
+	[withval=])
 for ac_dir in x $withval ; do \
    if test "x$ac_dir" != "xx"; then
 	if test ! -d $ac_dir; then
@@ -110,10 +110,12 @@ for ac_dir in \
 	/usr/include		\
 	; \
   do
+  if test -r "$ac_dir/histedit.h"; then
     CPPFLAGS="${ac_tmp_cppflags} -I$ac_dir"
     AC_TRY_LINK([#include <histedit.h>], [int a = EL_GETCFN], [], [continue])
     ac_edit_header=$ac_dir
     break
+  fi
 done
 if test "x$ac_edit_header" = "x"; then
   AC_MSG_RESULT([not found (fatal)])

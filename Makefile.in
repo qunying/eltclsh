@@ -46,7 +46,7 @@ config_files = \
 config_headers = \
 	config.h
 
-dist_path= bin/eltclsh
+dist_path= eltclsh
 dist_name= eltclsh-1.3
 
 VPATH=		$(srcdir)

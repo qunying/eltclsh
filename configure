@@ -4666,7 +4666,7 @@ withval=""
 # Check whether --with-includes or --without-includes was given.
 if test "${with_includes+set}" = set; then
   withval="$with_includes"
-
+  $withval=
 fi;
 for ac_dir in x $withval ; do\
    if test "x$ac_dir" != "xx"; then
@@ -4686,7 +4686,7 @@ withval=""
 # Check whether --with-libraries or --without-libraries was given.
 if test "${with_libraries+set}" = set; then
   withval="$with_libraries"
-
+  $withval=
 fi;
 for ac_dir in x $withval ; do \
    if test "x$ac_dir" != "xx"; then
@@ -6183,7 +6183,6 @@ for ac_dir in \
 	/usr/include		\
 	; \
   do
-  if test -r "$ac_dir/histedit.h"; then
     CPPFLAGS="${ac_tmp_cppflags} -I$ac_dir"
     cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
@@ -6223,7 +6222,6 @@ fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
     ac_edit_header=$ac_dir
     break
-  fi
 done
 if test "x$ac_edit_header" = "x"; then
   echo "$as_me:$LINENO: result: not found (fatal)" >&5

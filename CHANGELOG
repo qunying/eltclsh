@@ -1,6 +1,8 @@
 $LAAS$
 
- 12. Define revision numbers in a single place (config.mk)
+ 13. Look for packages in libdir and datadir by default.
+
+ 12. Define revision numbers in a single place (config.mk).
 
  11. Added a README file.
 

@@ -30,7 +30,7 @@
 #
 
 # Make packages in that directory available
-lappend auto_path [file join $eltcl_library ..]
+eval lappend auto_path $eltcl_pkgPath
 if { [info exists env(ELTCLLIBPATH)] } {
     eval lappend auto_path $env(ELTCLLIBPATH)
 }

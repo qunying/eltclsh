@@ -148,6 +148,14 @@ elTclAppInit(ElTclInterpInfo *iinfo)
       el_set(iinfo->el, EL_GETCFN, elTclEventLoop);
    }
 
+   /* configure standard path for packages */
+   obj = Tcl_NewListObj(0, NULL);
+   Tcl_ListObjAppendElement(iinfo->interp, obj,
+			    Tcl_NewStringObj(ELTCLSH_LIBDIR, -1));
+   Tcl_ListObjAppendElement(iinfo->interp, obj,
+			    Tcl_NewStringObj(ELTCLSH_DATA "/..", -1));
+   Tcl_SetVar(iinfo->interp,
+	      "eltcl_pkgPath", Tcl_GetString(obj), TCL_GLOBAL_ONLY);
 
    /* source standard eltclsh libraries */
    eltclLibrary[0] = getenv("ELTCL_LIBRARY");

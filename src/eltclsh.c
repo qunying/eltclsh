@@ -74,7 +74,7 @@ rtclshReal(char *script)
 }
 #else /* UNIX */
 int 
-main(int argc, char *argv[])
+main(int argc, const char *argv[])
 {
    elTclshLoop(argc, argv, elTclAppInit);
    return 0;

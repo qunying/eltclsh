@@ -39,7 +39,7 @@ __RCSID("$LAAS$");
 
 
 /* private functions */
-static char *	elTclPrompt(EditLine *el);
+static const char *	elTclPrompt(EditLine *el);
 
 
 /*
@@ -52,7 +52,7 @@ static char *	elTclPrompt(EditLine *el);
 int
 elTclAppInit(ElTclInterpInfo *iinfo)
 {
-   char *eltclLibrary[2];
+   const char *eltclLibrary[2];
    Tcl_Channel inChannel;
    Tcl_DString initFile;
    Tcl_Obj *obj;
@@ -177,13 +177,13 @@ elTclAppInit(ElTclInterpInfo *iinfo)
  * Compute prompt, base on current context
  */
 
-static char *
+static const char *
 elTclPrompt(EditLine *el)
 {
    ElTclInterpInfo *iinfo;
    Tcl_Obj *promptCmdPtr;
    static char buf[32];
-   char *prompt;
+   const char *prompt;
    int code;
 
    /* get context */
@@ -219,7 +219,7 @@ elTclPrompt(EditLine *el)
 	 outChannel = Tcl_GetStdChannel(TCL_STDOUT);
 	 errChannel = Tcl_GetStdChannel(TCL_STDERR);
 	 if (errChannel) {
-	    char *bytes;
+	    const char *bytes;
 	    bytes = Tcl_GetStringResult(iinfo->interp);
 	    Tcl_Write(errChannel, bytes, strlen(bytes));
 	    Tcl_Write(errChannel, "\n", 1);

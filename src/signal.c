@@ -372,7 +372,7 @@ elTclSignal(ClientData data, Tcl_Interp *interp, int objc,
    return TCL_OK;
 
   error:
-   Tcl_SetResult(interp, Tcl_ErrnoMsg(errno), TCL_STATIC);
+   Tcl_SetResult(interp, (char *)Tcl_ErrnoMsg(errno), TCL_VOLATILE);
    Tcl_SetErrno(errno);
    Tcl_PosixError(interp);
    return TCL_ERROR;

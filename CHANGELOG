@@ -1,6 +1,9 @@
 $LAAS$
 
+  2.  fix  for build against  Tcl  8.4 (const poisoning). Addresses PR/11
+  from Matthieu Herrb.
+
   1.  configure  fix:   look  for libedit   in  $prefix/lib  to   support
-  configuration without --exec-prefix. From Matthieu Herrb in PR10.
+  configuration without --exec-prefix. From Matthieu Herrb in PR/10.
 
 eltclsh 1.0 released 9 july 2003

@@ -84,7 +84,7 @@ typedef int (*ElTclAppInitProc)(ElTclInterpInfo *);
  * Prototypes -----------------------------------------------------------
  */
 
-void		elTclshLoop(int argc, char **argv,
+void		elTclshLoop(int argc, const char **argv,
 			ElTclAppInitProc appInitProc);
 int		elTclExit(ClientData data, Tcl_Interp *interp, int objc,
 			Tcl_Obj *const objv[]);

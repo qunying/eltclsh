@@ -49,13 +49,14 @@ static char copyright[] = " - Copyright (C) 2001-2003 LAAS-CNRS";
  */
 
 void
-elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
+elTclshLoop(int argc, const char **argv, ElTclAppInitProc appInitProc)
 {
    ElTclInterpInfo *iinfo;
    HistEvent ev;
 
    Tcl_Obj *resultPtr, *command;
-   char buffer[1000], *args, *fileName, *bytes;
+   const char *fileName, *args;
+   char buffer[1000], *bytes;
    int code, tty, length;
    int exitCode = 0;
    Tcl_Channel inChannel, outChannel, errChannel;
@@ -88,12 +89,12 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
    }
    args = Tcl_Merge(argc-1, argv+1);
    Tcl_SetVar(iinfo->interp, "argv", args, TCL_GLOBAL_ONLY);
-   Tcl_Free(args);
+   Tcl_Free((char *)args);
    sprintf(buffer, "%d", argc-1);
    Tcl_SetVar(iinfo->interp, "argc", buffer, TCL_GLOBAL_ONLY);
    args = (fileName != NULL) ? fileName : argv[0];
    Tcl_SetVar(iinfo->interp, "argv0", args, TCL_GLOBAL_ONLY);
-   iinfo->argv0 = basename(args);
+   iinfo->argv0 = basename((char *)args);
 
 
    /* Set the "tcl_interactive" variable. */
@@ -105,7 +106,7 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
    if ((*appInitProc)(iinfo) != TCL_OK) {
       errChannel = Tcl_GetStdChannel(TCL_STDERR);
       if (errChannel) {
-	 char *msg;
+	 const char *msg;
 
 	 msg = Tcl_GetVar(iinfo->interp, "errorInfo", TCL_GLOBAL_ONLY);
 	 if (msg != NULL) {

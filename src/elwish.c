@@ -46,7 +46,7 @@ static int	elWishAppInit(ElTclInterpInfo *iinfo);
  */
 
 int 
-main(int argc, char *argv[])
+main(int argc, const char *argv[])
 {
    elTclshLoop(argc, argv, elWishAppInit);
    return 0;

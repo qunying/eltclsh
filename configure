@@ -6247,6 +6247,7 @@ for ac_dir in \
 	/usr/lib		\
 	; \
   do
+  if test -d $ac_dir; then
     LDFLAGS="-L$ac_dir ${ac_tmp_ldflags}"
     LIBS="-ledit ${ac_tmp_libs}"
     cat >conftest.$ac_ext <<_ACEOF
@@ -6287,6 +6288,7 @@ fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
     ac_edit_lib=$ac_dir
     break
+  fi
 done
 if test "x$ac_edit_lib" = "x"; then
   echo "$as_me:$LINENO: result: not found (fatal)" >&5

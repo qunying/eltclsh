@@ -1,0 +1,78 @@
+/* 
+ * Copyright (c) 2001 LAAS/CNRS                       --  Tue Oct 16 2001
+ * All rights reserved.                                    Anthony Mallet
+ *
+ * Redistribution and use  in source  and binary  forms,  with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ *   1. Redistributions of  source  code must retain the  above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *   2. Redistributions in binary form must reproduce the above copyright
+ *      notice,  this list of  conditions and the following disclaimer in
+ *      the  documentation  and/or  other   materials provided  with  the
+ *      distribution.
+ *
+ * THIS  SOFTWARE IS PROVIDED BY  THE  COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND  ANY  EXPRESS OR IMPLIED  WARRANTIES,  INCLUDING,  BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES  OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR  PURPOSE ARE DISCLAIMED. IN  NO EVENT SHALL THE COPYRIGHT
+ * HOLDERS OR      CONTRIBUTORS  BE LIABLE FOR   ANY    DIRECT, INDIRECT,
+ * INCIDENTAL,  SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF  SUBSTITUTE GOODS OR SERVICES; LOSS
+ * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN  CONTRACT, STRICT LIABILITY, OR
+ * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+ * USE   OF THIS SOFTWARE, EVEN   IF ADVISED OF   THE POSSIBILITY OF SUCH
+ * DAMAGE.
+ */
+#ident "$Id$"
+
+#include "config.h"
+#include "eltclsh.h"
+
+#include <tk.h>
+
+/* local functions */
+static int	elWishAppInit(ElTclInterpInfo *iinfo);
+
+
+/*
+ * main -----------------------------------------------------------------
+ *
+ * elwish main
+ */
+
+int 
+main(int argc, char *argv[])
+{
+   elTclshLoop(argc, argv, elWishAppInit);
+   return 0;
+}
+
+
+/*
+ * elWishAppInit --------------------------------------------------------
+ *
+ * elwish application init. We just call elTclAppInit and initialize Tk
+ */
+
+static int
+elWishAppInit(ElTclInterpInfo *iinfo)
+{
+   if (elTclAppInit(iinfo) == TCL_ERROR) {
+      return TCL_ERROR;
+   }
+   if (Tk_Init(iinfo->interp) == TCL_ERROR) {
+      return TCL_ERROR;
+   }
+
+   /* change the rc file */
+   Tcl_SetVar(iinfo->interp, "tcl_rcFileName", ".elwishrc", TCL_GLOBAL_ONLY);
+
+   /* I hate that stupid empty window you get after Tk_Init() */
+   Tcl_Eval(iinfo->interp, "wm withdraw .");
+
+   return TCL_OK;
+}
+

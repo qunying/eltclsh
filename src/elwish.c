@@ -1,3 +1,5 @@
+/*	$LAAS$ */
+
 /* 
  * Copyright (c) 2001 LAAS/CNRS                       --  Tue Oct 16 2001
  * All rights reserved.                                    Anthony Mallet
@@ -26,9 +28,9 @@
  * USE   OF THIS SOFTWARE, EVEN   IF ADVISED OF   THE POSSIBILITY OF SUCH
  * DAMAGE.
  */
-#ident "$Id$"
-
 #include "config.h"
+__RCSID("$LAAS$");
+
 #include "eltclsh.h"
 
 #include <tk.h>

@@ -1,3 +1,5 @@
+/*	$LAAS$ */
+
 /* 
  * Copyright (C) 2001 LAAS/CNRS 
  * All rights reserved.
@@ -31,8 +33,6 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE   OF THIS SOFTWARE, EVEN   IF ADVISED OF   THE POSSIBILITY OF SUCH
  * DAMAGE.
- *
- * $Id$
  */
 #ifndef H_PARSE
 #define H_PARSE

@@ -1,3 +1,5 @@
+/*	$LAAS$ */
+
 /* 
  * Copyright (c) 2001 LAAS/CNRS                       --  Wed Oct 17 2001
  * All rights reserved.                                    Anthony Mallet
@@ -25,8 +27,6 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE   OF THIS SOFTWARE, EVEN   IF ADVISED OF   THE POSSIBILITY OF SUCH
  * DAMAGE.
- *
- * $Id$
  */
 
 #ifndef H_VERSION
@@ -38,12 +38,11 @@
 /*
  * Change log:
  * $Log$
+ * Revision 1.2  2003/07/08 15:47:17  mallet
+ * RCSID's and $LAAS$
+ *
  * Revision 1.1  2003/07/07 09:06:24  mallet
  * eltclsh/elwish: interactive tcl and tk interpreters
- *
- * Revision 1.1  2001/10/18 08:58:58  mallet
- * Initial revision
- *
  */
 
 #endif /* H_VERSION */

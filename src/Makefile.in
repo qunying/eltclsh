@@ -45,7 +45,7 @@ VPATH=		$(srcdir)
 CPPFLAGS+=	-I$(TOPBUILD) -I. $(TCL_CPPFLAGS) $(EL_CPPFLAGS)
 CPPFLAGS+=	-DELTCL_DATA='"${datadir}"'
 
-ELWISH_CPPFLAGS+=$(TK_CPPFLAGS) 
+ELWISH_CPPFLAGS+=$(TK_CPPFLAGS)
 
 
 # -----------------------------------------------------------------------

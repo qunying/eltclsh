@@ -36,7 +36,7 @@ AC_DEFUN(ROBOT_CFLAGS,
 
    if test x"${GCC}" = xyes; then
       C_OPTIMIZE_FLAGS=-O2
-      C_WARNING_FLAGS="-Wall -Werror"
+      C_WARNING_FLAGS="-Wall -Werror -Wno-unknown-pragmas"
    fi
 ])
 
@@ -229,8 +229,16 @@ AC_DEFUN(ROBOT_LIB_TCL,
          fi
        done])
 
-   file=${tcl_prefix}/tclConfig.sh
-   . $file
+   AC_MSG_CHECKING([for tclConfig.sh])
+   if test -r "${tcl_prefix}/tclConfig.sh"; then
+      file=${tcl_prefix}/tclConfig.sh
+      . $file
+      AC_MSG_RESULT("${tcl_prefix}/tclConfig.sh")
+   else
+      AC_MSG_RESULT([not found (fatal)])
+      AC_MSG_RESULT([Please use --with-tcl to specify a valid path to your tclConfig.sh file]) 
+      exit 2;
+   fi
    dnl substitute variables in TCL_LIB_FILE
    eval TCL_LIB_FILE=${TCL_LIB_FILE}
 
@@ -286,7 +294,7 @@ AC_DEFUN(ROBOT_LIB_TCL,
       TCL_CPPFLAGS=""
    fi
    if test "$ac_tcl_libs" != "/usr/include"; then
-      TCL_LDFLAGS="-L$ac_tcl_libs"
+      TCL_LDFLAGS="-L$ac_tcl_libs -R$ac_tcl_libs"
    else 
       TCL_LDFLAGS=""
    fi
@@ -377,7 +385,7 @@ AC_DEFUN(ROBOT_LIB_TK,
       TK_CPPFLAGS="-I$ac_tk_includes"
    fi
    if test "$ac_tk_libs" != "$ac_tcl_libs"; then
-      TK_LDFLAGS="-L$ac_tk_libs"
+      TK_LDFLAGS="-L$ac_tk_libs -R$ac_tk_libs"
    else 
       TK_LDFLAGS=""
    fi

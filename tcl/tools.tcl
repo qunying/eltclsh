@@ -1,3 +1,5 @@
+#	$LAAS$
+
 #
 #  Copyright (c) 2001 LAAS/CNRS                       --  Wed Oct 10 2001
 #  All rights reserved.                                    Anthony Mallet
@@ -25,8 +27,6 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE  USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
-# $Id$
 #
 
 # shell's shift (should be added to tcl language :)

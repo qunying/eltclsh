@@ -1,3 +1,5 @@
+/*	$LAAS$ */
+
 /* 
  * Copyright (c) 1997 Sun Microsystems, Inc.
  * Copyright (c) 1998 by Scriptics Corporation.
@@ -9,7 +11,7 @@
  *
  * These procedures are part  of the standard Tcl distribution.  However,
  * they have been slightly modified to  let them parse incomplete command
- * lines and thus be used in the completion mechanism.
+ * lines and for the completion mechanism.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
  * modification, are permitted provided that the following conditions are
@@ -35,9 +37,8 @@
  * USE   OF THIS SOFTWARE, EVEN   IF ADVISED OF   THE POSSIBILITY OF SUCH
  * DAMAGE.
  */
-#ident "$Id$"
-
 #include "config.h"
+__RCSID("$LAAS$");
 
 #include <ctype.h>
 #include <tcl.h>

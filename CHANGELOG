@@ -1,5 +1,7 @@
 $LAAS$
 
+  8. Allow configure scripts to work without mkdep
+
   7. Use tclsh instead of eltclsh for building pkgIndex
 
   6. fix for build against Tcl 8.4 after const poisoning fix (#2).

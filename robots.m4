@@ -68,23 +68,22 @@ dnl --- Look for the laas mkdep executable ------------------------------
 
 AC_DEFUN(ROBOT_PROG_MKDEP,
 [
-   AC_PATH_PROG(MKDEP, mkdep, no, $exec_prefix/bin:$prefix/bin:$PATH)
-   if test "$MKDEP" = "no"; then
-      AC_MSG_ERROR([You need the mkdep package])
-   fi
+   AC_PATH_PROG(MKDEP, mkdep, :, $exec_prefix/bin:$prefix/bin:$PATH)
+   if test "$MKDEP" = ":"; then
 
-   AC_CACHE_CHECK(
-      [whether mkdep accepts -I/-D options], ac_cv_robot_mkdep,
-      [
-         if $MKDEP -I foo -D bar 1>/dev/null 2>&1; then
-	    ac_cv_robot_mkdep=yes;
-	 else
-	    ac_cv_robot_mkdep=no;
-         fi
+     AC_CACHE_CHECK(
+        [whether mkdep accepts -I/-D options], ac_cv_robot_mkdep,
+        [
+           if $MKDEP -I foo -D bar 1>/dev/null 2>&1; then
+	      ac_cv_robot_mkdep=yes;
+	   else
+	      ac_cv_robot_mkdep=no;
+           fi
       ])
-   if test x"${ac_cv_robot_mkdep}" = xno; then
-      AC_MSG_ERROR([You need the mkdep package])
-   fi 
+     if test x"${ac_cv_robot_mkdep}" = xno; then
+        MKDEP=:
+     fi
+   fi
 ])
 
 

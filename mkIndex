@@ -1,4 +1,4 @@
-#!/usr/bin/env eltclsh
+#!/usr/bin/env tclsh
 #	$LAAS$
 #
 #  Copyright (c) 2001 LAAS/CNRS                       --  Wed Oct 10 2001

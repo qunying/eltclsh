@@ -31,6 +31,9 @@
 
 # Make packages in that directory available
 lappend auto_path [file join $eltcl_library ..]
+if { [info exists env(ELTCLLIBPATH)] } {
+    eval lappend auto_path $env(ELTCLLIBPATH)
+}
 
 # Install default signal handlers (if the signal command exists)
 if { [info command signal] != "" } { namespace eval el {

@@ -1,6 +1,7 @@
 $LAAS$
 
-  3.  Look for packages in $(datadir)/*.
+  3.   Look for  packages    in $(datadir)/*  by  default,  and implement
+  ELTCLLIBPATH environment variable.
 
 eltclsh 1.1 released august 13, 2003
 

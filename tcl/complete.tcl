@@ -1,3 +1,5 @@
+#	$LAAS$
+
 #
 #  Copyright (c) 2001 LAAS/CNRS                       --  Tue Oct  9 2001
 #  All rights reserved.                                    Anthony Mallet
@@ -25,8 +27,6 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE  USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
-# $Id$
 #
 
 # Completion-related procedures
@@ -340,7 +340,7 @@ namespace eval el {
 	    # and the last word to complete: if it's a single token, and
 	    # it begins with some quoting stuff (either \{ or \"), just
 	    # strip the quoting char, unless the closing quote is also
-	    # present (ok, it's tricky)
+	    # present (yeah... that's tricky)
 	    if { [lindex $last 0] == "simple-word" } {
 		set text [lindex [lindex $last 4] 0]
 		if { [lindex $last 3] == [lindex $text 3] } {
@@ -360,7 +360,7 @@ namespace eval el {
 		}
 	    }
 
-	    # if we've got one rule: see which subset of it applies
+	    # if we've got one rule: see which of its subset applies
 	    if { $rule != "" } {
 		set rule [lreplace $rule 0 0]
 		set subset ""
@@ -635,13 +635,7 @@ namespace eval el {
 	if { [lsearch $completeon "shell"] >= 0 } {
 	    global env
 
-	    foreach path [split $env(PATH) :] {
-		# xxx a bug of glob: cannot use r or x; the following
-		# xxx command dumps core:
-		# xxx glob -type "r"  -directory /bin -- ../*
-		set path [file join \
-			      [file dirname $name1] \
-			      $path [file tail ${name1}*]]
+	    set findmatch {
 		set list [glob -type "f l" -nocomplain -- $path]
 		foreach file $list {
 		    if { ! [file isdirectory $file] &&
@@ -656,13 +650,23 @@ namespace eval el {
 		    }
 		}
 	    }
+
+	    if { [llength [file split ${name1}*]] == 1 } {
+		foreach path [split $env(PATH) :] {
+		    set path [file join $path ${name1}*]
+		    eval $findmatch
+		}
+	    } else {
+		set path ${name1}*
+		eval $findmatch
+	    }
 	}
 
 	# last thing: if the incomplete word has a namespace or directory
 	# pattern which is present in all the matches, it is not
 	# necessary to replace it (completion will just append characters
-	# and not change the beginning of the word). That's the way tcsh
-	# works. 
+	# and not change the beginning of the word). This is at least the
+	# way tcsh works. 
 
 	foreach pattern { :: / } {
 	    set slash [string last $pattern $name1]

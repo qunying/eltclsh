@@ -68,22 +68,33 @@ dnl --- Look for the laas mkdep executable ------------------------------
 
 AC_DEFUN(ROBOT_PROG_MKDEP,
 [
-   AC_PATH_PROG(MKDEP, mkdep, :, $exec_prefix/bin:$prefix/bin:$PATH)
-   if test "$MKDEP" != ":"; then
+   AC_CACHE_CHECK([for LAAS mkdep], ac_cv_robot_mkdep,
+    [
+	IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS=":"
+        ac_cv_robot_mkdep=no
+        ac_tmppath="$exec_prefix/bin:$prefix/bin:$PATH"
+        for ac_dir in $ac_tmppath; do 
+            test -z "$ac_dir" && ac_dir=.
+            if eval test -x $ac_dir/mkdep; then
+	       echo > conftest.h
+	       echo '#include "conftest.h"' > conftest.c
+	       if $ac_dir/mkdep -c $CC -o conftest.mkdep 1>/dev/null 2>&1; then
+		  if test -f conftest.mkdep; then
+		     eval ac_cv_robot_mkdep="$ac_dir/mkdep"
+                     break
+		  fi
+	       fi
 
-     AC_CACHE_CHECK(
-        [whether mkdep accepts -I/-D options], ac_cv_robot_mkdep,
-        [
-           if $MKDEP -I foo -D bar 1>/dev/null 2>&1; then
-	      ac_cv_robot_mkdep=yes;
-	   else
-	      ac_cv_robot_mkdep=no;
-           fi
-      ])
-     if test x"${ac_cv_robot_mkdep}" = xno; then
-        MKDEP=:
-     fi
-   fi
+            fi
+	done
+	IFS="$ac_save_ifs"
+    ])
+
+    if test x"$ac_cv_robot_mkdep" = xno; then
+	AC_SUBST(MKDEP, :)
+    else
+	AC_SUBST(MKDEP, $ac_cv_robot_mkdep)
+    fi
 ])
 
 

@@ -1,6 +1,8 @@
 $LAAS$
 
-eltclsh 1.1 released 13 august 2003
+  3.  Look for packages in $(datadir)/*.
+
+eltclsh 1.1 released august 13, 2003
 
   2.  fix  for build against  Tcl  8.4 (const poisoning). Addresses PR/11
   from Matthieu Herrb.
@@ -8,4 +10,4 @@ eltclsh 1.1 released 13 august 2003
   1.  configure  fix:   look  for libedit   in  $prefix/lib  to   support
   configuration without --exec-prefix. From Matthieu Herrb in PR/10.
 
-eltclsh 1.0 released 9 july 2003
+eltclsh 1.0 released july 9, 2003

@@ -5901,6 +5901,7 @@ echo "$as_me:$LINENO: checking for libedit library" >&5
 echo $ECHO_N "checking for libedit library... $ECHO_C" >&6
 for ac_dir in \
 	$exec_prefix/lib	\
+	$prefix/lib		\
 	$extra_lib		\
 	/usr/local/lib		\
 	/usr/lib		\

@@ -1,3 +1,6 @@
 $LAAS$
 
+  1.  configure  fix:   look  for libedit   in  $prefix/lib  to   support
+  configuration without --exec-prefix. From Matthieu Herrb in PR10.
+
 eltclsh 1.0 released 9 july 2003

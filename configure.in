@@ -126,6 +126,7 @@ AC_MSG_RESULT([$ac_edit_header])
 AC_MSG_CHECKING([for libedit library])
 for ac_dir in \
 	$exec_prefix/lib	\
+	$prefix/lib		\
 	$extra_lib		\
 	/usr/local/lib		\
 	/usr/lib		\

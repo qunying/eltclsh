@@ -158,6 +158,12 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
 		       " file.\nPlease check your installation.\n",
 		       NULL);
       Tcl_DStringFree(&initFile);
+
+      errChannel = Tcl_GetStdChannel(TCL_STDERR);
+      if (errChannel) {
+	 Tcl_AddErrorInfo(iinfo->interp, "");
+	 Tcl_Write(errChannel, Tcl_GetStringResult(iinfo->interp), -1);
+      }
       exitCode = 2;
       goto done;
    }

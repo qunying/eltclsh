@@ -69,7 +69,7 @@ dnl --- Look for the laas mkdep executable ------------------------------
 AC_DEFUN(ROBOT_PROG_MKDEP,
 [
    AC_PATH_PROG(MKDEP, mkdep, :, $exec_prefix/bin:$prefix/bin:$PATH)
-   if test "$MKDEP" = ":"; then
+   if test "$MKDEP" != ":"; then
 
      AC_CACHE_CHECK(
         [whether mkdep accepts -I/-D options], ac_cv_robot_mkdep,

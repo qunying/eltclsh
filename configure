@@ -4575,7 +4575,7 @@ else
 echo "${ECHO_T}no" >&6
 fi
 
-   if test "$MKDEP" = ":"; then
+   if test "$MKDEP" != ":"; then
 
      echo "$as_me:$LINENO: checking whether mkdep accepts -I/-D options" >&5
 echo $ECHO_N "checking whether mkdep accepts -I/-D options... $ECHO_C" >&6

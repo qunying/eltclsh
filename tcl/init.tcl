@@ -69,5 +69,16 @@ if { [ catch {
     puts $errorInfo
 }
 
-# By default, let events be processed in the middle of a line editing
-#fconfigure stdin -blocking 0
+# Preload packages
+while {[set i [lsearch -exact $argv -package]] >= 0} {
+    set pkgname [lindex $argv [expr $i+1]]
+    if {[catch {package require $pkgname} m]} {
+        puts "$m"
+        puts "cannot load $pkgname"
+    } else {
+        puts "loaded $pkgname package"
+    }
+    set argv [lreplace $argv $i [expr $i+1]]
+}
+unset i
+catch { unset pkgname }

@@ -1,5 +1,9 @@
 $LAAS$
 
+  5.  Improved command-line completion engine   when the smallest  common
+  denominator of   the  available matches  is   smaller  than the current
+  command-line.
+
   4. Add -package command line option.
 
   3.   Look for  packages    in $(datadir)/*  by  default,  and implement

@@ -1,5 +1,7 @@
 $LAAS$
 
+eltclsh 1.1 released 13 august 2003
+
   2.  fix  for build against  Tcl  8.4 (const poisoning). Addresses PR/11
   from Matthieu Herrb.
 

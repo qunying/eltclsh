@@ -33,11 +33,14 @@
 #define H_VERSION
 
 #define ELTCLSH_MAJOR	(1)
-#define ELTCLSH_MINOR	(0)
+#define ELTCLSH_MINOR	(1)
 
 /*
  * Change log:
  * $Log$
+ * Revision 1.3  2003/08/13 11:52:50  mallet
+ * Revision 1.1 released.
+ *
  * Revision 1.2  2003/07/08 15:47:17  mallet
  * RCSID's and $LAAS$
  *

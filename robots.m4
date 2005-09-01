@@ -30,7 +30,7 @@
 
 dnl --- Compute CFLAGS --------------------------------------------------
 
-AC_DEFUN(ROBOT_CFLAGS,
+AC_DEFUN([ROBOT_CFLAGS],
 [
    C_DEBUG_FLAGS=-g
 
@@ -43,7 +43,7 @@ AC_DEFUN(ROBOT_CFLAGS,
 
 dnl --- Test that CPP accepts '-' as a file name ------------------------
 
-AC_DEFUN(ROBOT_CPP_USES_STDIN,
+AC_DEFUN([ROBOT_CPP_USES_STDIN],
 [
    AC_REQUIRE_CPP()
 
@@ -66,7 +66,7 @@ AC_DEFUN(ROBOT_CPP_USES_STDIN,
 
 dnl --- Look for the laas mkdep executable ------------------------------
 
-AC_DEFUN(ROBOT_PROG_MKDEP,
+AC_DEFUN([ROBOT_PROG_MKDEP],
 [
    AC_CACHE_CHECK([for LAAS mkdep], ac_cv_robot_mkdep,
     [
@@ -100,7 +100,7 @@ AC_DEFUN(ROBOT_PROG_MKDEP,
 
 dnl --- Check for ar -----------------------------------------------------
 
-AC_DEFUN(ROBOT_PROG_AR,
+AC_DEFUN([ROBOT_PROG_AR],
 [
    AC_CHECK_PROG(AR, ar, ar)
    if test x"${AR}" = x; then
@@ -112,7 +112,7 @@ AC_DEFUN(ROBOT_PROG_AR,
 dnl --- Look for includes in a path ------------------------------------
 dnl ROBOT_PATH_INC(PACKAGE, VARIABLE, INC, [, VALUE-IF-NOT-FOUND, [, PATH]])
 dnl
-AC_DEFUN(ROBOT_PATH_INC,
+AC_DEFUN([ROBOT_PATH_INC],
 [
    AC_ARG_WITH($1-includes,
 	       AC_HELP_STRING([--with-$1-includes=DIR],
@@ -146,7 +146,7 @@ AC_DEFUN(ROBOT_PATH_INC,
 dnl --- Look for a library in a path ------------------------------------
 dnl ROBOT_PATH_LIB(PACKAGE, VARIABLE, LIB, [, VALUE-IF-NOT-FOUND, [, PATH]])
 dnl
-AC_DEFUN(ROBOT_PATH_LIB,
+AC_DEFUN([ROBOT_PATH_LIB],
 [
    AC_ARG_WITH($1-libraries,
 	       AC_HELP_STRING([--with-$1-libraries=DIR],
@@ -185,7 +185,7 @@ AC_DEFUN(ROBOT_PATH_LIB,
 dnl --- Look for a file in a path ---------------------------------------
 dnl ROBOT_PATH_FILE(PACKAGE, VARIABLE, LIB, [, VALUE-IF-NOT-FOUND, [, PATH]])
 dnl
-AC_DEFUN(ROBOT_PATH_FILE,
+AC_DEFUN([ROBOT_PATH_FILE],
 [
    AC_ARG_WITH($1,
 	       AC_HELP_STRING([--with-$1=DIR],
@@ -220,7 +220,7 @@ AC_DEFUN(ROBOT_PATH_FILE,
 dnl --- Look for tcl ----------------------------------------------------
 dnl
 dnl
-AC_DEFUN(ROBOT_LIB_TCL,
+AC_DEFUN([ROBOT_LIB_TCL],
 [
    AC_ARG_WITH(tcl,
       [  --with-tcl=DIR          directory containing tclConfig.sh],
@@ -323,7 +323,7 @@ AC_DEFUN(ROBOT_LIB_TCL,
 dnl --- Look for tk -----------------------------------------------------
 dnl
 dnl
-AC_DEFUN(ROBOT_LIB_TK,
+AC_DEFUN([ROBOT_LIB_TK],
 [
    AC_ARG_WITH(tk,
       [  --with-tk=DIR           directory containing tkConfig.sh],

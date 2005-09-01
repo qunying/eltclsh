@@ -1,5 +1,10 @@
 $LAAS$
 
+elctlsh 1.6 released ??? ??, ????
+
+ 19. Add an autogen.sh script. Remove un-needed files from CVS control. 
+     list files that don't belong to version control in .cvsignore. 
+
 eltclsh 1.5 released march 17, 2004
 
  18. Improve autoconf stuff: cross-compilation, select between termcap or

@@ -47,7 +47,7 @@ config_headers = \
 	config.h
 
 dist_path= eltclsh
-dist_name= eltclsh-$(ELTCLSH_MAJOR).$(ELTCLSH_MINOR)
+dist_name= eltclsh-$(ELTCLSH_VERSION)
 
 VPATH=		$(srcdir)
 

@@ -44,9 +44,7 @@ HOST_ELTCLSH=	@HOST_ELTCLSH@
 ELTCLSH=	@ELTCLSH@
 ELWISH=		@ELWISH@
 
-ELTCLSH_MAJOR=	1
-ELTCLSH_MINOR=	5
-
+ELTCLSH_VERSION= @PACKAGE_VERSION@
 
 # --- Flags -------------------------------------------------------------
 

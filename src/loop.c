@@ -39,7 +39,9 @@ __RCSID("$LAAS$");
 
 #include "eltclsh.h"
 
-static char copyright[] = " - Copyright (C) 2001-2004 LAAS-CNRS";
+static char copyright[] = " - Copyright (C) 2001-2005 LAAS-CNRS";
+static char *version = ELTCLSH_VERSION;
+
 
 
 /*
@@ -196,10 +198,7 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
 
    /* Print the copyright message in interactive mode */
    if (tty) {
-      char version[32];
 
-      snprintf(version, sizeof(version),
-	       " %d.%d", ELTCLSH_MAJOR, ELTCLSH_MINOR);
       length = (iinfo->windowSize -
 		(int)(strlen(version)+
 		      strlen(copyright)+strlen(iinfo->argv0)))*3/4;

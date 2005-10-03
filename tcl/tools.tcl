@@ -29,6 +29,8 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+package require el::base 1.5
+
 # shell's shift (should be added to tcl language :)
 proc shift { varName } {
     upvar $varName l 

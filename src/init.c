@@ -107,7 +107,7 @@ elTclAppInit(ElTclInterpInfo *iinfo)
 		   TCL_LINK_INT) != TCL_OK) {
       return TCL_ERROR;
    }
-   Tcl_PkgProvide(iinfo->interp, "el::base", "1.5");
+   Tcl_PkgProvide(iinfo->interp, "el::base", "1.0");
 
    /* initialize libedit */
    iinfo->el = el_init(iinfo->argv0, stdin, stdout, stderr);

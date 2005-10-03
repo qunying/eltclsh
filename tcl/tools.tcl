@@ -29,7 +29,7 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-package require el::base 1.5
+package require el::base 1.0
 
 # shell's shift (should be added to tcl language :)
 proc shift { varName } {

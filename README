@@ -1,6 +1,6 @@
 #	$Id$
 
-Copyright (c) 2001-2003 LAAS/CNRS
+Copyright (c) 2001-2005 LAAS/CNRS
 
 eltclsh stands for ``editline tcl shell''. This is an interactive shell
 for the TCL programming language. It provides command line editing,
@@ -42,8 +42,8 @@ eltclsh is known to run on the following platforms:
 
 - Sparc Solaris (tested on Solaris 2.5.1 through 9).
 - ix86 Linux (tested on RedHat, Debian)
-- NetBSD 1.6
-- OpenBSD 3.2
+- NetBSD 1.6 and later
+- OpenBSD 3.2 and later
 
 
 --- GETTING ELTCLSH -----------------------------------------------------

@@ -1,6 +1,10 @@
 $LAAS$
 
-elctlsh 1.6 released ??? ??, ????
+elctlsh 1.6 released october 04, 2005
+
+ 20. provide package el::base for the new commands in the interpreter. 
+     Make tools.tcl require el::base so that it cannot be loaded by 
+     accident in an interpreter that doesn't provide those functions.
 
  19. Add an autogen.sh script. Remove un-needed files from CVS control. 
      list files that don't belong to version control in .cvsignore. 

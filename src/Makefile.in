@@ -40,7 +40,9 @@ bindir=		@bindir@
 libdir=		@libdir@
 datadir=	@datadir@/eltcl
 
-VPATH=		$(srcdir)
+libobjs=	@LIBOBJS@
+
+vpath %.c	$(srcdir) $(topsrcdir)/compat
 
 CPPFLAGS+=	-I$(TOPBUILD) -I. $(TCL_CPPFLAGS) $(EL_CPPFLAGS)
 CPPFLAGS+=	-DELTCLSH_DATA='"${datadir}"'
@@ -59,7 +61,7 @@ commonsrcs = \
 	parse.c		\
 	signal.c	\
 	complete.c
-commonobjs = $(commonsrcs:.c=.o)
+commonobjs = $(commonsrcs:.c=.o) $(libobjs)
 
 eltclshsrcs = eltclsh.c
 eltclshobjs = $(eltclshsrcs:.c=.o)

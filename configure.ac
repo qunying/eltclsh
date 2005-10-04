@@ -66,6 +66,9 @@ dnl --- checks for typedefs ---------------------------------------------
 dnl
 AC_TYPE_SIGNAL
 
+dnl --- strl* -----------------------------------------------------------
+dnl
+AC_REPLACE_FUNCS(strlcat strlcpy)
 
 dnl --- check for extra includes or lib dirs ----------------------------
 dnl

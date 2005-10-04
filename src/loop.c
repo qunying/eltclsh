@@ -104,7 +104,7 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
    args = Tcl_Merge(argc-1, argv+1);
    Tcl_SetVar(iinfo->interp, "argv", args, TCL_GLOBAL_ONLY);
    Tcl_Free((char *)args);
-   sprintf(buffer, "%d", argc-1);
+   snprintf(buffer, sizeof(buffer), "%d", argc-1);
    Tcl_SetVar(iinfo->interp, "argc", buffer, TCL_GLOBAL_ONLY);
    args = (fileName != NULL) ? fileName : argv[0];
    Tcl_SetVar(iinfo->interp, "argv0", args, TCL_GLOBAL_ONLY);
@@ -302,7 +302,7 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
 
  done:
    if (iinfo->command != NULL) Tcl_DecrRefCount(iinfo->command);
-   sprintf(buffer, "exit %d", exitCode);
+   snprintf(buffer, sizeof(buffer), "exit %d", exitCode);
    Tcl_Eval(iinfo->interp, buffer);
 }
 

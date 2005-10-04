@@ -2,6 +2,8 @@ $LAAS$
 
 elctlsh 1.6 released october 04, 2005
 
+ 21. Don't use insecure string manipulation functions.
+
  20. provide package el::base for the new commands in the interpreter. 
      Make tools.tcl require el::base so that it cannot be loaded by 
      accident in an interpreter that doesn't provide those functions.

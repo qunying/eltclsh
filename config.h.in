@@ -46,5 +46,11 @@
 #endif /* __GNUC__ */
 #endif
 
+/* strlcat */
+#undef HAVE_STRLCAT
+
+/* strlcpy */
+#undef HAVE_STRLCPY
+
 #endif /* H_ELTCLSH_CONFIG */
 

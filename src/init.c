@@ -37,6 +37,12 @@ __RCSID("$LAAS$");
 
 #include "eltclsh.h"
 
+#if !HAVE_STRLCAT
+extern size_t strlcat(char *, const char *, size_t);
+#endif
+#if !HAVE_STRLCPY
+extern size_t strlcpy(char *, const char *, size_t);
+#endif
 
 /* private functions */
 static const char *	elTclPrompt(EditLine *el);

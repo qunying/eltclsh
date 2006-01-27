@@ -85,10 +85,10 @@ install-doc:
 	@for man in ${MAN}; do \
 		section=`echo $${man} | sed 's/.*\.\([^\.]*\)$$/\1/'`; \
 		file=${srcdir}/${distdir}/$${man}; \
-		cmd="${INSTALL} -d ${mandir}$${section}"; \
+		cmd="${INSTALL} -d ${DESTDIR}${mandir}$${section}"; \
 		echo $${cmd}; \
 		$${cmd}; \
-		cmd="${INSTALL_DATA} $${file} ${mandir}$${section}"; \
+		cmd="${INSTALL_DATA} $${file} ${DESTDIR}${mandir}$${section}"; \
 		echo $${cmd}; \
 		$${cmd}; \
 	done;
@@ -105,11 +105,11 @@ install-catdoc:
 	for man in ${MAN}; do \
 		section=`echo $${man} | sed 's/.*\.\([^\.]*\)$$/\1/'`; \
 		dest=`echo $${man} | sed "$${transform}"`; \
-		cmd="${INSTALL} -d ${catdir}$${section}"; \
+		cmd="${INSTALL} -d ${DESTDIR}${catdir}$${section}"; \
 		echo $${cmd}; \
 		$${cmd}; \
 		cmd="${INSTALL_DATA} $${man}.cat \
-			${catdir}$${section}/$${dest}"; \
+			${DESTDIR}${catdir}$${section}/$${dest}"; \
 		echo $${cmd}; \
 		$${cmd}; \
 	done;

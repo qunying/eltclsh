@@ -63,20 +63,20 @@ all:
 install: install-data
 
 install-data: $(tclsrcs)
-	${INSTALL} -d ${datadir}
+	${INSTALL} -d ${DESTDIR}${datadir}
 	@for file in ${tclsrcs}; do \
 		srcfile=${srcdir}/$${file}; \
 		destfile=${datadir}/$${file}; \
-		cmd="${INSTALL_DATA} $${srcfile} ${datadir}"; \
+		cmd="${INSTALL_DATA} $${srcfile} ${DESTDIR}${datadir}"; \
 		printf "$${cmd}\n"; \
 		$${cmd}; \
 	done
 	@if test "x$(HOST_ELTCLSH)" = "x:"; then \
 		echo "***"; \
-		echo "*** NOT rebuilding package index in ${datadir}"; \
+		echo "*** NOT rebuilding package index in ${DESTDIR}${datadir}"; \
 		echo "***"; \
 	else \
-		cmd="$(HOST_ELTCLSH) ${topsrcdir}/mkIndex ${datadir}"; \
+		cmd="$(HOST_ELTCLSH) ${topsrcdir}/mkIndex ${DESTDIR}${datadir}"; \
 		printf "$${cmd}\n"; \
 		$${cmd}; \
 	fi

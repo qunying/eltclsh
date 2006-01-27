@@ -102,11 +102,11 @@ ${elwishobjs}:%.o: %.c
 install: install-bin
 
 install-bin:: $(ELTCLSH)
-	$(INSTALL) $(ELTCLSH) $(bindir)/$(ELTCLSH)
+	$(INSTALL) $(ELTCLSH) $(DESTDIR)$(bindir)/$(ELTCLSH)
 
 ifeq (yes,$(HAS_TK))
 install-bin:: $(ELWISH)
-	$(INSTALL) $(ELWISH) $(bindir)/$(ELWISH)
+	$(INSTALL) $(ELWISH) $(DESTDIR)$(bindir)/$(ELWISH)
 endif
 
 

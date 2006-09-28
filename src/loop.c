@@ -59,9 +59,8 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
 #endif /* TCL_VERSION */
 {
    ElTclInterpInfo *iinfo;
-   HistEvent ev;
 
-   Tcl_Obj *resultPtr, *command;
+   Tcl_Obj *resultPtr;
 #if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
    const char *fileName, *args;
    const char *eltclLibrary[2];
@@ -73,7 +72,7 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
    char buffer[1000], *bytes;
    int code, tty, length;
    int exitCode = 0;
-   Tcl_Channel inChannel, outChannel, errChannel;
+   Tcl_Channel errChannel;
 
    /* create main data structure */
    iinfo = calloc(1, sizeof(*iinfo));
@@ -196,103 +195,8 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
       goto done;
    }
 
-   /* Print the copyright message in interactive mode */
-   if (tty) {
-
-      length = (iinfo->windowSize -
-		(int)(strlen(version)+
-		      strlen(copyright)+strlen(iinfo->argv0)))*3/4;
-      if (length >= 0) {
-	 fputc('\n', stdout);
-	 for(;length;length--) fputc(' ', stdout);
-	 fputs(iinfo->argv0, stdout);
-	 fputs(version, stdout);
-	 fputs(copyright, stdout);
-	 fputs("\n\n", stdout);
-      }
-   }
-
-   /*
-    * Process commands from stdin until there's an end-of-file. Note
-    * that we need to fetch the standard channels again after every
-    * eval, since they may have been changed.
-    */
-
-   iinfo->command = Tcl_NewObj();
-   Tcl_IncrRefCount(iinfo->command);
-    
-   inChannel = Tcl_GetStdChannel(TCL_STDIN);
-   outChannel = Tcl_GetStdChannel(TCL_STDOUT);
-   iinfo->gotPartial = 0;
-
-   for(;/*eternity*/;)  {
-
-      if (tty) {
-	 const char *line;
-
-	 line = el_gets(iinfo->el, &length);
-	 if (line == NULL) goto done;
-
-	 command = Tcl_NewStringObj(line, length);
-	 Tcl_AppendObjToObj(iinfo->command, command);
-
-      } else {
-	 /* using libedit but not a tty - must use gets */
-	 if (!inChannel) goto done;
-
-	 length = Tcl_GetsObj(inChannel, iinfo->command);
-	 if (length < 0) goto done;
-	 if ((length == 0) && 
-	     Tcl_Eof(inChannel) && (!iinfo->gotPartial)) goto done;
-
-	 /* Add the newline back to the string */
-	 Tcl_AppendToObj(iinfo->command, "\n", 1);
-      }
-       
-      if (!Tcl_CommandComplete(
-	     Tcl_GetStringFromObj(iinfo->command, &length))) {
-	 iinfo->gotPartial = 1; continue;
-      }
-
-      if (tty && length > 1) {
-	 /*  add the command line to history */
-	 history(iinfo->history, &ev, H_ENTER,
-		 Tcl_GetStringFromObj(iinfo->command, NULL));
-      }
-
-      /* tricky: if the command calls el::get[sc], the completion engine
-       * will think that iinfo->command is the beginning of an incomplete
-       * command. Thus we must reset it before the Tcl_Eval call... */
-      command = iinfo->command;
-
-      iinfo->command = Tcl_NewObj();
-      Tcl_IncrRefCount(iinfo->command);
-
-      iinfo->gotPartial = 0;
-      code = Tcl_EvalObj(iinfo->interp, command);
-
-      Tcl_DecrRefCount(command);
-
-      inChannel = Tcl_GetStdChannel(TCL_STDIN);
-      outChannel = Tcl_GetStdChannel(TCL_STDOUT);
-      errChannel = Tcl_GetStdChannel(TCL_STDERR);
-      if (code != TCL_OK) {
-	 if (errChannel) {
-	    resultPtr = Tcl_GetObjResult(iinfo->interp);
-	    bytes = Tcl_GetStringFromObj(resultPtr, &length);
-	    Tcl_Write(errChannel, bytes, length);
-	    Tcl_Write(errChannel, "\n", 1);
-	 }
-      } else if (tty) {
-	 resultPtr = Tcl_GetObjResult(iinfo->interp);
-	 bytes = Tcl_GetStringFromObj(resultPtr, &length);
-
-	 if ((length > 0) && outChannel) {
-	    Tcl_Write(outChannel, bytes, length);
-	    Tcl_Write(outChannel, "\n", 1);
-	 }
-      }
-   }
+   /* Process commands from stdin until there's an end-of-file. */
+   Tcl_Eval(iinfo->interp, "interactive");
 
    /*
     * Rather than calling exit, invoke the "exit" command so that
@@ -304,6 +208,126 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
    if (iinfo->command != NULL) Tcl_DecrRefCount(iinfo->command);
    snprintf(buffer, sizeof(buffer), "exit %d", exitCode);
    Tcl_Eval(iinfo->interp, buffer);
+}
+
+
+/*
+ * elTclInteractive --------------------------------------------------
+ *
+ * Process commands on stdin until end-of-file
+ */
+
+int
+elTclInteractive(ClientData data,
+		 Tcl_Interp *interp, int objc, Tcl_Obj *const objv[])
+{
+  ElTclInterpInfo *iinfo = data;
+  HistEvent ev;
+  Tcl_Obj *resultPtr, *command;
+  Tcl_Channel inChannel, outChannel, errChannel;
+  int code, tty, length;
+  char *bytes;
+
+  tty = isatty(0);
+
+  /* Print the copyright message in interactive mode */
+  if (tty) {
+    length = (iinfo->windowSize -
+	      (int)(strlen(version)+
+		    strlen(copyright)+strlen(iinfo->argv0)))*3/4;
+    if (length >= 0) {
+      fputc('\n', stdout);
+      for(;length;length--) fputc(' ', stdout);
+      fputs(iinfo->argv0, stdout);
+      fputs(version, stdout);
+      fputs(copyright, stdout);
+      fputs("\n\n", stdout);
+    }
+  }
+
+  /*
+   * Process commands from stdin until there's an end-of-file. Note
+   * that we need to fetch the standard channels again after every
+   * eval, since they may have been changed.
+   */
+
+  iinfo->command = Tcl_NewObj();
+  Tcl_IncrRefCount(iinfo->command);
+    
+  inChannel = Tcl_GetStdChannel(TCL_STDIN);
+  outChannel = Tcl_GetStdChannel(TCL_STDOUT);
+  iinfo->gotPartial = 0;
+
+  for(;/*eternity*/;)  {
+    if (tty) {
+      const char *line;
+
+      line = el_gets(iinfo->el, &length);
+      if (line == NULL) goto done;
+
+      command = Tcl_NewStringObj(line, length);
+      Tcl_AppendObjToObj(iinfo->command, command);
+
+    } else {
+      /* using libedit but not a tty - must use gets */
+      if (!inChannel) goto done;
+
+      length = Tcl_GetsObj(inChannel, iinfo->command);
+      if (length < 0) goto done;
+      if ((length == 0) && 
+	  Tcl_Eof(inChannel) && (!iinfo->gotPartial)) goto done;
+
+      /* Add the newline back to the string */
+      Tcl_AppendToObj(iinfo->command, "\n", 1);
+    }
+       
+    if (!Tcl_CommandComplete(
+	  Tcl_GetStringFromObj(iinfo->command, &length))) {
+      iinfo->gotPartial = 1; continue;
+    }
+
+    if (tty && length > 1) {
+      /*  add the command line to history */
+      history(iinfo->history, &ev, H_ENTER,
+	      Tcl_GetStringFromObj(iinfo->command, NULL));
+    }
+
+    /* tricky: if the command calls el::get[sc], the completion engine
+     * will think that iinfo->command is the beginning of an incomplete
+     * command. Thus we must reset it before the Tcl_Eval call... */
+    command = iinfo->command;
+
+    iinfo->command = Tcl_NewObj();
+    Tcl_IncrRefCount(iinfo->command);
+
+    iinfo->gotPartial = 0;
+    code = Tcl_EvalObj(iinfo->interp, command);
+
+    Tcl_DecrRefCount(command);
+
+    inChannel = Tcl_GetStdChannel(TCL_STDIN);
+    outChannel = Tcl_GetStdChannel(TCL_STDOUT);
+    errChannel = Tcl_GetStdChannel(TCL_STDERR);
+    if (code != TCL_OK) {
+      if (errChannel) {
+	resultPtr = Tcl_GetObjResult(iinfo->interp);
+	bytes = Tcl_GetStringFromObj(resultPtr, &length);
+	Tcl_Write(errChannel, bytes, length);
+	Tcl_Write(errChannel, "\n", 1);
+      }
+    } else if (tty) {
+      resultPtr = Tcl_GetObjResult(iinfo->interp);
+      bytes = Tcl_GetStringFromObj(resultPtr, &length);
+
+      if ((length > 0) && outChannel) {
+	Tcl_Write(outChannel, bytes, length);
+	Tcl_Write(outChannel, "\n", 1);
+      }
+    }
+  }
+
+done:
+  return TCL_OK;
 }
 
 

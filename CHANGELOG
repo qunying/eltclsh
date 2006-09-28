@@ -2,6 +2,9 @@ $LAAS$
 
 eltclsh 1.7 released xx xx xx 
 
+ 23. Add new function "interactive" which starts the interactive
+     interpreter (useful inside scripts).
+
  22. Add support for installation in $(DESTDIR)
 
 elctlsh 1.6 released october 04, 2005

@@ -90,6 +90,7 @@ elTclAppInit(ElTclInterpInfo *iinfo)
 
    /* some useful commands */
    Tcl_CreateObjCommand(iinfo->interp, "exit", elTclExit, iinfo, NULL);
+   Tcl_CreateObjCommand(iinfo->interp, "interactive", elTclInteractive, iinfo, NULL);
    Tcl_CreateObjCommand(iinfo->interp, "el::gets", elTclGets, iinfo, NULL);
    Tcl_CreateObjCommand(iinfo->interp, "el::getc", elTclGetc, iinfo, NULL);
    Tcl_CreateObjCommand(iinfo->interp, "el::history",

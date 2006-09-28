@@ -90,6 +90,8 @@ void		elTclshLoop(int argc, const char **argv,
 void		elTclshLoop(int argc, char **argv,
 			ElTclAppInitProc appInitProc);
 #endif /* TCL_VERSION */
+int		elTclInteractive(ClientData data, Tcl_Interp *interp, int objc,
+			Tcl_Obj *const objv[]);
 int		elTclExit(ClientData data, Tcl_Interp *interp, int objc,
 			Tcl_Obj *const objv[]);
 

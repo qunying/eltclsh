@@ -205,7 +205,7 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
     */
 
  done:
-   if (iinfo->command != NULL) Tcl_DecrRefCount(iinfo->command);
+   if (iinfo->command != NULL) { Tcl_DecrRefCount(iinfo->command); }
    snprintf(buffer, sizeof(buffer), "exit %d", exitCode);
    Tcl_Eval(iinfo->interp, buffer);
 }

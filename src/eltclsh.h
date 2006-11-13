@@ -31,13 +31,6 @@
 #ifndef H_ELTCLSH
 #define H_ELTCLSH
 
-#ifdef VXWORKS
-#include <vxWorks.h>
-
-/* priority of eltclsh (or elwish) task. */
-#define ELTCLSH_PRIORITY	(250)
-#endif /* VXWORKS */
-
 #include <tcl.h>
 #include <histedit.h>
 
@@ -74,6 +67,7 @@ typedef struct ElTclInterpInfo {
 
    Tcl_Obj *command;		/* current interactive command */
    int gotPartial;		/* true if current command is incomplete */
+   int isTk;			/* true if this is a Tk interpreter */
 } ElTclInterpInfo;
 
 typedef int (*ElTclAppInitProc)(ElTclInterpInfo *);

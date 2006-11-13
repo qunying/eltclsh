@@ -31,48 +31,15 @@
 #include "config.h"
 __RCSID("$LAAS$");
 
-#ifdef VXWORKS
-#include <vxWorks.h>
-
-#include <ioLib.h>
-#include <taskLib.h>
-#include <taskVarLib.h>
-#endif /* VXWORKS */
-
 #include "eltclsh.h"
 
 
 /*
  * Startup --------------------------------------------------------------
  *
- * Spawn the task (VxWorks) or simply start the application (Unix)
+ *  simply start the application
  */
 
-#ifdef VXWORKS
-static STATUS rtclshReal(char *);
-
-STATUS
-eltclsh(char *script)
-{
-   return taskSpawn("trtclsh",
-		    RTCLSH_PRIORITY, 8, 30000, rtclshReal, script);
-}
-
-static STATUS
-rtclshReal(char *script)
-{
-   char *argv[2] = { "tcl" };
-   argv[1] = script;
-
-   if (taskVarAdd(taskIdSelf(),(int *)&InterpInfo) == ERROR)
-      fatal_error(-1, "error adding VxWorks task variable\n");
-   if ((InterpInfo = malloc(sizeof(RTcl_InterpInfo))) == NULL)
-      fatal_error(-1, "Unable to alloc memory for tclServ global structure");
-   
-   Tcl_Main(1, argv, rtclshAppInit);
-   return OK;
-}
-#else /* UNIX */
 
 #if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
 int 
@@ -85,4 +52,3 @@ main(int argc, char *argv[])
    elTclshLoop(argc, argv, elTclAppInit);
    return 0;
 }
-#endif /* VXWORKS */

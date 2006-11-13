@@ -66,17 +66,11 @@ typedef struct ElTclSignalContext {
 				/* in a multi-threaded context, this
 				 * points to the next handler for this
 				 * signal (possibly in another
-				 * interpreter). This does not apply for
-				 VxWorks since there is at most one
-				 handler per task. */
+				 * interpreter). */
 } ElTclSignalContext;
 
-/* Since there is no obvious way to make that context non-global, this
- * array is TaskVarAdd'ed under VxWorks. */ 
 static ElTclSignalContext *signalContext[ELTCL_MAXSIG];
 
-/* VxWorks doesn't have SIGWINCH, so we don't have to bother with
- * taskVars... */
 #ifdef SIGWINCH
 static ElTclSignalContext *sigWinchContext;
 #endif
@@ -129,9 +123,6 @@ elTclHandlersInit(ElTclInterpInfo *iinfo)
    }
 #endif
 
-#ifdef VXWORKS
-#  error TaskVarAdd signalContext
-#endif
 
    initSigNames(signalNames);
    Tcl_CreateObjCommand(iinfo->interp, "signal", elTclSignal, iinfo, NULL);

@@ -2,9 +2,6 @@ $LAAS$
 
 eltclsh 1.7 released december 19, 2006
 
- 24. elwish now behaves like wish on scripts: once EOF is reached, it
-     enters the equivalent of Tk_MainLoop().
-
  23. Add new function "interactive" which starts the interactive
      interpreter (useful inside scripts).
 

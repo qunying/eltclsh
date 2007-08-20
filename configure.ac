@@ -6,7 +6,7 @@ dnl
 
 AC_REVISION($LAAS$)
 
-AC_INIT([eltclsh],[1.7],[openrobots@laas.fr])
+AC_INIT([eltclsh],[1.8],[openrobots@laas.fr])
 AC_PREREQ(2.59)
 
 AC_CONFIG_HEADER(config.h)

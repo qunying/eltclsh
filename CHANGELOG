@@ -1,20 +1,22 @@
 $LAAS$
 
+eltclsh 1.8 released august 20, 2007
+
+ 25. Add wrappedputs procedure that print a string wrapped to a given width.
+ 24. Stop scanning arguments in interactive mode when user press C-d.
+
 eltclsh 1.7 released december 19, 2006
 
  23. Add new function "interactive" which starts the interactive
      interpreter (useful inside scripts).
-
  22. Add support for installation in $(DESTDIR)
 
 elctlsh 1.6 released october 04, 2005
 
  21. Don't use insecure string manipulation functions.
-
  20. provide package el::base for the new commands in the interpreter. 
      Make tools.tcl require el::base so that it cannot be loaded by 
      accident in an interpreter that doesn't provide those functions.
-
  19. Add an autogen.sh script. Remove un-needed files from CVS control. 
      list files that don't belong to version control in .cvsignore. 
 
@@ -22,11 +24,8 @@ eltclsh 1.5 released march 17, 2004
 
  18. Improve autoconf stuff: cross-compilation, select between termcap or
  ncurses libs, option to disable Tk.
-
  17. Print an error message when init files are not found.
-
  16. Initialize iinfo structure to 0. Bugzilla #6 from Matthieu Herrb.
-
  15.  Do  more   robust checking  when    looking  for  the LAAS    mkdep
  executable. Bugzilla #4 from Matthieu Herrb.
 
@@ -34,33 +33,24 @@ eltclsh 1.4 released december 3, 2003
 
  14. Source eltclsh libraries after appInitProc() to make packages loaded
  with the -package option and requiring Tk happy.
-
  13. Look for packages in libdir and datadir by default.
-
  12. Define revision numbers in a single place (config.mk).
-
  11. Added a README file.
 
 eltclsh 1.3 released october 17, 2003
 
  10. Distribution now extracts into eltclsh (no more bin/ prefix).
-
   9. Add standard paths to tclConfig.sh for Linux Debian distributions.
 
 eltclsh 1.2 released september 28, 2003
 
   8. Allow configure scripts to work without mkdep.
-
   7. Use tclsh instead of eltclsh for building pkgIndex.
-
   6. fix for build against Tcl 8.4 after const poisoning fix (#2).
-
   5.  Improved command-line completion engine   when the smallest  common
   denominator of   the  available matches  is   smaller  than the current
   command-line.
-
   4. Add -package command line option.
-
   3.   Look for  packages    in $(datadir)/*  by  default,  and implement
   ELTCLLIBPATH environment variable.
 
@@ -68,7 +58,6 @@ eltclsh 1.1 released august 13, 2003
 
   2.  fix  for build against  Tcl  8.4 (const poisoning). Addresses PR/11
   from Matthieu Herrb.
-
   1.  configure  fix:   look  for libedit   in  $prefix/lib  to   support
   configuration without --exec-prefix. From Matthieu Herrb in PR/10.
 

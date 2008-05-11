@@ -30,7 +30,6 @@ AH_VERBATIM(__RCSID,[
 #endif
 ])
 
-
 AH_BOTTOM([
 #endif /* H_ELTCLSH_CONFIG */
 ])

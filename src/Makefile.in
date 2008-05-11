@@ -28,8 +28,8 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-TOPBUILD=..
-include $(TOPBUILD)/config.mk
+top_builddir=	@top_builddir@
+include $(top_builddir)/config.mk
 
 topsrcdir=	@top_srcdir@
 srcdir=		@srcdir@
@@ -44,7 +44,7 @@ libobjs=	@LIBOBJS@
 
 vpath %.c	$(srcdir) $(topsrcdir)/compat
 
-CPPFLAGS+=	-I$(TOPBUILD) -I. $(TCL_CPPFLAGS) $(EL_CPPFLAGS)
+CPPFLAGS+=	-I$(top_builddir) -I. $(TCL_CPPFLAGS) $(EL_CPPFLAGS)
 CPPFLAGS+=	-DELTCLSH_DATA='"${datadir}"'
 CPPFLAGS+=	-DELTCLSH_LIBDIR='"${libdir}"'
 CPPFLAGS+=	-DELTCLSH_VERSION='"$(ELTCLSH_VERSION)"'
@@ -102,17 +102,19 @@ ${elwishobjs}:%.o: %.c
 install: install-bin
 
 install-bin:: $(ELTCLSH)
-	$(INSTALL) $(ELTCLSH) $(DESTDIR)$(bindir)/$(ELTCLSH)
+	$(MKINSTALLDIRS) $(DESTDIR)$(bindir)
+	$(LIBTOOL) --mode=install $(INSTALL) $(ELTCLSH) $(DESTDIR)$(bindir)
 
 ifeq (yes,$(HAS_TK))
 install-bin:: $(ELWISH)
-	$(INSTALL) $(ELWISH) $(DESTDIR)$(bindir)/$(ELWISH)
+	$(MKINSTALLDIRS) $(DESTDIR)$(bindir)
+	$(LIBTOOL) --mode=install $(INSTALL) $(ELWISH) $(DESTDIR)$(bindir)
 endif
 
 
 # --- cleaning ----------------------------------------------------------
 
-clean:
+ clean:
 	rm -f $(commonobjs) $(eltclshobjs) $(elwishobjs) dependencies
 
 

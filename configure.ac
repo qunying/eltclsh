@@ -16,10 +16,20 @@ AC_CANONICAL_HOST
 dnl --- config.h stuff --------------------------------------------------
 dnl
 AH_TOP([
-/*	$]LAAS[: $ */
 #ifndef H_ELTCLSH_CONFIG
 #define H_ELTCLSH_CONFIG
 ])
+
+AH_VERBATIM(__RCSID,[
+#ifndef __RCSID
+#ifdef __GNUC__
+#define __RCSID(id) static const char rcsid[] __attribute__((__unused__)) = id
+#else
+#define __RCSID(id) static const char rcsid[] = id
+#endif /* __GNUC__ */
+#endif
+])
+
 
 AH_BOTTOM([
 #endif /* H_ELTCLSH_CONFIG */

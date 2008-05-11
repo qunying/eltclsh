@@ -33,12 +33,13 @@
 CPP=		@CPP@
 PURIFY=		
 CC=		@CC@
-LTLD=           $(TOPBUILD)/libtool --mode=link $(PURIFY) $(CC)
+LIBTOOL=	@LIBTOOL@
+LTLD=           $(LIBTOOL) --mode=link $(PURIFY) $(CC)
 MKDEP=		@MKDEP@
 GROFF=		@GROFF@
 INSTALL=	${topsrcdir}/install-sh -c
 INSTALL_DATA=	${INSTALL} -m 644
-
+MKINSTALLDIRS=	${topsrcdir}/mkinstalldirs
 HOST_ELTCLSH=	@HOST_ELTCLSH@
 
 ELTCLSH=	@ELTCLSH@

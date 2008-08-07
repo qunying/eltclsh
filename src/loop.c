@@ -1,8 +1,8 @@
-/*	$LAAS$ */
+/*	$LAAS: loop.c 2008/08/07 11:31:57 mallet $ */
 
-/* 
- * Copyright (c) 2001-2004 LAAS/CNRS                  --  Tue Oct 16 2001
- * All rights reserved.                                    Anthony Mallet
+/*
+ * Copyright (c) 2001-2004,2008 LAAS/CNRS
+ * All rights reserved.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
  * modification, are permitted provided that the following conditions are
@@ -27,6 +27,8 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE   OF THIS SOFTWARE, EVEN   IF ADVISED OF   THE POSSIBILITY OF SUCH
  * DAMAGE.
+ *
+ *                                      Anthony Mallet on Tue Oct 16 2001
  */
 #include "config.h"
 __RCSID("$LAAS$");
@@ -39,7 +41,7 @@ __RCSID("$LAAS$");
 
 #include "eltclsh.h"
 
-static char copyright[] = " - Copyright (C) 2001-2005 LAAS-CNRS";
+static char copyright[] = " - Copyright (C) 2001-2005,2004,2008 LAAS-CNRS";
 static char *version = ELTCLSH_VERSION;
 
 
@@ -114,7 +116,7 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
    tty = isatty(0);
    Tcl_SetVar(iinfo->interp, "tcl_interactive",
 	      ((fileName == NULL) && tty) ? "1" : "0", TCL_GLOBAL_ONLY);
-    
+
    /* Invoke application-specific initialization. */
    if ((*appInitProc)(iinfo) != TCL_OK) {
       errChannel = Tcl_GetStdChannel(TCL_STDERR);
@@ -149,7 +151,7 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
    Tcl_SetVar(iinfo->interp,
 	      "eltcl_library", eltclLibrary[0], TCL_GLOBAL_ONLY);
    Tcl_DStringInit(&initFile);
-   if (Tcl_EvalFile(iinfo->interp, 
+   if (Tcl_EvalFile(iinfo->interp,
 		    Tcl_JoinPath(2, eltclLibrary, &initFile)) != TCL_OK) {
       Tcl_AppendResult(iinfo->interp,
 		       "\nThe directory ",
@@ -191,7 +193,7 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
 
 	 exitCode = 1;
       }
-     
+
       goto done;
    }
 
@@ -253,7 +255,7 @@ elTclInteractive(ClientData data,
 
   iinfo->command = Tcl_NewObj();
   Tcl_IncrRefCount(iinfo->command);
-    
+
   inChannel = Tcl_GetStdChannel(TCL_STDIN);
   outChannel = Tcl_GetStdChannel(TCL_STDOUT);
   iinfo->gotPartial = 0;
@@ -274,13 +276,13 @@ elTclInteractive(ClientData data,
 
       length = Tcl_GetsObj(inChannel, iinfo->command);
       if (length < 0) goto done;
-      if ((length == 0) && 
+      if ((length == 0) &&
 	  Tcl_Eof(inChannel) && (!iinfo->gotPartial)) goto done;
 
       /* Add the newline back to the string */
       Tcl_AppendToObj(iinfo->command, "\n", 1);
     }
-       
+
     if (!Tcl_CommandComplete(
 	  Tcl_GetStringFromObj(iinfo->command, &length))) {
       iinfo->gotPartial = 1; continue;
@@ -348,7 +350,7 @@ elTclExit(ClientData data,
       Tcl_WrongNumArgs(interp, 1, objv, "?returnCode?");
       return TCL_ERROR;
    }
-    
+
    if (objc == 1) {
       value = 0;
    } else if (Tcl_GetIntFromObj(interp, objv[1], &value) != TCL_OK) {

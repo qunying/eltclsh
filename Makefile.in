@@ -1,7 +1,7 @@
-#	$LAAS$
+#	$LAAS: Makefile.in 2008/08/07 11:38:33 mallet $
 
 #
-# Copyright (c) 2002 LAAS/CNRS                        --  Fri Mar 15 2002
+# Copyright (c) 2002,2008 LAAS/CNRS
 # All rights reserved.
 #
 # Redistribution  and  use in source   and binary forms,  with or without
@@ -27,7 +27,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE  USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-
+#                                       Anthony Mallet on Fri Mar 15 2002
 include config.mk
 
 top_builddir=	.
@@ -121,7 +121,7 @@ install-catdoc:
 dist:
 	mkdir -p $(dist_path)
 	(cd $(topsrcdir); tar cf - .) | (cd $(dist_path); tar xpf -)
-	find $(dist_path) -name "CVS" | xargs rm -rf
+	find $(dist_path) -name ".git" | xargs rm -rf
 	find $(dist_path) -name "*~" | xargs rm -rf
 	find $(dist_path) -name "build" | xargs rm -rf
 	find $(dist_path) -name "autom4te.cache" | xargs rm -rf

@@ -1,4 +1,4 @@
-/*	$LAAS: loop.c 2008/08/07 11:31:57 mallet $ */
+/*	$LAAS: loop.c 2008/08/07 11:34:16 mallet $ */
 
 /*
  * Copyright (c) 2001-2004,2008 LAAS/CNRS
@@ -303,7 +303,11 @@ elTclInteractive(ClientData data,
     Tcl_IncrRefCount(iinfo->command);
 
     iinfo->gotPartial = 0;
+#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
+    code = Tcl_RecordAndEvalObj(iinfo->interp, command, 0);
+#else
     code = Tcl_EvalObj(iinfo->interp, command);
+#endif /* TCL_VERSION */
 
     Tcl_DecrRefCount(command);
 

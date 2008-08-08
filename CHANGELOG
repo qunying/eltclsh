@@ -1,5 +1,10 @@
-eltclsh 1.9 released xxx xx, 2008
+eltclsh 1.9 released august 8, 2008
 
+ 30. Fix libtool usage and install target to allow cross compilation in OpenEmbedded.
+ 29. Honor TCL_DBGX to allow  compiling  against a  tcl library  with debugging
+     symbols enabled.
+ 28. Honor CFLAGS from the environment during the build process
+ 27. Fix history command that was not working.
  26. Switch repository to git.
 
 eltclsh 1.8 released august 20, 2007
@@ -16,11 +21,11 @@ eltclsh 1.7 released december 19, 2006
 elctlsh 1.6 released october 04, 2005
 
  21. Don't use insecure string manipulation functions.
- 20. provide package el::base for the new commands in the interpreter. 
-     Make tools.tcl require el::base so that it cannot be loaded by 
+ 20. provide package el::base for the new commands in the interpreter.
+     Make tools.tcl require el::base so that it cannot be loaded by
      accident in an interpreter that doesn't provide those functions.
- 19. Add an autogen.sh script. Remove un-needed files from CVS control. 
-     list files that don't belong to version control in .cvsignore. 
+ 19. Add an autogen.sh script. Remove un-needed files from CVS control.
+     list files that don't belong to version control in .cvsignore.
 
 eltclsh 1.5 released march 17, 2004
 

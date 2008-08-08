@@ -199,6 +199,5 @@ AC_SUBST(EL_LIB_SPEC)
 
 dnl --- create the Makefiles --------------------------------------------
 dnl
-CFLAGS="${C_DEBUG_FLAGS} ${C_WARNING_FLAGS}"
 
 AC_OUTPUT(config.mk Makefile src/Makefile tcl/Makefile)

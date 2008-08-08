@@ -1,4 +1,4 @@
-#	$LAAS: Makefile.in 2008/08/07 11:38:33 mallet $
+#	$LAAS: Makefile.in 2008/08/08 16:15:11 mallet $
 
 #
 # Copyright (c) 2002,2008 LAAS/CNRS
@@ -34,6 +34,7 @@ top_builddir=	.
 topsrcdir=	@top_srcdir@
 srcdir=		@srcdir@
 prefix=		@prefix@
+datarootdir=	@datarootdir@
 mandir=		@mandir@/man
 catdir=		@mandir@/cat
 host=		@host@

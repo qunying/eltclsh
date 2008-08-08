@@ -1,7 +1,7 @@
 #	$LAAS$
 
 #
-# Copyright (c) 2002-2003 LAAS/CNRS                   --  Fri Mar 15 2002
+# Copyright (c) 2002-2003,2008 LAAS/CNRS
 # All rights reserved.
 #
 # Redistribution  and  use in source   and binary forms,  with or without
@@ -26,6 +26,8 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE  USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+#                                       Anthony Mallet on Fri Mar 15 2002
 #
 
 dnl --- Compute CFLAGS --------------------------------------------------
@@ -60,7 +62,7 @@ AC_DEFUN([ROBOT_CPP_USES_STDIN],
 
    if test x"${ac_cv_robot_cpp_stdin}" = xno; then
       AC_MSG_ERROR([The cpp program doesn't accept files on stdin])
-   fi 
+   fi
 ])
 
 
@@ -73,7 +75,7 @@ AC_DEFUN([ROBOT_PROG_MKDEP],
 	IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS=":"
         ac_cv_robot_mkdep=no
         ac_tmppath="$exec_prefix/bin:$prefix/bin:$PATH"
-        for ac_dir in $ac_tmppath; do 
+        for ac_dir in $ac_tmppath; do
             test -z "$ac_dir" && ac_dir=.
             if eval test -x $ac_dir/mkdep; then
 	       echo > conftest.h
@@ -105,7 +107,7 @@ AC_DEFUN([ROBOT_PROG_AR],
    AC_CHECK_PROG(AR, ar, ar)
    if test x"${AR}" = x; then
       AC_MSG_ERROR([ar not found])
-   fi 
+   fi
 ])
 
 
@@ -123,7 +125,7 @@ AC_DEFUN([ROBOT_PATH_INC],
     [
 	IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS=":"
         ac_tmppath="[$]opt_pathinc_$2:$5"
-        for ac_dir in $ac_tmppath; do 
+        for ac_dir in $ac_tmppath; do
             test -z "$ac_dir" && ac_dir=.
             if eval test -f $ac_dir/$3; then
                eval ac_cv_path_$2="$ac_dir"
@@ -158,7 +160,7 @@ AC_DEFUN([ROBOT_PATH_LIB],
     [
 	IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS=":"
         ac_tmppath="[$]opt_pathlib_$2:$5"
-        for ac_dir in $ac_tmppath; do 
+        for ac_dir in $ac_tmppath; do
             test -z "$ac_dir" && ac_dir=.
             if eval test -f $ac_dir/$3.a; then
                eval ac_cv_path_$2="$ac_dir"
@@ -197,7 +199,7 @@ AC_DEFUN([ROBOT_PATH_FILE],
     [
 	IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS=":"
         ac_tmppath="[$]opt_pathlib_$2:$5"
-        for ac_dir in $ac_tmppath; do 
+        for ac_dir in $ac_tmppath; do
             test -z "$ac_dir" && ac_dir=.
             if eval test -f $ac_dir/$3; then
                eval ac_cv_path_$2="$ac_dir"
@@ -249,7 +251,7 @@ AC_DEFUN([ROBOT_LIB_TCL],
       AC_MSG_RESULT("${tcl_prefix}/tclConfig.sh")
    else
       AC_MSG_RESULT([not found (fatal)])
-      AC_MSG_RESULT([Please use --with-tcl to specify a valid path to your tclConfig.sh file]) 
+      AC_MSG_RESULT([Please use --with-tcl to specify a valid path to your tclConfig.sh file])
       exit 2;
    fi
    dnl substitute variables in TCL_LIB_FILE
@@ -304,12 +306,12 @@ AC_DEFUN([ROBOT_LIB_TCL],
 
    if test "$ac_tcl_includes" != "/usr/include"; then
       TCL_CPPFLAGS="-I$ac_tcl_includes"
-   else 
+   else
       TCL_CPPFLAGS=""
    fi
    if test "$ac_tcl_libs" != "/usr/include"; then
       TCL_LDFLAGS="-L$ac_tcl_libs -R$ac_tcl_libs"
-   else 
+   else
       TCL_LDFLAGS=""
    fi
    AC_SUBST(TCL_CPPFLAGS)
@@ -317,6 +319,7 @@ AC_DEFUN([ROBOT_LIB_TCL],
    AC_SUBST(TCL_LIBS)
    AC_SUBST(TCL_LIB_FLAG)
    AC_SUBST(TCL_LIB_SPEC)
+   AC_SUBST(TCL_DBGX)
 ])
 
 
@@ -405,7 +408,7 @@ AC_DEFUN([ROBOT_LIB_TK],
    fi
    if test "$ac_tk_libs" != "$ac_tcl_libs"; then
       TK_LDFLAGS="-L$ac_tk_libs -R$ac_tk_libs"
-   else 
+   else
       TK_LDFLAGS=""
    fi
 

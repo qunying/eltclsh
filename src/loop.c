@@ -1,4 +1,4 @@
-/*	$LAAS: loop.c 2008/08/07 11:34:16 mallet $ */
+/*	$LAAS: loop.c 2008/08/08 16:20:54 mallet $ */
 
 /*
  * Copyright (c) 2001-2004,2008 LAAS/CNRS
@@ -41,7 +41,7 @@ __RCSID("$LAAS$");
 
 #include "eltclsh.h"
 
-static char copyright[] = " - Copyright (C) 2001-2005,2004,2008 LAAS-CNRS";
+static char copyright[] = " - Copyright (C) 2001-2008 LAAS-CNRS";
 static char *version = ELTCLSH_VERSION;
 
 

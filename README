@@ -1,6 +1,6 @@
-#	$Id$
+#	$Id: README 2008/08/08 16:36:41 mallet $
 
-Copyright (c) 2001-2005 LAAS/CNRS
+Copyright (c) 2001-2008 LAAS/CNRS
 
 eltclsh stands for ``editline tcl shell''. This is an interactive shell
 for the TCL programming language. It provides command line editing,
@@ -19,7 +19,7 @@ You need the following tools installed on the system before you can
 compile eltclsh:
 
 - Tcl/Tk. 8.4 is recommended, but it works with 8.3 too, and might work
-  with all versions from 8.0.
+  with all versions from 8.0. 8.5 has been reported to work too.
   (<http://tcl.tk/>). 
 
 - editline library (a.k.a. libedit). The editline library provides

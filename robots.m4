@@ -339,6 +339,7 @@ AC_DEFUN([ROBOT_LIB_TK],
          /usr/pkg/lib                    \
          /usr/lib/tk$TCL_VERSION	 \
          /usr/lib                        \
+	 /Library/Frameworks/Tk.framework \
          ; \
        do
           if test -r "$ac_dir/tkConfig.sh"; then
@@ -388,6 +389,7 @@ AC_DEFUN([ROBOT_LIB_TK],
       /usr/local/lib                          \
       /usr/lib                                \
       /Library/Frameworks/Tcl.framework       \
+      /Library/Frameworks/Tk.framework       \
       $extra_lib                              \
       ; \
    do

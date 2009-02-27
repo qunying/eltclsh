@@ -1,3 +1,5 @@
+eltclsh 1.10 released february 27, 2009
+
  31. Only install man page and remove cat page. Easier than having to deal
      with different names on all platforms. From joerg in NetBSD/pkgsrc.
 

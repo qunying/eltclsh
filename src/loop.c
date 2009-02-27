@@ -1,7 +1,7 @@
-/*	$LAAS: loop.c 2008/08/08 16:20:54 mallet $ */
+/*	$LAAS: loop.c 2009/02/27 20:39:06 tho $ */
 
 /*
- * Copyright (c) 2001-2004,2008 LAAS/CNRS
+ * Copyright (c) 2001-2004,2008-2009 LAAS/CNRS
  * All rights reserved.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -41,7 +41,7 @@ __RCSID("$LAAS$");
 
 #include "eltclsh.h"
 
-static char copyright[] = " - Copyright (C) 2001-2008 LAAS-CNRS";
+static char copyright[] = " - Copyright (C) 2001-2009 LAAS-CNRS";
 static char *version = ELTCLSH_VERSION;
 
 

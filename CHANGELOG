@@ -1,3 +1,6 @@
+ 31. Only install man page and remove cat page. Easier than having to deal
+     with different names on all platforms. From joerg in NetBSD/pkgsrc.
+
 eltclsh 1.9 released august 8, 2008
 
  30. Fix libtool usage and install target to allow cross compilation in OpenEmbedded.

@@ -229,6 +229,8 @@ AC_DEFUN([ROBOT_LIB_TCL],
       [tcl_prefix=$withval],
       [for ac_dir in \
          ${exec_prefix}/lib      \
+	 /Library/Frameworks/Tcl.framework \
+	 /System/Library/Frameworks/Tcl.framework \
          /usr/local/lib/tcl8.4   \
          /usr/local/lib/tcl8.3   \
          /usr/local/lib          \
@@ -262,10 +264,11 @@ AC_DEFUN([ROBOT_LIB_TCL],
    for ac_dir in \
       $TCL_PREFIX/include/tcl$TCL_VERSION       \
       $TCL_PREFIX/include                       \
+      /Library/Frameworks/Tcl.framework/Headers \
+      /System/Library/Frameworks/Tcl.framework/Headers	\
       /usr/local/include/tcl$TCL_VERSION        \
       /usr/local/include                        \
       /usr/include                              \
-      /Library/Frameworks/Tcl.framework/Headers \
       $extra_include                            \
       ; \
    do
@@ -286,9 +289,10 @@ AC_DEFUN([ROBOT_LIB_TCL],
    for ac_dir in \
       $TCL_EXEC_PREFIX/lib                    \
       $TCL_PREFIX/lib                         \
+      /Library/Frameworks/Tcl.framework	      \
+      /System/Library/Frameworks/Tcl.framework \
       /usr/local/lib                          \
       /usr/lib                                \
-      /Library/Frameworks/Tcl.framework       \
       $extra_lib                              \
       ; \
    do
@@ -334,6 +338,8 @@ AC_DEFUN([ROBOT_LIB_TK],
       [for ac_dir in \
          ${tcl_prefix}                   \
          ${exec_prefix}/lib              \
+	 /Library/Frameworks/Tk.framework \
+	 /System/Library/Frameworks/Tk.framework \
          /usr/local/lib/tk$TCL_VERSION   \
          /usr/local/lib                  \
          /usr/pkg/lib                    \
@@ -363,10 +369,11 @@ AC_DEFUN([ROBOT_LIB_TK],
       $TK_PREFIX/include/tk$TK_VERSION        \
       $TK_PREFIX/include                      \
       $ac_tcl_includes                        \
+      /Library/Frameworks/Tk.framework/Headers \
+      /System/Library/Frameworks/Tk.framework/Headers \
       /usr/local/include/tk$TK_VERSION        \
       /usr/local/include                      \
       /usr/include                            \
-      /Library/Frameworks/Tk.framework/Headers \
       $extra_include                          \
       ; \
    do
@@ -386,10 +393,10 @@ AC_DEFUN([ROBOT_LIB_TK],
    test -z "$tk_test_lib" && tk_test_lib="${TK_LIB_FILE}"
    for ac_dir in \
       $TK_PREFIX/lib                         \
+      /Library/Frameworks/Tk.framework	     \
+      /System/Library/Frameworks/Tk.framework \
       /usr/local/lib                          \
       /usr/lib                                \
-      /Library/Frameworks/Tcl.framework       \
-      /Library/Frameworks/Tk.framework       \
       $extra_lib                              \
       ; \
    do

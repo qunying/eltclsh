@@ -1,7 +1,7 @@
 #	$LAAS$
 
 #
-# Copyright (c) 2002-2003,2008 LAAS/CNRS
+# Copyright (c) 2002-2003,2008-2009 LAAS/CNRS
 # All rights reserved.
 #
 # Redistribution  and  use in source   and binary forms,  with or without
@@ -309,7 +309,7 @@ AC_DEFUN([ROBOT_LIB_TCL],
    else
       TCL_CPPFLAGS=""
    fi
-   if test "$ac_tcl_libs" != "/usr/include"; then
+   if test "${ac_tcl_libs#/usr/lib}" = "${ac_tcl_libs}"; then
       TCL_LDFLAGS="-L$ac_tcl_libs -R$ac_tcl_libs"
    else
       TCL_LDFLAGS=""

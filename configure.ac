@@ -1,12 +1,12 @@
-dnl $LAAS: configure.ac 2009/02/27 20:37:28 tho $
+dnl $LAAS: configure.ac 2009/07/24 19:21:27 mallet $
 dnl
 dnl configure.in --
 dnl	process this file with autoconf to produce a configure script.
 dnl
 
-AC_REVISION($LAAS: configure.ac 2009/02/27 20:37:28 tho $)
+AC_REVISION($LAAS: configure.ac 2009/07/24 19:21:27 mallet $)
 
-AC_INIT([eltclsh],[1.10],[openrobots@laas.fr])
+AC_INIT([eltclsh],[1.10.99],[openrobots@laas.fr])
 AC_PREREQ(2.59)
 
 AC_CONFIG_HEADER(config.h)
@@ -182,7 +182,7 @@ AC_TRY_LINK([#include <histedit.h>], [el_set(0, EL_GETCFN)],
   done
   if test "x$ac_edit_lib" = "x"; then
     AC_MSG_RESULT([not found (fatal)])
-    AC_MSG_ERROR([Please use --with-libs to specify a valid path to your libedit library], 2) 
+    AC_MSG_ERROR([Please use --with-libraries to specify a valid path to your libedit library], 2) 
   fi
   AC_MSG_RESULT([$ac_edit_lib])
 

@@ -250,76 +250,54 @@ AC_DEFUN([ROBOT_LIB_TCL],
    if test -r "${tcl_prefix}/tclConfig.sh"; then
       file=${tcl_prefix}/tclConfig.sh
       . $file
-      AC_MSG_RESULT("${tcl_prefix}/tclConfig.sh")
+      AC_MSG_RESULT([${tcl_prefix}/tclConfig.sh])
    else
       AC_MSG_RESULT([not found (fatal)])
       AC_MSG_RESULT([Please use --with-tcl to specify a valid path to your tclConfig.sh file])
       exit 2;
    fi
-   dnl substitute variables in TCL_LIB_FILE
-   eval TCL_LIB_FILE=${TCL_LIB_FILE}
+   dnl substitute variables in TCL_LIB_SPEC
+   eval TCL_LIB_SPEC="\"${TCL_LIB_SPEC}\""
 
    AC_MSG_CHECKING([for tcl headers])
    test -z "$tcl_test_include" && tcl_test_include=tcl.h
-   for ac_dir in \
-      $TCL_PREFIX/include/tcl$TCL_VERSION       \
-      $TCL_PREFIX/include                       \
-      /Library/Frameworks/Tcl.framework/Headers \
-      /System/Library/Frameworks/Tcl.framework/Headers	\
-      /usr/local/include/tcl$TCL_VERSION        \
-      /usr/local/include                        \
-      /usr/include                              \
-      $extra_include                            \
-      ; \
-   do
-      if test -r "$ac_dir/$tcl_test_include"; then
-         ac_tcl_includes=$ac_dir
-         break
-      fi
-   done
-   if test "x$ac_tcl_includes" != "x"; then
-      AC_MSG_RESULT($ac_tcl_includes)
-   else
+   AC_LANG([C])
+   ac_tmp_cppflags=$CPPFLAGS; CPPFLAGS="${CPPFLAGS} ${TCL_INCLUDE_SPEC}"
+   AC_TRY_COMPILE([#include "$tcl_test_include"], [],[
+      AC_MSG_RESULT([${TCL_INCLUDE_SPEC}])
+   ],[
       AC_MSG_RESULT([Not found (fatal)])
-      exit 2;
-   fi
+      AC_MSG_ERROR([tcl headers seem not to be installed.])
+   ])
+   CPPFLAGS=$ac_tmp_cppflags
+
 
    AC_MSG_CHECKING([for tcl library])
-   test -z "$tcl_test_lib" && tcl_test_lib="${TCL_LIB_FILE}"
-   for ac_dir in \
-      $TCL_EXEC_PREFIX/lib                    \
-      $TCL_PREFIX/lib                         \
-      /Library/Frameworks/Tcl.framework	      \
-      /System/Library/Frameworks/Tcl.framework \
-      /usr/local/lib                          \
-      /usr/lib                                \
-      $extra_lib                              \
-      ; \
-   do
-      if test -r "$ac_dir/$tcl_test_lib"; then
-         ac_tcl_libs=$ac_dir
-         break
-      fi
-   done
-   if test "x$ac_tcl_libs" != "x"; then
-      AC_MSG_RESULT($ac_tcl_libs/$TCL_LIB_FILE)
-   else
+   AC_LANG([C])
+   ac_tmp_cppflags=$CPPFLAGS; CPPFLAGS="${CPPFLAGS} ${TCL_INCLUDE_SPEC}"
+   ac_tmp_ldflags=$LDFLAGS; LDFLAGS="${LDFLAGS} ${TCL_LIB_SPEC}"
+   AC_TRY_LINK([#include "$tcl_test_include"], [Tcl_Interp *i; Tcl_Init(i);],[
+      AC_MSG_RESULT([${TCL_LIB_SPEC}])
+   ],[
       AC_MSG_RESULT([Not found (fatal)])
-      exit 2;
-   fi
+      AC_MSG_ERROR([tcl libraries seem not to be installed or cannot be linked.])
+   ])
+   CPPFLAGS=$ac_tmp_cppflags
+   LDFLAGS=$ac_tmp_ldflags
 
-   if test "$ac_tcl_includes" != "/usr/include"; then
-      TCL_CPPFLAGS="-I$ac_tcl_includes"
-   else
-      TCL_CPPFLAGS=""
-   fi
-   if test "${ac_tcl_libs#/usr/lib}" = "${ac_tcl_libs}"; then
-      TCL_LDFLAGS="-L$ac_tcl_libs -R$ac_tcl_libs"
-   else
-      TCL_LDFLAGS=""
-   fi
-   AC_SUBST(TCL_CPPFLAGS)
-   AC_SUBST(TCL_LDFLAGS)
+   # Add libtool -R flag to the runtime path of tcl
+   AC_PROG_SED
+   LIB_RUNTIME_DIR=`echo $TCL_LIB_SPEC | \
+	${SED} -ne 's|.*-L[[ 	]]*\([[^ 	]]*\).*|\1|p'`
+   case "$LIB_RUNTIME_DIR" in
+	"") ;;
+	/usr/lib) ;;
+	*)
+	   TCL_LIB_SPEC="-R${LIB_RUNTIME_DIR} ${TCL_LIB_SPEC}"
+	   ;;
+   esac
+
+   AC_SUBST(TCL_INCLUDE_SPEC)
    AC_SUBST(TCL_LIBS)
    AC_SUBST(TCL_LIB_FLAG)
    AC_SUBST(TCL_LIB_SPEC)
@@ -359,75 +337,56 @@ AC_DEFUN([ROBOT_LIB_TK],
 
    file=${tk_prefix}/tkConfig.sh
    . $file
-   dnl substitute variables in TK_LIB_FILE
-   eval TK_LIB_FILE=${TK_LIB_FILE}
+   dnl substitute variables in TK_LIB_SPEC
+   eval TK_INCLUDE_SPEC="\"${TK_INCLUDE_SPEC} ${TK_XINCLUDES}\""
 
    AC_MSG_CHECKING([for tk headers])
    test -z "$tk_test_include" && tk_test_include=tk.h
-   for ac_dir in \
-      $TK_PREFIX/include/tk$TK_VERSION        \
-      $TK_PREFIX/include                      \
-      $ac_tcl_includes                        \
-      /Library/Frameworks/Tk.framework/Headers \
-      /System/Library/Frameworks/Tk.framework/Headers \
-      /usr/local/include/tk$TK_VERSION        \
-      /usr/local/include                      \
-      /usr/include                            \
-      $extra_include                          \
-      ; \
-   do
-      if test -r "$ac_dir/$tk_test_include"; then
-         ac_tk_includes=$ac_dir
-         break
-      fi
-   done
-   if test "x$ac_tk_includes" != "x"; then
-      AC_MSG_RESULT($ac_tk_includes)
-   else
+   AC_LANG([C])
+   ac_tmp_cppflags=$CPPFLAGS;
+   CPPFLAGS="${CPPFLAGS} ${TK_INCLUDE_SPEC} ${TCL_INCLUDE_SPEC}"
+   AC_TRY_COMPILE([#include "$tk_test_include"], [],[
+      AC_MSG_RESULT([${TK_INCLUDE_SPEC}])
+   ],[
       AC_MSG_RESULT([Not found (fatal)])
-      exit 2;
-   fi
+      AC_MSG_ERROR([tk headers seem not to be installed.])
+   ])
+   CPPFLAGS=$ac_tmp_cppflags
+
 
    AC_MSG_CHECKING([for tk library])
-   test -z "$tk_test_lib" && tk_test_lib="${TK_LIB_FILE}"
-   for ac_dir in \
-      $TK_PREFIX/lib                         \
-      /Library/Frameworks/Tk.framework	     \
-      /System/Library/Frameworks/Tk.framework \
-      /usr/local/lib                          \
-      /usr/lib                                \
-      $extra_lib                              \
-      ; \
-   do
-      if test -r "$ac_dir/$tk_test_lib"; then
-         ac_tk_libs=$ac_dir
-         break
-      fi
-   done
-   if test "x$ac_tk_libs" != "x"; then
-      AC_MSG_RESULT($ac_tk_libs/$TK_LIB_FILE)
-   else
+   AC_LANG([C])
+   ac_tmp_cppflags=$CPPFLAGS;
+   ac_tmp_ldflags=$LDFLAGS;
+   CPPFLAGS="${CPPFLAGS} ${TK_INCLUDE_SPEC} ${TCL_INCLUDE_SPEC}"
+   LDFLAGS="${LDFLAGS} ${TK_LIB_SPEC} ${TCL_LIB_SPEC}"
+   AC_TRY_LINK([#include "$tk_test_include"], [Tcl_Interp *i; Tk_Init(i);],[
+      AC_MSG_RESULT([${TK_LIB_SPEC}])
+   ],[
       AC_MSG_RESULT([Not found (fatal)])
-      exit 2;
-   fi
+      AC_MSG_ERROR([tk libraries seem not to be installed or cannot be linked.])
+   ])
+   CPPFLAGS=$ac_tmp_cppflags
+   LDFLAGS=$ac_tmp_ldflags
 
-   if test "$ac_tk_includes" != "$ac_tcl_includes"; then
-      TK_CPPFLAGS="-I$ac_tk_includes"
-   fi
-   if test "$ac_tk_libs" != "$ac_tcl_libs"; then
-      TK_LDFLAGS="-L$ac_tk_libs -R$ac_tk_libs"
-   else
-      TK_LDFLAGS=""
-   fi
+   # Add libtool -R flag to the runtime path of tcl
+   AC_PROG_SED
+   LIB_RUNTIME_DIR=`echo $TK_LIB_SPEC | \
+	${SED} -ne 's|.*-L[[ 	]]*\([[^ 	]]*\).*|\1|p'`
+   case "$LIB_RUNTIME_DIR" in
+	"") ;;
+	/usr/lib) ;;
+	*)
+	   TK_LIB_SPEC="-R${LIB_RUNTIME_DIR} ${TK_LIB_SPEC}"
+	   ;;
+   esac
 
    HAS_TK=yes
 
    fi # --with-tk=no
 
    AC_SUBST(HAS_TK)
-   AC_SUBST(TK_CPPFLAGS)
-   AC_SUBST(TK_XINCLUDES)
-   AC_SUBST(TK_LDFLAGS)
+   AC_SUBST(TK_INCLUDE_SPEC)
    AC_SUBST(TK_LIBS)
    AC_SUBST(TK_LIB_FLAG)
    AC_SUBST(TK_LIB_SPEC)

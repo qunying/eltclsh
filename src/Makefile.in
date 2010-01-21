@@ -1,4 +1,4 @@
-#	$LAAS: Makefile.in 2010/01/21 16:52:56 mallet $
+#	$LAAS: Makefile.in 2010/01/21 23:34:43 tho $
 
 #
 # Copyright (c) 2002,2008,2010 LAAS/CNRS
@@ -92,11 +92,20 @@ $(ELWISH): $(elwishobjs) $(commonobjs)
 	$(LTLD) -o $@ $(CFLAGS) $(elwishobjs) $(commonobjs) \
 		$(LDFLAGS) $(TCL_LDFLAGS) $(TK_LDFLAGS) $(EL_LDFLAGS)
 
-# package - don't use libtool's '-module' because on Darwin this will produce a
-# .so, while Tcl expects a .dylib
+# package - Tcl and libtool don't cohabit well
+#
+# - don't use libtool's '-module' because on Darwin this will produce a
+#   .so, while Tcl expects a .dylib. Not sure who is wrong here.
+#
+# - try *hard* to have libtool link against the tcl stubs by using -XCClinker
+#   (that passes its arguments verbatim to CC during link). The problem is that
+#   libtool sees a .a archive and deduces that the objects inside are not
+#   PIC, although they of course are. Cleary libtool is missing something here.
+#
 lib$(ELPKG).la: $(pkgobjs)
-	$(LTLD) -avoid-version -o $@ $(CFLAGS) $(pkgobjs)	\
-		-rpath $(datadir) $(LDFLAGS) $(TCLSTUB_LDFLAGS) $(EL_LDFLAGS)
+	$(LTLD) -avoid-version -o $@ $(CFLAGS) $(pkgobjs)		\
+		$(addprefix -XCClinker ,$(TCLSTUB_LDFLAGS))		\
+		-rpath $(datadir) $(LDFLAGS) $(EL_LDFLAGS)
 
 # object files
 ${pkgobjs}:%.lo: %.c
@@ -110,7 +119,6 @@ ${eltclshobjs}:%.lo: %.c
 
 ${elwishobjs}:%.lo: %.c
 	$(LTCC) -c -o $@ $(CFLAGS) $(CPPFLAGS) $(ELWISH_CPPFLAGS) $<
-
 
 # --- installation ------------------------------------------------------
 

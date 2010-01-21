@@ -1,4 +1,4 @@
-#	$LAAS: Makefile.in 2010/01/21 16:00:06 mallet $
+#	$LAAS: Makefile.in 2010/01/21 16:52:56 mallet $
 
 #
 # Copyright (c) 2002,2008,2010 LAAS/CNRS
@@ -120,6 +120,7 @@ install: install-bin
 install-bin:: $(ELTCLSH) lib$(ELPKG).la
 	$(MKINSTALLDIRS) $(DESTDIR)$(bindir)
 	$(LIBTOOL) --mode=install $(INSTALL) $(ELTCLSH) $(DESTDIR)$(bindir)
+	$(MKINSTALLDIRS) $(DESTDIR)$(datadir)
 	$(LIBTOOL) --mode=install $(INSTALL) lib$(ELPKG).la $(DESTDIR)$(datadir)
 
 ifeq (yes,$(HAS_TK))

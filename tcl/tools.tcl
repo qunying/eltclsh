@@ -1,7 +1,7 @@
 #	$LAAS$
 
 #
-#  Copyright (c) 2001 LAAS/CNRS                       --  Wed Oct 10 2001
+#  Copyright (c) 2001,2010 LAAS/CNRS                      Wed Oct 10 2001
 #  All rights reserved.                                    Anthony Mallet
 #
 #
@@ -29,7 +29,7 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-package require el::base 1.0
+package require eltclsh 1.10
 
 # shell's shift (should be added to tcl language :)
 proc shift { varName } {

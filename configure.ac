@@ -1,10 +1,10 @@
-dnl $LAAS: configure.ac 2009/07/24 19:21:27 mallet $
+dnl $LAAS: configure.ac 2010/01/21 16:07:46 mallet $
 dnl
 dnl configure.in --
 dnl	process this file with autoconf to produce a configure script.
 dnl
 
-AC_REVISION($LAAS: configure.ac 2009/07/24 19:21:27 mallet $)
+AC_REVISION($LAAS: configure.ac 2010/01/21 16:07:46 mallet $)
 
 AC_INIT([eltclsh],[1.10.99],[openrobots@laas.fr])
 AC_PREREQ(2.59)
@@ -39,8 +39,10 @@ AH_BOTTOM([
 dnl --- name of the interpreters ----------------------------------------
 ELTCLSH=eltclsh
 ELWISH=elwish
+ELPKG=eltclsh
 AC_SUBST(ELTCLSH)
 AC_SUBST(ELWISH)
+AC_SUBST(ELPKG)
 
 
 dnl Checks for headers --------------------------------------------------
@@ -50,7 +52,7 @@ AC_CHECK_HEADERS(sys/cdefs.h)
 
 dnl --- checks for programs ---------------------------------------------
 dnl
-AC_DISABLE_SHARED
+AC_DISABLE_STATIC
 AC_PROG_LIBTOOL
 AC_SUBST(LIBTOOL_DEPS)
 
@@ -200,4 +202,4 @@ AC_SUBST(EL_LIB_SPEC)
 dnl --- create the Makefiles --------------------------------------------
 dnl
 
-AC_OUTPUT(config.mk Makefile src/Makefile tcl/Makefile)
+AC_OUTPUT(eltclsh.pc config.mk Makefile src/Makefile tcl/Makefile)

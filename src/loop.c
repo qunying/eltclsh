@@ -1,7 +1,7 @@
-/*	$LAAS: loop.c 2009/02/27 20:39:06 tho $ */
+/*	$LAAS: loop.c 2010/01/21 16:03:46 mallet $ */
 
 /*
- * Copyright (c) 2001-2004,2008-2009 LAAS/CNRS
+ * Copyright (c) 2001-2004,2008-2010 LAAS/CNRS
  * All rights reserved.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -41,10 +41,6 @@ __RCSID("$LAAS$");
 
 #include "eltclsh.h"
 
-static char copyright[] = " - Copyright (C) 2001-2009 LAAS-CNRS";
-static char *version = ELTCLSH_VERSION;
-
-
 
 /*
  * elTclshLoop ----------------------------------------------------------
@@ -60,34 +56,21 @@ void
 elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
 #endif /* TCL_VERSION */
 {
-   ElTclInterpInfo *iinfo;
-
-   Tcl_Obj *resultPtr;
+   Tcl_Interp *interp;
+   Tcl_Obj *resultPtr, *obj;
 #if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
-   const char *fileName, *args;
-   const char *eltclLibrary[2];
-#else
-   char *fileName, *args;
-   char *eltclLibrary[2];
-#endif /* TCL_VERSION */
-   Tcl_DString initFile;
+   const
+#endif
+     char *fileName, *args;
    char buffer[1000], *bytes;
    int code, tty, length;
    int exitCode = 0;
    Tcl_Channel errChannel;
 
-   /* create main data structure */
-   iinfo = calloc(1, sizeof(*iinfo));
-   if (iinfo == NULL) {
-      fputs("cannot alloc %d bytes\n", stderr);
-      return;
-   }
-
    /* initialize interpreter */
-   iinfo->interp = Tcl_CreateInterp();
-   if (iinfo->interp == NULL) {
+   interp = Tcl_CreateInterp();
+   if (interp == NULL) {
       fputs("cannot create tcl interpreter\n", stderr);
-      free(iinfo);
       return;
    }
 
@@ -103,22 +86,47 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
       argc--; argv++;
    }
    args = Tcl_Merge(argc-1, argv+1);
-   Tcl_SetVar(iinfo->interp, "argv", args, TCL_GLOBAL_ONLY);
+   Tcl_SetVar(interp, "argv", args, TCL_GLOBAL_ONLY);
    Tcl_Free((char *)args);
    snprintf(buffer, sizeof(buffer), "%d", argc-1);
-   Tcl_SetVar(iinfo->interp, "argc", buffer, TCL_GLOBAL_ONLY);
+   Tcl_SetVar(interp, "argc", buffer, TCL_GLOBAL_ONLY);
    args = (fileName != NULL) ? fileName : argv[0];
-   Tcl_SetVar(iinfo->interp, "argv0", args, TCL_GLOBAL_ONLY);
-   iinfo->argv0 = basename((char *)args);
+   Tcl_SetVar(interp, "argv0", args, TCL_GLOBAL_ONLY);
 
 
    /* Set the "tcl_interactive" variable. */
    tty = isatty(0);
-   Tcl_SetVar(iinfo->interp, "tcl_interactive",
+   Tcl_SetVar(interp, "tcl_interactive",
 	      ((fileName == NULL) && tty) ? "1" : "0", TCL_GLOBAL_ONLY);
 
    /* Invoke application-specific initialization. */
-   if ((*appInitProc)(iinfo) != TCL_OK) {
+   if (Tcl_Init(interp) == TCL_ERROR) {
+      Tcl_SetResult(interp, "cannot initialize tcl", TCL_STATIC);
+      return;
+   }
+
+   /* configure standard path for packages */
+   obj = Tcl_GetVar2Ex(interp, "auto_path", NULL, TCL_GLOBAL_ONLY);
+   if (!obj) obj = Tcl_NewListObj(0, NULL);
+
+   Tcl_ListObjAppendElement(interp, obj, Tcl_NewStringObj(ELTCLSH_DATA, -1));
+   Tcl_SetVar2Ex(interp, "auto_path", NULL, obj, TCL_GLOBAL_ONLY);
+
+
+   /* require eltclsh extension. In case this fails (typically during install,
+    * before pkgIndex.tcl is built), print the error message but don't give up
+    * (chicken-egg pb for pkg_mkIndex). */
+   if (!Tcl_PkgRequire(interp, "eltclsh", ELTCLSH_VERSION, 1)) {
+      errChannel = Tcl_GetStdChannel(TCL_STDERR);
+      if (errChannel) {
+	 resultPtr = Tcl_GetObjResult(interp);
+	 bytes = Tcl_GetStringFromObj(resultPtr, &length);
+	 Tcl_Write(errChannel, bytes, length);
+	 Tcl_Write(errChannel, "...continuing anyway\n", 21);
+      }
+   }
+
+   if (appInitProc && (*appInitProc)(interp) != TCL_OK) {
       errChannel = Tcl_GetStdChannel(TCL_STDERR);
       if (errChannel) {
 #if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
@@ -127,12 +135,12 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
 	 char *msg;
 #endif /* TCL_VERSION */
 
-	 msg = Tcl_GetVar(iinfo->interp, "errorInfo", TCL_GLOBAL_ONLY);
+	 msg = Tcl_GetVar(interp, "errorInfo", TCL_GLOBAL_ONLY);
 	 if (msg != NULL) {
 	    Tcl_Write(errChannel, msg, strlen(msg));
 	    Tcl_Write(errChannel, "\n", 1);
 	 }
-	 resultPtr = Tcl_GetObjResult(iinfo->interp);
+	 resultPtr = Tcl_GetObjResult(interp);
 	 bytes = Tcl_GetStringFromObj(resultPtr, &length);
 	 Tcl_Write(errChannel, bytes, length);
 	 Tcl_Write(errChannel, "\n", 1);
@@ -142,51 +150,21 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
       goto done;
    }
 
-   /* source standard eltclsh libraries */
-   eltclLibrary[0] = getenv("ELTCL_LIBRARY");
-   if (eltclLibrary[0] == NULL) {
-      eltclLibrary[0] = ELTCLSH_DATA;
-   }
-   eltclLibrary[1] = "init.tcl";
-   Tcl_SetVar(iinfo->interp,
-	      "eltcl_library", eltclLibrary[0], TCL_GLOBAL_ONLY);
-   Tcl_DStringInit(&initFile);
-   if (Tcl_EvalFile(iinfo->interp,
-		    Tcl_JoinPath(2, eltclLibrary, &initFile)) != TCL_OK) {
-      Tcl_AppendResult(iinfo->interp,
-		       "\nThe directory ",
-		       eltclLibrary[0],
-		       " does not contain a valid ",
-		       eltclLibrary[1],
-		       " file.\nPlease check your installation.\n",
-		       NULL);
-      Tcl_DStringFree(&initFile);
-
-      errChannel = Tcl_GetStdChannel(TCL_STDERR);
-      if (errChannel) {
-	 Tcl_AddErrorInfo(iinfo->interp, "");
-	 Tcl_Write(errChannel, Tcl_GetStringResult(iinfo->interp), -1);
-      }
-      exitCode = 2;
-      goto done;
-   }
-   Tcl_DStringFree(&initFile);
-
-   (void)Tcl_SourceRCFile(iinfo->interp);
+   (void)Tcl_SourceRCFile(interp);
    Tcl_Flush(Tcl_GetStdChannel(TCL_STDERR));
 
    /* If a script file was specified then just source that file and
     * quit. */
    if (fileName != NULL) {
-      code = Tcl_EvalFile(iinfo->interp, fileName);
+      code = Tcl_EvalFile(interp, fileName);
       if (code != TCL_OK) {
 	 errChannel = Tcl_GetStdChannel(TCL_STDERR);
 	 if (errChannel) {
 	    /* The following statement guarantees that the errorInfo
 	     * variable is set properly. */
-	    Tcl_AddErrorInfo(iinfo->interp, "");
+	    Tcl_AddErrorInfo(interp, "");
 	    Tcl_Write(errChannel,
-		      Tcl_GetVar(iinfo->interp, "errorInfo", TCL_GLOBAL_ONLY),
+		      Tcl_GetVar(interp, "errorInfo", TCL_GLOBAL_ONLY),
 		      -1);
 	    Tcl_Write(errChannel, "\n", 1);
 	 }
@@ -198,7 +176,7 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
    }
 
    /* Process commands from stdin until there's an end-of-file. */
-   Tcl_Eval(iinfo->interp, "interactive");
+   Tcl_Eval(interp, "interactive");
 
    /*
     * Rather than calling exit, invoke the "exit" command so that
@@ -207,171 +185,6 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
     */
 
  done:
-   if (iinfo->command != NULL) { Tcl_DecrRefCount(iinfo->command); }
    snprintf(buffer, sizeof(buffer), "exit %d", exitCode);
-   Tcl_Eval(iinfo->interp, buffer);
-}
-
-
-/*
- * elTclInteractive --------------------------------------------------
- *
- * Process commands on stdin until end-of-file
- */
-
-int
-elTclInteractive(ClientData data,
-		 Tcl_Interp *interp, int objc, Tcl_Obj *const objv[])
-{
-  ElTclInterpInfo *iinfo = data;
-  HistEvent ev;
-  Tcl_Obj *resultPtr, *command;
-  Tcl_Channel inChannel, outChannel, errChannel;
-  int code, tty, length;
-  char *bytes;
-
-  tty = isatty(0);
-
-  /* Print the copyright message in interactive mode */
-  if (tty) {
-    length = (iinfo->windowSize -
-	      (int)(strlen(version)+
-		    strlen(copyright)+strlen(iinfo->argv0)))*3/4;
-    if (length >= 0) {
-      fputc('\n', stdout);
-      for(;length;length--) fputc(' ', stdout);
-      fputs(iinfo->argv0, stdout);
-      fputs(version, stdout);
-      fputs(copyright, stdout);
-      fputs("\n\n", stdout);
-    }
-  }
-
-  /*
-   * Process commands from stdin until there's an end-of-file. Note
-   * that we need to fetch the standard channels again after every
-   * eval, since they may have been changed.
-   */
-
-  iinfo->command = Tcl_NewObj();
-  Tcl_IncrRefCount(iinfo->command);
-
-  inChannel = Tcl_GetStdChannel(TCL_STDIN);
-  outChannel = Tcl_GetStdChannel(TCL_STDOUT);
-  iinfo->gotPartial = 0;
-
-  for(;/*eternity*/;)  {
-    if (tty) {
-      const char *line;
-
-      line = el_gets(iinfo->el, &length);
-      if (line == NULL) goto done;
-
-      command = Tcl_NewStringObj(line, length);
-      Tcl_AppendObjToObj(iinfo->command, command);
-
-    } else {
-      /* using libedit but not a tty - must use gets */
-      if (!inChannel) goto done;
-
-      length = Tcl_GetsObj(inChannel, iinfo->command);
-      if (length < 0) goto done;
-      if ((length == 0) &&
-	  Tcl_Eof(inChannel) && (!iinfo->gotPartial)) goto done;
-
-      /* Add the newline back to the string */
-      Tcl_AppendToObj(iinfo->command, "\n", 1);
-    }
-
-    if (!Tcl_CommandComplete(
-	  Tcl_GetStringFromObj(iinfo->command, &length))) {
-      iinfo->gotPartial = 1; continue;
-    }
-
-    if (tty && length > 1) {
-      /*  add the command line to history */
-      history(iinfo->history, &ev, H_ENTER,
-	      Tcl_GetStringFromObj(iinfo->command, NULL));
-    }
-
-    /* tricky: if the command calls el::get[sc], the completion engine
-     * will think that iinfo->command is the beginning of an incomplete
-     * command. Thus we must reset it before the Tcl_Eval call... */
-    command = iinfo->command;
-
-    iinfo->command = Tcl_NewObj();
-    Tcl_IncrRefCount(iinfo->command);
-
-    iinfo->gotPartial = 0;
-#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
-    code = Tcl_RecordAndEvalObj(iinfo->interp, command, 0);
-#else
-    code = Tcl_EvalObj(iinfo->interp, command);
-#endif /* TCL_VERSION */
-
-    Tcl_DecrRefCount(command);
-
-    inChannel = Tcl_GetStdChannel(TCL_STDIN);
-    outChannel = Tcl_GetStdChannel(TCL_STDOUT);
-    errChannel = Tcl_GetStdChannel(TCL_STDERR);
-    if (code != TCL_OK) {
-      if (errChannel) {
-	resultPtr = Tcl_GetObjResult(iinfo->interp);
-	bytes = Tcl_GetStringFromObj(resultPtr, &length);
-	Tcl_Write(errChannel, bytes, length);
-	Tcl_Write(errChannel, "\n", 1);
-      }
-    } else if (tty) {
-      resultPtr = Tcl_GetObjResult(iinfo->interp);
-      bytes = Tcl_GetStringFromObj(resultPtr, &length);
-
-      if ((length > 0) && outChannel) {
-	Tcl_Write(outChannel, bytes, length);
-	Tcl_Write(outChannel, "\n", 1);
-      }
-    }
-  }
-
-done:
-  return TCL_OK;
-}
-
-
-/*
- * elTclExit ------------------------------------------------------------
- *
- * Destroy global info structure
- */
-
-int
-elTclExit(ClientData data,
-	  Tcl_Interp *interp, int objc, Tcl_Obj *const objv[])
-{
-   ElTclInterpInfo *iinfo = data;
-   int value;
-
-   if ((objc != 1) && (objc != 2)) {
-      Tcl_WrongNumArgs(interp, 1, objv, "?returnCode?");
-      return TCL_ERROR;
-   }
-
-   if (objc == 1) {
-      value = 0;
-   } else if (Tcl_GetIntFromObj(interp, objv[1], &value) != TCL_OK) {
-      return TCL_ERROR;
-   }
-
-   el_end(iinfo->el);
-   history_end(iinfo->history);
-   history_end(iinfo->askaHistory);
-
-   elTclHandlersExit(iinfo);
-   Tcl_DecrRefCount(iinfo->prompt1Name);
-   Tcl_DecrRefCount(iinfo->prompt2Name);
-   Tcl_DecrRefCount(iinfo->matchesName);
-   free(iinfo);
-
-   fputs("\n", stdout);
-   Tcl_Exit(value);
-   return TCL_OK;
+   Tcl_Eval(interp, buffer);
 }

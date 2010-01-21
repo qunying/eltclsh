@@ -1,7 +1,7 @@
 /*	$LAAS$ */
 
-/* 
- * Copyright (c) 2001 LAAS/CNRS                       --  Wed Oct 10 2001
+/*
+ * Copyright (c) 2001,2010 LAAS/CNRS                  --  Wed Oct 10 2001
  * All rights reserved.                                    Anthony Mallet
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -42,13 +42,13 @@ __RCSID("$LAAS$");
 
 
 #if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
-int 
+int
 main(int argc, const char *argv[])
 #else
-int 
+int
 main(int argc, char *argv[])
 #endif /* TCL_VERSION */
 {
-   elTclshLoop(argc, argv, elTclAppInit);
+   elTclshLoop(argc, argv, NULL);
    return 0;
 }

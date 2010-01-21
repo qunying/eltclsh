@@ -1,7 +1,7 @@
 /*	$LAAS$ */
 
-/* 
- * Copyright (c) 2001 LAAS/CNRS                       --  Tue Oct 16 2001
+/*
+ * Copyright (c) 2001,2010 LAAS/CNRS                  --  Tue Oct 16 2001
  * All rights reserved.                                    Anthony Mallet
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -36,7 +36,7 @@ __RCSID("$LAAS$");
 #include <tk.h>
 
 /* local functions */
-static int	elWishAppInit(ElTclInterpInfo *iinfo);
+static int	elWishAppInit(Tcl_Interp *interp);
 
 
 /*
@@ -46,10 +46,10 @@ static int	elWishAppInit(ElTclInterpInfo *iinfo);
  */
 
 #if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
-int 
+int
 main(int argc, const char *argv[])
 #else
-int 
+int
 main(int argc, char *argv[])
 #endif /* TCL_VERSION */
 {
@@ -65,20 +65,17 @@ main(int argc, char *argv[])
  */
 
 static int
-elWishAppInit(ElTclInterpInfo *iinfo)
+elWishAppInit(Tcl_Interp *interp)
 {
-   if (elTclAppInit(iinfo) == TCL_ERROR) {
-      return TCL_ERROR;
-   }
-   if (Tk_Init(iinfo->interp) == TCL_ERROR) {
+   if (Tk_Init(interp) == TCL_ERROR) {
       return TCL_ERROR;
    }
 
    /* change the rc file */
-   Tcl_SetVar(iinfo->interp, "tcl_rcFileName", ".elwishrc", TCL_GLOBAL_ONLY);
+   Tcl_SetVar(interp, "tcl_rcFileName", ".elwishrc", TCL_GLOBAL_ONLY);
 
    /* I hate that stupid empty window you get after Tk_Init() */
-   Tcl_Eval(iinfo->interp, "wm withdraw .");
+   Tcl_Eval(interp, "wm withdraw .");
 
    return TCL_OK;
 }

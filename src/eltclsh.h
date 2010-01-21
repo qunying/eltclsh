@@ -1,7 +1,7 @@
 /*	$LAAS$ */
 
 /* 
- * Copyright (c) 2001 LAAS/CNRS                       --  Wed Oct 10 2001
+ * Copyright (c) 2001,2010 LAAS/CNRS                       --  Wed Oct 10 2001
  * All rights reserved.                                    Anthony Mallet
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -70,7 +70,7 @@ typedef struct ElTclInterpInfo {
    int isTk;			/* true if this is a Tk interpreter */
 } ElTclInterpInfo;
 
-typedef int (*ElTclAppInitProc)(ElTclInterpInfo *);
+typedef int (*ElTclAppInitProc)(Tcl_Interp *);
 
 
 /*
@@ -89,7 +89,7 @@ int		elTclInteractive(ClientData data, Tcl_Interp *interp, int objc,
 int		elTclExit(ClientData data, Tcl_Interp *interp, int objc,
 			Tcl_Obj *const objv[]);
 
-int		elTclAppInit(ElTclInterpInfo *iinfo);
+int		Eltclsh_Init(Tcl_Interp *interp);
 
 unsigned char	elTclCompletion(EditLine *el, int ch);
 int		elTclBreakCommandLine(ClientData data,

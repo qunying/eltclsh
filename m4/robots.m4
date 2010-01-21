@@ -1,7 +1,7 @@
 #	$LAAS$
 
 #
-# Copyright (c) 2002-2003,2008-2009 LAAS/CNRS
+# Copyright (c) 2002-2003,2008-2010 LAAS/CNRS
 # All rights reserved.
 #
 # Redistribution  and  use in source   and binary forms,  with or without
@@ -297,11 +297,21 @@ AC_DEFUN([ROBOT_LIB_TCL],
 	   ;;
    esac
 
+   # stubs library for the extension
+   if test "$TCL_SUPPORTS_STUBS" = "1"; then
+      TCL_STUB_CPPFLAGS=-DUSE_TCL_STUBS
+   else
+      TCL_STUB_LIB_SPEC=$TCL_LIB_SPEC
+   fi
+
    AC_SUBST(TCL_INCLUDE_SPEC)
    AC_SUBST(TCL_LIBS)
    AC_SUBST(TCL_LIB_FLAG)
    AC_SUBST(TCL_LIB_SPEC)
    AC_SUBST(TCL_DBGX)
+   AC_SUBST(TCL_STUB_CPPFLAGS)
+   AC_SUBST(TCL_STUB_LIB_SPEC)
+   AC_SUBST(TCL_STUB_LIB_SPEC)
 ])
 
 

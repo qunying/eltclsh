@@ -1,4 +1,4 @@
-#	$LAAS: Makefile.in 2010/01/21 16:14:08 mallet $
+#	$LAAS: Makefile.in 2010/01/21 16:38:39 mallet $
 
 #
 # Copyright (c) 2002,2008-2010 LAAS/CNRS
@@ -96,7 +96,9 @@ install-doc:
 # --- build distribution ------------------------------------------------
 
 dist:
-	git archive --prefix=$(dist_path)/ HEAD | gzip -c -9 > $(dist_name).tar.gz
+	(cd $(srcdir) && \
+		git archive --prefix=$(dist_path)/ eltclsh-$(ELTCLSH_VERSION)) |\
+		gzip -c -9 > $(dist_name).tar.gz
 
 
 # --- autoconf/autoheader -----------------------------------------------

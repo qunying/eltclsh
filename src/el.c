@@ -1,7 +1,7 @@
 /*	$LAAS$ */
 
 /* 
- * Copyright (c) 2001 LAAS/CNRS                       --  Sun Oct 14 2001
+ * Copyright (c) 2001,2010 LAAS/CNRS                       --  Sun Oct 14 2001
  * All rights reserved.                                    Anthony Mallet
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -244,8 +244,8 @@ elTclGetWindowSize(int fd, int *lins, int *cols)
 	    *cols = ws.ws_col;
 	 if (ws.ws_row && lins)
 	    *lins = ws.ws_row;
+	 return 0;
       }
-      return 0;
    }
 #endif
 #ifdef TIOCGSIZE
@@ -256,8 +256,8 @@ elTclGetWindowSize(int fd, int *lins, int *cols)
 	    *cols = ts.ts_cols;
 	 if (ts.ts_lines && lins)
 	    *lins = ts.ts_lines;
+	 return 0;
       }
-      return 0;
    }
 #endif
 

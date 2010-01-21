@@ -1,7 +1,7 @@
-#	$LAAS: Makefile.in 2009/02/27 20:28:13 tho $
+#	$LAAS: Makefile.in 2010/01/21 16:14:08 mallet $
 
 #
-# Copyright (c) 2002,2008-2009 LAAS/CNRS
+# Copyright (c) 2002,2008-2010 LAAS/CNRS
 # All rights reserved.
 #
 # Redistribution  and  use in source   and binary forms,  with or without
@@ -34,12 +34,15 @@ top_builddir=	.
 topsrcdir=	@top_srcdir@
 srcdir=		@srcdir@
 prefix=		@prefix@
+exec_prefix=	@exec_prefix@
+libdir=		@libdir@
 datarootdir=	@datarootdir@
 mandir=		@mandir@/man
 catdir=		@mandir@/cat
 host=		@host@
 
 config_files = \
+	eltclsh.pc		\
 	config.mk		\
 	Makefile		\
 	src/Makefile		\
@@ -67,6 +70,8 @@ clean:
 
 install: $(config_files) install-doc
 	$(make_subdirs)
+	${INSTALL} -d ${DESTDIR}${libdir}/pkgconfig
+	${INSTALL_DATA} eltclsh.pc ${DESTDIR}${libdir}/pkgconfig
 
 
 # --- man pages ---------------------------------------------------------
@@ -91,14 +96,7 @@ install-doc:
 # --- build distribution ------------------------------------------------
 
 dist:
-	mkdir -p $(dist_path)
-	(cd $(topsrcdir); tar cf - .) | (cd $(dist_path); tar xpf -)
-	find $(dist_path) -name ".git" | xargs rm -rf
-	find $(dist_path) -name "*~" | xargs rm -rf
-	find $(dist_path) -name "build" | xargs rm -rf
-	find $(dist_path) -name "autom4te.cache" | xargs rm -rf
-	tar cf - $(dist_path) | gzip -c -9 > $(dist_name).tar.gz
-	rm -rf $(dist_path)
+	git archive --prefix=$(dist_path)/ HEAD | gzip -c -9 > $(dist_name).tar.gz
 
 
 # --- autoconf/autoheader -----------------------------------------------

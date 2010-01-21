@@ -84,8 +84,9 @@ Eltclsh_Init(Tcl_Interp *interp)
    }
    iinfo->argv0 = "eltclsh";
    iinfo->interp = interp;
-   if (elTclGetWindowSize(fileno(stdout), NULL, &iinfo->windowSize) < 0) {
-      iinfo->windowSize = 80;
+   if (elTclGetWindowSize(fileno(stdin), NULL, &iinfo->windowSize) < 0) {
+     if (elTclGetWindowSize(fileno(stdout), NULL, &iinfo->windowSize) < 0)
+       iinfo->windowSize = 80;
    }
    iinfo->completionQueryItems = 100;
    iinfo->prompt1Name = Tcl_NewStringObj("el::prompt1", -1);

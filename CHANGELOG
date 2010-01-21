@@ -1,6 +1,8 @@
+eltclsh 1.11 released january 21, 2010
+
  34. Add a pkg-config .pc file
  33. Provide eltclsh as a Tcl extension as well (eltclsh and elwish now make
-     use of this package).
+     use of this extension).
  32. Support for native aqua Tcl/Tk support on Mac OS X
 
 eltclsh 1.10 released february 27, 2009

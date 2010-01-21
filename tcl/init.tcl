@@ -1,7 +1,7 @@
 #	$LAAS$
 
 #
-#  Copyright (c) 2001-2003 LAAS/CNRS                  --  Sat Oct  6 2001
+#  Copyright (c) 2001-2003,2010 LAAS/CNRS             --  Sat Oct  6 2001
 #  All rights reserved.                                    Anthony Mallet
 #
 #
@@ -62,21 +62,23 @@ if { [info command signal] != "" } { namespace eval el {
 }}
 
 # Require command-line completion
-catch {
+if {[catch {
     package require el::tools
     package require el::complete
-}
+} m]} { puts $m }
 
 # Preload packages
-while {[set i [lsearch -exact $argv -package]] >= 0} {
-    set pkgname [lindex $argv [expr $i+1]]
-    if {[catch {package require $pkgname} m]} {
-        puts "$m"
-        puts "cannot load $pkgname"
-    } else {
-        puts "loaded $pkgname package"
+if {[info exists ::argv]} {
+    while {[set i [lsearch -exact $::argv -package]] >= 0} {
+	set pkgname [lindex $::argv [expr $i+1]]
+	if {[catch {package require $pkgname} m]} {
+	    puts "$m"
+	    puts "cannot load $pkgname"
+	} else {
+	    puts "loaded $pkgname package"
+	}
+	set ::argv [lreplace $::argv $i [expr $i+1]]
     }
-    set argv [lreplace $argv $i [expr $i+1]]
+    unset i
+    catch { unset pkgname }
 }
-unset i
-catch { unset pkgname }

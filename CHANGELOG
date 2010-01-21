@@ -1,3 +1,7 @@
+eltclsh 1.11.1 released january 21, 2010
+
+ 35. Fix uninitialized terminal window size when stdout was not interactive
+
 eltclsh 1.11 released january 21, 2010
 
  34. Add a pkg-config .pc file

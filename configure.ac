@@ -1,12 +1,12 @@
-dnl $LAAS: configure.ac 2010/01/21 20:47:35 tho $
+dnl $LAAS: configure.ac 2010/01/21 20:48:57 tho $
 dnl
 dnl configure.in --
 dnl	process this file with autoconf to produce a configure script.
 dnl
 
-AC_REVISION($LAAS: configure.ac 2010/01/21 20:47:35 tho $)
+AC_REVISION($LAAS: configure.ac 2010/01/21 20:48:57 tho $)
 
-AC_INIT([eltclsh],[1.11],[openrobots@laas.fr])
+AC_INIT([eltclsh],[1.11.1],[openrobots@laas.fr])
 AC_PREREQ(2.59)
 
 AC_CONFIG_MACRO_DIR([m4])

@@ -1,7 +1,7 @@
 /*	"$LAAS$" */
 
 /* 
- * Copyright (c) 2001 LAAS/CNRS                       --  Wed Oct 10 2001
+ * Copyright (c) 2001,2011 LAAS/CNRS                       --  Wed Oct 10 2001
  * All rights reserved.                                    Anthony Mallet
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -68,9 +68,13 @@ elTclCompletion(EditLine *el, int ch)
    /* compute current command line: it is the concatenation of the
     * current command (any incomplete lines entered so far) plus the
     * current editline buffer */
-   cmd[1] = Tcl_DuplicateObj(iinfo->command);
    cmdLine = Tcl_NewStringObj(linfo->buffer, linfo->cursor - linfo->buffer);
-   Tcl_AppendObjToObj(cmd[1], cmdLine);
+   if (iinfo->command) {
+     cmd[1] = Tcl_DuplicateObj(iinfo->command);
+     Tcl_AppendObjToObj(cmd[1], cmdLine);
+   } else
+     cmd[1] = Tcl_DuplicateObj(cmdLine);
+
    Tcl_IncrRefCount(cmd[1]);
    Tcl_IncrRefCount(cmdLine);
 

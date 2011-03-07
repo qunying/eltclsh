@@ -1,7 +1,7 @@
 /*	$LAAS$ */
 
 /*
- * Copyright (c) 2001,2010 LAAS/CNRS                  --  Wed Oct 10 2001
+ * Copyright (c) 2001,2010-2011 LAAS/CNRS                  --  Wed Oct 10 2001
  * All rights reserved.                                    Anthony Mallet
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -97,6 +97,8 @@ Eltclsh_Init(Tcl_Interp *interp)
    Tcl_IncrRefCount(iinfo->matchesName);
    iinfo->promptString = NULL;
    iinfo->preReadSz = 0;
+   iinfo->gotPartial = 0;
+   iinfo->command = NULL;
 
    if (elTclHandlersInit(iinfo) != TCL_OK) {
       fputs("warning: signal facility not created\n", stdout);

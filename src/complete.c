@@ -122,7 +122,7 @@ elTclCompletion(EditLine *el, int ch)
       return CC_REFRESH;
    }
 
-   if (count-2 > iinfo->completionQueryItems) {
+   if (count-2 > iinfo->completionQueryItems && iinfo->completionQueryItems) {
       /* ask user */
       printf("\nDisplay all %d possibilit%s? [y/n] ",
 	     count-2, count>3?"ies":"y");

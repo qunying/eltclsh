@@ -31,7 +31,7 @@
 #include "config.h"
 __RCSID("$LAAS$");
 
-static char copyright[] = " - Copyright (C) 2001-2010 LAAS-CNRS";
+static char copyright[] = " - Copyright (C) 2001-2011 LAAS-CNRS";
 static char *version = ELTCLSH_VERSION;
 
 #include <stdio.h>
@@ -149,13 +149,13 @@ Eltclsh_Init(Tcl_Interp *interp)
    el_set(iinfo->el, EL_HIST, history, iinfo->history);
    el_set(iinfo->el, EL_EDITOR, "emacs");
    el_set(iinfo->el, EL_PROMPT, elTclPrompt);
+   el_source(iinfo->el, NULL);
 
    el_set(iinfo->el, EL_ADDFN,
 	  "eltcl-complete", "Context sensitive argument completion",
 	  elTclCompletion);
    el_set(iinfo->el, EL_BIND, "^I", "eltcl-complete", NULL);
 
-   el_source(iinfo->el, NULL);
    el_get(iinfo->el, EL_EDITMODE, &iinfo->editmode);
 
    /* set up the non-blocking read stuff */

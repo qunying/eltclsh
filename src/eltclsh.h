@@ -1,7 +1,7 @@
 /*	$LAAS$ */
 
 /* 
- * Copyright (c) 2001,2010 LAAS/CNRS                       --  Wed Oct 10 2001
+ * Copyright (c) 2001,2010-2011 LAAS/CNRS                       --  Wed Oct 10 2001
  * All rights reserved.                                    Anthony Mallet
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -68,6 +68,7 @@ typedef struct ElTclInterpInfo {
    Tcl_Obj *command;		/* current interactive command */
    int gotPartial;		/* true if current command is incomplete */
    int isTk;			/* true if this is a Tk interpreter */
+   int maxCols;			/* limit columns in completion output */
 } ElTclInterpInfo;
 
 typedef int (*ElTclAppInitProc)(Tcl_Interp *);

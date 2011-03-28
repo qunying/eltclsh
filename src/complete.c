@@ -188,6 +188,10 @@ elTclCompletion(EditLine *el, int ch)
    max++;
 
    ncols = iinfo->windowSize / max;
+   if (iinfo->maxCols > 0 && ncols > iinfo->maxCols) {
+     /* overide the column formatted output of matches */
+     ncols = iinfo->maxCols;
+   }
    nitems = ceil((double)(count-2)/ncols);
 
    /* and display all matches */

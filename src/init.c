@@ -99,6 +99,7 @@ Eltclsh_Init(Tcl_Interp *interp)
    iinfo->preReadSz = 0;
    iinfo->gotPartial = 0;
    iinfo->command = NULL;
+   iinfo->maxCols = 0; /* if >0, limit number of columns in completion output */
 
    if (elTclHandlersInit(iinfo) != TCL_OK) {
       fputs("warning: signal facility not created\n", stdout);
@@ -130,6 +131,10 @@ Eltclsh_Init(Tcl_Interp *interp)
 		   TCL_LINK_INT) != TCL_OK) {
       return TCL_ERROR;
    }
+   obj = Tcl_NewStringObj("el::maxCols", -1);
+   Tcl_LinkVar(iinfo->interp, Tcl_GetStringFromObj(obj, NULL),
+               (char *)&iinfo->maxCols, TCL_LINK_INT);
+
    Tcl_PkgProvide(iinfo->interp, "eltclsh", version);
 
    /* initialize libedit */

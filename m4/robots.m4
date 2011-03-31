@@ -1,7 +1,7 @@
 #	$LAAS$
 
 #
-# Copyright (c) 2002-2003,2008-2010 LAAS/CNRS
+# Copyright (c) 2002-2003,2008-2011 LAAS/CNRS
 # All rights reserved.
 #
 # Redistribution  and  use in source   and binary forms,  with or without
@@ -231,12 +231,10 @@ AC_DEFUN([ROBOT_LIB_TCL],
          ${exec_prefix}/lib      \
 	 /Library/Frameworks/Tcl.framework \
 	 /System/Library/Frameworks/Tcl.framework \
-         /usr/local/lib/tcl8.4   \
-         /usr/local/lib/tcl8.3   \
+         /usr/local/lib/tcl8.[[0-9]]	\
          /usr/local/lib          \
          /usr/pkg/lib            \
-         /usr/lib/tcl8.4	 \
-         /usr/lib/tcl8.3	 \
+         /usr/lib/tcl8.[[0-9]]	 \
          /usr/lib                \
         ; \
        do

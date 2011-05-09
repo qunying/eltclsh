@@ -122,7 +122,7 @@ Eltclsh_Init(Tcl_Interp *interp)
 
 
    /* and variables */
-   Tcl_SetVar(iinfo->interp, "tcl_rcFileName", ".eltclshrc", TCL_GLOBAL_ONLY);
+   Tcl_SetVar(iinfo->interp, "tcl_rcFileName", "~/.eltclshrc", TCL_GLOBAL_ONLY);
 
    obj = Tcl_NewStringObj("el::queryItems", -1);
    if (Tcl_LinkVar(iinfo->interp,

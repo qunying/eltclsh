@@ -1,7 +1,7 @@
 /*	$LAAS$ */
 
 /*
- * Copyright (c) 2001,2010 LAAS/CNRS                  --  Tue Oct 16 2001
+ * Copyright (c) 2001,2010-2011 LAAS/CNRS                  --  Tue Oct 16 2001
  * All rights reserved.                                    Anthony Mallet
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -72,7 +72,7 @@ elWishAppInit(Tcl_Interp *interp)
    }
 
    /* change the rc file */
-   Tcl_SetVar(interp, "tcl_rcFileName", ".elwishrc", TCL_GLOBAL_ONLY);
+   Tcl_SetVar(interp, "tcl_rcFileName", "~/.elwishrc", TCL_GLOBAL_ONLY);
 
    /* I hate that stupid empty window you get after Tk_Init() */
    Tcl_Eval(interp, "wm withdraw .");

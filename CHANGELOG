@@ -1,3 +1,16 @@
+eltclsh 1.12 released june 16, 2011
+
+ 40. Change resource file to ~/.eltclshrc instead of .eltclshrc
+     (resp. ~/.elwishrc). (York Wu).
+ 39. Fix automatic detection of Tcl-8.5.
+ 38. Add el::maxCols to limit the number of columns for completion results
+     0 (default) means automatic (Russell Treleaven).
+ 37. Setting el::queryItems to 0 disable interactive confirmation before
+     displaying completion results (Russel Treleaven).
+ 36. Parse .editrc before binding ^I to eltcl-complete (Russel Treleaven).
+ 35. Fix bug in el::gets when invoked before the 'interactive' procedure
+     (Russel Treleaven).
+
 eltclsh 1.11 released january 21, 2010
 
  34. Add a pkg-config .pc file

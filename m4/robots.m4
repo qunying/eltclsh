@@ -318,10 +318,11 @@ dnl
 dnl
 AC_DEFUN([ROBOT_LIB_TK],
 [
+   tk_prefix=no
    AC_ARG_WITH(tk,
       [  --with-tk=DIR           directory containing tkConfig.sh],
       [tk_prefix=$withval],
-      [for ac_dir in \
+      [tk_prefix=no; for ac_dir in \
          ${tcl_prefix}                   \
          ${exec_prefix}/lib              \
 	 /Library/Frameworks/Tk.framework \
@@ -341,6 +342,7 @@ AC_DEFUN([ROBOT_LIB_TK],
 
    if test "x${tk_prefix}" = "xno"; then
 	HAS_TK=no
+        AC_MSG_NOTICE([tk support not found/disabled])
    else
 
    file=${tk_prefix}/tkConfig.sh

@@ -1,7 +1,7 @@
 /*	$LAAS$ */
 
 /* 
- * Copyright (c) 2001,2010 LAAS/CNRS                       --  Sun Oct 14 2001
+ * Copyright (c) 2001,2010-2011 LAAS/CNRS                       --  Sun Oct 14 2001
  * All rights reserved.                                    Anthony Mallet
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -32,6 +32,7 @@
 __RCSID("$LAAS$");
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
@@ -124,28 +125,70 @@ int
 elTclHistory(ClientData data, Tcl_Interp *interp,
 	     int objc, Tcl_Obj *const objv[])
 {
-   ElTclInterpInfo *iinfo = data;
-   char *string;
-   HistEvent ev;
+  enum hidx {
+    hidx_add, hidx_file, hidx_save, hidx_size
+  };
+  static const char *args[] = {
+    [hidx_add] = "add", [hidx_file] = "file", [hidx_save] = "save",
+    [hidx_size] = "size", NULL
+  };
 
-   if (objc != 3) {
-      Tcl_WrongNumArgs(interp, 1, objv, "add string");
-      return TCL_ERROR;
-   }
+  ElTclInterpInfo *iinfo = data;
+  char *string;
+  HistEvent ev;
+  int s;
+  int i = -1;
 
-   if (strcmp(Tcl_GetStringFromObj(objv[1], NULL), "add")) {
-      Tcl_WrongNumArgs(interp, 1, objv, "add string");
-      return TCL_ERROR;
-   }
-   
-   string = Tcl_GetStringFromObj(objv[2], NULL);
-   if (string == NULL) {
-      Tcl_WrongNumArgs(interp, 1, objv, "add string");
-      return TCL_ERROR;
-   }
+  if (objc > 1) {
+    s = Tcl_GetIndexFromObj(interp, objv[1], args, "subcommand", 0, &i);
+    if (s != TCL_OK) return s;
+  }
+  switch(i) {
+    case hidx_add:
+      if (objc != 3) {
+        Tcl_WrongNumArgs(interp, 2, objv, "string");
+        return TCL_ERROR;
+      }
+      string = Tcl_GetStringFromObj(objv[2], NULL);
+      if (string == NULL) {
+        Tcl_WrongNumArgs(interp, 2, objv, "string");
+        return TCL_ERROR;
+      }
+      history(iinfo->history, &ev, H_ENTER, string);
+      break;
 
-   history(iinfo->history, &ev, H_ENTER, string);
-   return TCL_OK;
+    case hidx_file:
+      if (objc < 3) {
+        Tcl_SetObjResult(interp, Tcl_NewStringObj(iinfo->histFile, -1));
+        break;
+      }
+      if (iinfo->histFile) free(iinfo->histFile);
+      Tcl_IncrRefCount(objv[2]);
+      iinfo->histFile = Tcl_FSGetNativePath(objv[2]);
+      if (iinfo->histFile) iinfo->histFile = strdup(iinfo->histFile);
+      if (iinfo->histFile && iinfo->histFile[0])
+        history(iinfo->history, &ev, H_LOAD, iinfo->histFile);
+      Tcl_DecrRefCount(objv[2]);
+      break;
+
+    case hidx_save:
+      if (iinfo->histFile && iinfo->histFile[0])
+        history(iinfo->history, &ev, H_SAVE, iinfo->histFile);
+      break;
+
+    case hidx_size:
+      if (objc < 3) {
+        Tcl_SetObjResult(interp, Tcl_NewIntObj(iinfo->histSize));
+        break;
+      }
+      if (Tcl_GetIntFromObj(interp, objv[2], &iinfo->histSize) != TCL_OK)
+        return TCL_ERROR;
+
+      history(iinfo->history, &ev, H_SETSIZE, iinfo->histSize);
+      break;
+  }
+
+  return TCL_OK;
 }
 
 

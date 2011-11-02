@@ -101,6 +101,12 @@ Eltclsh_Init(Tcl_Interp *interp)
    iinfo->command = NULL;
    iinfo->maxCols = 0; /* if >0, limit number of columns in completion output */
 
+   iinfo->histSize = 800;
+   obj = Tcl_NewStringObj("~/.eltclhistory", -1);
+   Tcl_IncrRefCount(obj);
+   iinfo->histFile = strdup(Tcl_FSGetNativePath(obj));
+   Tcl_DecrRefCount(obj);
+
    if (elTclHandlersInit(iinfo) != TCL_OK) {
       fputs("warning: signal facility not created\n", stdout);
    }
@@ -145,7 +151,9 @@ Eltclsh_Init(Tcl_Interp *interp)
    }
 
    iinfo->history = history_init();
-   history(iinfo->history, &ev, H_SETSIZE, 800);
+   history(iinfo->history, &ev, H_SETSIZE, iinfo->histSize);
+   if (iinfo->histFile && iinfo->histFile[0])
+     history(iinfo->history, &ev, H_LOAD, iinfo->histFile);
 
    iinfo->askaHistory = history_init();
    history(iinfo->askaHistory, &ev, H_SETSIZE, 100);
@@ -413,6 +421,7 @@ elTclExit(ClientData data,
 	  Tcl_Interp *interp, int objc, Tcl_Obj *const objv[])
 {
    ElTclInterpInfo *iinfo = data;
+   HistEvent ev;
    int value;
 
    if ((objc != 1) && (objc != 2)) {
@@ -427,6 +436,9 @@ elTclExit(ClientData data,
    }
 
    el_end(iinfo->el);
+
+   if (iinfo->histFile && iinfo->histFile[0])
+     history(iinfo->history, &ev, H_SAVE, iinfo->histFile);
    history_end(iinfo->history);
    history_end(iinfo->askaHistory);
 

@@ -1,5 +1,5 @@
 .\"	$LAAS$ */
-.\" Copyright (c) 2003 LAAS/CNRS                       --  Mon Jul  7 2003
+.\" Copyright (c) 2003,2011 LAAS/CNRS                       --  Mon Jul  7 2003
 .\" All rights reserved.
 .\"
 .\" Redistribution and use  in source  and binary  forms,  with or without
@@ -44,5 +44,33 @@ completion engine is programmable in a way similar to
 .Xr tcsh 1 ,
 and comes
 with an intelligent completion for the full tcl language by default.
+.Sh SPECIAL TCL COMMANDS
+eltclsh provides a few specific commands to configure interactive editing
+.Bl -ohang
+.It Sy el::history add Ar string
+Add
+.Ar string
+to the history of commands.
+.It Sy el::history file Ar ?filename?
+Load history from
+.Ar filename
+and sets the filename for future saves, or return current filename. Note that
+if
+.Pa ~/.eltclhistory
+exists and is readable it is automatically loaded at startup.
+If
+.Ar filename
+is the empty string, history loading and saving are disabled.
+.It Sy el::history save
+Save history in ~/.eltclhistory by default, or in the
+.Ar filename
+configured by
+.Sy history file .
+History is automatically saved on exit.
+.It Sy el::history size Ar ?length?
+Set history length to
+.Ar length
+or return current length.
+.El
 .Sh SEE ALSO
 .Xr tclsh 1 .

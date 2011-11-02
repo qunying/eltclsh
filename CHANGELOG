@@ -1,3 +1,7 @@
+ 41. Load/save command history at startup/exit, and improve el::history command
+     to configure the file name and history size (~/.eltclhistory and 800 items
+     by default).
+
 eltclsh 1.12 released june 16, 2011
 
  40. Change resource file to ~/.eltclshrc instead of .eltclshrc
@@ -25,7 +29,8 @@ eltclsh 1.10 released february 27, 2009
 
 eltclsh 1.9 released august 8, 2008
 
- 30. Fix libtool usage and install target to allow cross compilation in OpenEmbedded.
+ 30. Fix libtool usage and install target to allow cross compilation in
+     OpenEmbedded.
  29. Honor TCL_DBGX to allow  compiling  against a  tcl library  with debugging
      symbols enabled.
  28. Honor CFLAGS from the environment during the build process

@@ -162,7 +162,7 @@ elTclHistory(ClientData data, Tcl_Interp *interp,
         Tcl_SetObjResult(interp, Tcl_NewStringObj(iinfo->histFile, -1));
         break;
       }
-      if (iinfo->histFile) free(iinfo->histFile);
+      if (iinfo->histFile) free((void *)iinfo->histFile);
       Tcl_IncrRefCount(objv[2]);
       iinfo->histFile = Tcl_FSGetNativePath(objv[2]);
       if (iinfo->histFile) iinfo->histFile = strdup(iinfo->histFile);

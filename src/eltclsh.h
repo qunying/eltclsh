@@ -70,7 +70,7 @@ typedef struct ElTclInterpInfo {
    int isTk;			/* true if this is a Tk interpreter */
    int maxCols;			/* limit columns in completion output */
    int histSize;		/* history length (800) */
-   char *histFile;		/* history filename (~/.eltclhistory) */
+   const char *histFile;	/* history filename (~/.eltclhistory) */
 } ElTclInterpInfo;
 
 typedef int (*ElTclAppInitProc)(Tcl_Interp *);

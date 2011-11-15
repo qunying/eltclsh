@@ -1,6 +1,6 @@
-#	$Id: README 2009/02/27 20:40:56 tho $
+#	$Id: README 2011/11/15 10:57:29 mallet $
 
-Copyright (c) 2001-2009 LAAS/CNRS
+Copyright (c) 2001-2011 LAAS/CNRS
 
 eltclsh stands for ``editline tcl shell''. This is an interactive shell
 for the TCL programming language. It provides command line editing,
@@ -18,9 +18,7 @@ interpreter for the Tk toolkit.
 You need the following tools installed on the system before you can
 compile eltclsh:
 
-- Tcl/Tk. 8.4 is recommended, but it works with 8.3 too, and might work
-  with all versions from 8.0. 8.5 has been reported to work too.
-  (<http://tcl.tk/>). 
+- Tcl/Tk, any version from 8.0 to 8.6.
 
 - editline library (a.k.a. libedit). The editline library provides
   generic line editing and history functions, similar to those found in
@@ -28,7 +26,7 @@ compile eltclsh:
   to install it if you run another system. You need a decently recent
   version, as eltclsh need some features that have been added by October
   2001. We maintain a packaged version of the library here:
-  (<http://softs.laas.fr/openrobots/libs/editline.php>). 
+  (<http://softs.laas.fr/openrobots/libs/editline.php>).
 
 - The GNU make utility, version 3.79 or higher. eltclsh Makefiles use
   some GNU make extensions and thus won't work with other make
@@ -49,24 +47,25 @@ eltclsh is known to run on the following platforms:
 --- GETTING ELTCLSH -----------------------------------------------------
 
 The lastest version is available from:
-<http://softs.laas.fr/openrobots/tools/eltclsh.php>
+http://homepages.laas.fr/mallet/soft/shell/eltclsh
 
 
 --- INSTALLATION INSTRUCTIONS -------------------------------------------
 
 eltclsh uses the GNU configure system to handle most of the system
 dependancies configuration. So you can build and install it with the
-following commands: 
+following commands:
 
+        ./autogen.sh
         ./configure [options]
         make
         make install
 
 Use './configure --help' to find out all the available configure
 options. On most systems, --with-tcl=DIR and --with-tk=DIR will be
-required to specify where to find tclConfig.sh (resp. tkConfig.h). 
+required to specify where to find tclConfig.sh (resp. tkConfig.h).
 You might also need to use --with-includes and --with-libraries to
 specify the path to editline headers and library, respectively.
 
 The --prefix option (default: /usr/local) defines the base directory
-of the installation. 
+of the installation.

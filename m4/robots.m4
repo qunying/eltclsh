@@ -273,7 +273,7 @@ AC_DEFUN([ROBOT_LIB_TCL],
    AC_MSG_CHECKING([for tcl library])
    AC_LANG([C])
    ac_tmp_cppflags=$CPPFLAGS; CPPFLAGS="${CPPFLAGS} ${TCL_INCLUDE_SPEC}"
-   ac_tmp_ldflags=$LDFLAGS; LDFLAGS="${LDFLAGS} ${TCL_LIB_SPEC}"
+   ac_tmp_libs=$LIBS; LIBS="${LIBS} ${TCL_LIB_SPEC}"
    AC_TRY_LINK([#include "$tcl_test_include"], [Tcl_Interp *i; Tcl_Init(i);],[
       AC_MSG_RESULT([${TCL_LIB_SPEC}])
    ],[
@@ -281,7 +281,7 @@ AC_DEFUN([ROBOT_LIB_TCL],
       AC_MSG_ERROR([tcl libraries seem not to be installed or cannot be linked.])
    ])
    CPPFLAGS=$ac_tmp_cppflags
-   LDFLAGS=$ac_tmp_ldflags
+   LIBS=$ac_tmp_libs
 
    # Add libtool -R flag to the runtime path of tcl
    AC_PROG_SED
@@ -367,9 +367,9 @@ AC_DEFUN([ROBOT_LIB_TK],
    AC_MSG_CHECKING([for tk library])
    AC_LANG([C])
    ac_tmp_cppflags=$CPPFLAGS;
-   ac_tmp_ldflags=$LDFLAGS;
+   ac_tmp_libs=$LIBS;
    CPPFLAGS="${CPPFLAGS} ${TK_INCLUDE_SPEC} ${TCL_INCLUDE_SPEC}"
-   LDFLAGS="${LDFLAGS} ${TK_LIB_SPEC} ${TCL_LIB_SPEC}"
+   LIBS="${LIBS} ${TK_LIB_SPEC} ${TCL_LIB_SPEC}"
    AC_TRY_LINK([#include "$tk_test_include"], [Tcl_Interp *i; Tk_Init(i);],[
       AC_MSG_RESULT([${TK_LIB_SPEC}])
    ],[
@@ -377,7 +377,7 @@ AC_DEFUN([ROBOT_LIB_TK],
       AC_MSG_ERROR([tk libraries seem not to be installed or cannot be linked.])
    ])
    CPPFLAGS=$ac_tmp_cppflags
-   LDFLAGS=$ac_tmp_ldflags
+   LIBS=$ac_tmp_libs
 
    # Add libtool -R flag to the runtime path of tcl
    AC_PROG_SED

@@ -75,7 +75,8 @@ elTclGets(ClientData data, Tcl_Interp *interp,
       code = TCL_ERROR;
    } else {
       Tcl_SetObjResult(interp, Tcl_NewStringObj(line, length-1));
-      history(iinfo->askaHistory, &ev, H_ENTER, line);
+      if (length > 1)
+        history(iinfo->askaHistory, &ev, H_ENTER, line);
    }
 
    /* set editline back to normal state */

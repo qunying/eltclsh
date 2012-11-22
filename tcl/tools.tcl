@@ -1,8 +1,6 @@
-#	$LAAS$
-
 #
-#  Copyright (c) 2001,2010 LAAS/CNRS                      Wed Oct 10 2001
-#  All rights reserved.                                    Anthony Mallet
+#  Copyright (c) 2001,2010,2012 LAAS/CNRS
+#  All rights reserved.
 #
 #
 # Redistribution  and  use in source   and binary forms,  with or without
@@ -32,7 +30,7 @@
 
 # shell's shift (should be added to tcl language :)
 proc shift { varName } {
-    upvar $varName l 
+    upvar $varName l
     set h [lindex $l 0]
     set l [lrange $l 1 end]
     return $h
@@ -48,7 +46,7 @@ proc lreverse { list } {
     return $reverse
 }
 
-# aply command map on each element of list, returning the a new list 
+# aply command map on each element of list, returning the a new list
 proc lmap { list map } {
     set mapped {}
     foreach e $list {
@@ -89,7 +87,7 @@ proc aska { type prompt defaultValue args } {
 			[list [list {} "c {} [list $type]"]]
 		}
 	    }
-	    
+
 	    set code [catch {
 		set input [el::gets "$prompt \[$defaultValue\]> "]
 	    } message ]
@@ -125,7 +123,7 @@ proc aska { type prompt defaultValue args } {
 		    set expect "boolean"
 		    if { $input } { set answer 1 } else { set answer 0 }
 		}
-	    
+
 		"^(short|int)$" {
 		    set expect "integer"
 		    set value [uplevel \#0 expr $input]
@@ -146,12 +144,12 @@ proc aska { type prompt defaultValue args } {
 		"^(float|double)$" {
 		    set answer [uplevel \#0 expr $input]
 		}
-	    
+
 		{^(string|char\s?\*)$} {
 		    set expect "string"
 		    set answer [string trim [uplevel \#0 subst "$input"]]
 		}
-	    
+
 		default {
 		    set expect "enum \{$type\}"
 		    set answer [string trim [uplevel \#0 subst "$input"]]
@@ -166,7 +164,7 @@ proc aska { type prompt defaultValue args } {
 	    puts "expecting $expect but got $input"
 	    continue
 	}
-	
+
 	break
     }
 
@@ -210,7 +208,7 @@ proc mapscan { format cmdLine } {
 	set p [lindex $line [expr $o + 1]]
 	set d [lindex $line [expr $o + 2]]
 	set nov 0
-	
+
 	if { "$v" == ".." || $ad } {
 	    set v [lindex $line [expr $o + 2]]
 	    set ad 1
@@ -223,10 +221,10 @@ proc mapscan { format cmdLine } {
 	} else {
 	    set v [shift cmdLine]
 	}
-	
+
 	while { 1 } {
 	    if { $nov } {
-		set r [catch { 
+		set r [catch {
 		    uplevel \#0 aska [list $t] [list $p] [list $d]
 		} m]
 	    } else {

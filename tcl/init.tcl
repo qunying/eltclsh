@@ -1,7 +1,7 @@
 #	$LAAS$
 
 #
-#  Copyright (c) 2001-2003,2010 LAAS/CNRS             --  Sat Oct  6 2001
+#  Copyright (c) 2001-2003,2010,2012 LAAS/CNRS             --  Sat Oct  6 2001
 #  All rights reserved.                                    Anthony Mallet
 #
 #

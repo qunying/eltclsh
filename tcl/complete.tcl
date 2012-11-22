@@ -1,8 +1,6 @@
-#	$LAAS$
-
 #
-#  Copyright (c) 2001 LAAS/CNRS                       --  Tue Oct  9 2001
-#  All rights reserved.                                    Anthony Mallet
+# Copyright (c) 2001,2012 LAAS/CNRS
+# All rights reserved.
 #
 #
 # Redistribution  and  use in source   and binary forms,  with or without
@@ -28,6 +26,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE  USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
+#                                       Anthony Mallet on Tue Oct  9 2001
 
 # Completion-related procedures
 
@@ -39,7 +38,7 @@ namespace eval el {
 	{ ^(::)?array$
 	    {p 1 {
 		anymore donesearch exists get names nextelement
-		set size startsearch unset 
+		set size startsearch unset
 	    }}
 	    { p 2 A }
 	}
@@ -103,7 +102,7 @@ namespace eval el {
 	    {n {^-types$} {b c d f l p s r w x}}
 	}
 	{ ^(::)?global$ {p .* v}}
-	{ ^(::)?history$ 
+	{ ^(::)?history$
 	    {p 1 {add change clear event info keep nextid redo}}
 	}
 	{ ^(::)?incr$ {p 1 v}}
@@ -112,7 +111,7 @@ namespace eval el {
 		args body cmdcount commands complete default exists
 		globals hostname level library loaded locals
 		nameofexecutable patchlevel procs script
-		sharedlibextension tclversion vars 
+		sharedlibextension tclversion vars
 	    }}
 	    {n ^args|body|default$ p}
 	}
@@ -136,7 +135,7 @@ namespace eval el {
 	{ ^(::)?lsearch$ {p 1 {-exact -glob -regexp}}}
 	{ ^(::)?lsort$
 	    {p 1 {
-		-ascii -dictionary -integer -real -command -increasing 
+		-ascii -dictionary -integer -real -command -increasing
 		-decreasing -index -unique
 	    }}
 	    {n ^-command$ c}
@@ -191,7 +190,7 @@ namespace eval el {
 	{ ^(::)?regexp$
 	    {c ^- {
 		-about -expanded -indices -line -linestop -lineanchor
-		-nocase -all -inline -start -- 
+		-nocase -all -inline -start --
 	    }}
 	}
 	{ ^(::)?regsub$ {c ^- {-nocase -all -start --}}}
@@ -222,7 +221,7 @@ namespace eval el {
 	    {n ^is$ {
 		alnum alpha ascii boolean control digit double false
 		graph integer lower print punct space true upper wordchar
-		xdigit 
+		xdigit
 	    }}
 	    {n ^-failindex$ v}
 	    {c ^- {-nocase -length -strict -failindex}}
@@ -262,7 +261,7 @@ namespace eval el {
 
 	# break the string up into its constituent elements
 	set parse [el::parse $string]
-	set end [lindex $parse 2] 
+	set end [lindex $parse 2]
 	set items [lindex $parse 3]
 	set nitems [llength $items]
 
@@ -294,7 +293,7 @@ namespace eval el {
 	set lasttoken [lindex $lasttokens end]
 	set lasttokendescr [lindex [lindex $lasttoken 4] end]
 
-	if { [lindex $lasttoken 0] == "variable" && 
+	if { [lindex $lasttoken 0] == "variable" &&
 	     [lindex $lasttokendescr 3] == [lindex $lasttoken 3]} {
 	    # special case of an incomplete variable name (we known it is
 	    # incomplete thanks to the length test above): just complete
@@ -322,10 +321,10 @@ namespace eval el {
 		set completeon "variable namespace"
 	    }
 
-	} elseif {[lindex $lasttoken 0] == "text" && 
+	} elseif {[lindex $lasttoken 0] == "text" &&
 	    [lindex $lasttoken 1] == "$"} {
 	    # special case of an empty $ sign: complete on variables and
-	    # namespaces 
+	    # namespaces
 	    set start [expr [lindex $lasttoken 2]+1]
 	    set end $start
 
@@ -459,7 +458,7 @@ namespace eval el {
 	    if { $rule == "" } {
 		# no matching rule
 		# complete on commands for first item and variables
-		# for others 
+		# for others
 		if { $nitems == 1 } {
 		    set completeon "command namespace"
 		} else {
@@ -544,7 +543,7 @@ namespace eval el {
 		}
 	    }
 	}
-		
+
 	# namespaces
 	if { [lsearch $completeon "namespace"] >= 0 } {
 	    foreach namespace $namespaces {
@@ -592,7 +591,7 @@ namespace eval el {
 	# if we did not match anything at this point, force file and
 	# directory or shell commands search, if they're not already
 	# present and if not in a rule
-	if { $rule == "" && [llength $matches] == 0 } { 
+	if { $rule == "" && [llength $matches] == 0 } {
 	    if { [lsearch $completeon "file"] < 0 &&
 		 [lsearch $completeon "directory"] < 0 &&
 		 [lsearch $completeon "shell"] < 0 } {
@@ -666,7 +665,7 @@ namespace eval el {
 	# pattern which is present in all the matches, it is not
 	# necessary to replace it (completion will just append characters
 	# and not change the beginning of the word). This is at least the
-	# way tcsh works. 
+	# way tcsh works.
 
 	foreach pattern { :: / } {
 	    set slash [string last $pattern $name1]

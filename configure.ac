@@ -1,206 +1,77 @@
-dnl $LAAS: configure.ac 2011/10/31 23:09:48 tho $
 dnl
 dnl configure.in --
 dnl	process this file with autoconf to produce a configure script.
 dnl
-
-AC_REVISION($LAAS: configure.ac 2011/10/31 23:09:48 tho $)
-
 AC_INIT([eltclsh],[1.13],[openrobots@laas.fr])
 AC_PREREQ(2.59)
 
 AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_HEADER(config.h)
-
-AC_CANONICAL_HOST
-
-dnl --- config.h stuff --------------------------------------------------
-dnl
-AH_TOP([
-#ifndef H_ELTCLSH_CONFIG
-#define H_ELTCLSH_CONFIG
-])
-
-AH_VERBATIM(__RCSID,[
-#ifndef __RCSID
-#ifdef __GNUC__
-#define __RCSID(id) static const char rcsid[] __attribute__((__unused__)) = id
-#else
-#define __RCSID(id) static const char rcsid[] = id
-#endif /* __GNUC__ */
-#endif
-])
-
-AH_BOTTOM([
-#endif /* H_ELTCLSH_CONFIG */
-])
-
-
-dnl --- name of the interpreters ----------------------------------------
-ELTCLSH=eltclsh
-ELWISH=elwish
-ELPKG=eltclsh
-AC_SUBST(ELTCLSH)
-AC_SUBST(ELWISH)
-AC_SUBST(ELPKG)
-
-
-dnl Checks for headers --------------------------------------------------
-dnl
-AC_CHECK_HEADERS(sys/cdefs.h)
+AC_CONFIG_AUX_DIR([m4])
+AC_CONFIG_HEADER([m4/elconfig.h])
+AC_CONFIG_LIBOBJ_DIR([compat])
+AM_INIT_AUTOMAKE([foreign no-define subdir-objects])
 
 
 dnl --- checks for programs ---------------------------------------------
 dnl
 AC_DISABLE_STATIC
-AC_PROG_LIBTOOL
-AC_SUBST(LIBTOOL_DEPS)
-
-AC_PROG_MAKE_SET
+LT_INIT
 AC_PROG_CC
 
-ROBOT_CFLAGS
 
-ROBOT_PROG_MKDEP
-
-
-dnl try to find an eltclsh for the host machine
-if test "x${cross_compiling}" = "xyes"; then
-   AC_PATH_PROG(HOST_ELTCLSH, eltclsh, [:],	${PATH})
-else
-   HOST_ELTCLSH=
-fi
-AC_SUBST(HOST_ELTCLSH)
-
-
-dnl --- checks for typedefs ---------------------------------------------
+dnl Checks for headers --------------------------------------------------
 dnl
 AC_TYPE_SIGNAL
-
-dnl --- strl* -----------------------------------------------------------
-dnl
 AC_REPLACE_FUNCS(strlcat strlcpy)
-
-dnl --- check for extra includes or lib dirs ----------------------------
-dnl
-withval=""
-AC_ARG_WITH(includes,
-	[  --with-includes=DIR     search include DIR for optional packages])
-for ac_dir in NONE $withval ; do\
-   if test "x$ac_dir" != "xNONE"; then
-	if test ! -d $ac_dir; then
-		AC_MSG_RESULT([Warning: directory $ac_dir does not exist])
-	else
-		AC_MSG_RESULT([adding $ac_dir to include search path])
-		extra_include="$extra_include $ac_dir"
-	fi
-   fi
-done
-
-withval=""
-AC_ARG_WITH(libraries,
-	[  --with-libraries=DIR    search library DIR for optional packages])
-for ac_dir in NONE $withval ; do \
-   if test "x$ac_dir" != "xNONE"; then
-	if test ! -d $ac_dir; then
-		AC_MSG_RESULT([Warning: directory $ac_dir does not exist])
-	else
-		AC_MSG_RESULT([adding $ac_dir to library search path])
-		extra_lib="$extra_lib $ac_dir"
-	fi
-   fi
-done
 
 
 dnl --- checks for libraries --------------------------------------------
 dnl
-AC_PATH_XTRA
-ROBOT_LIB_TCL
-ROBOT_LIB_TK
-
 AC_SEARCH_LIBS([tputs], [termcap ncurses])
 AC_SEARCH_LIBS([ceil], [m])
 
 dnl libedit
 AC_LANG_C
-ac_tmp_cppflags=$CPPFLAGS
-ac_tmp_ldflags=$LDFLAGS
-ac_tmp_libs=$LIBS
 
-AC_MSG_CHECKING([for libedit headers])
+AC_PREPROC_IFELSE(
+  [AC_LANG_PROGRAM([[#include <histedit.h>]],[[int a = EL_GETCFN]])],
+  [AC_MSG_RESULT([checking for libedit headers... yes])],
+  [AC_MSG_FAILURE([checking for libedit headers... no])])
+AC_SEARCH_LIBS([el_set],[edit],
+  [AC_MSG_RESULT([checking for libedit library... yes])],
+  [AC_MSG_FAILURE([checking for libedit library... no])])
 
-AC_TRY_LINK([#include <histedit.h>], [int a = EL_GETCFN],
-[
-  AC_MSG_RESULT([found])
-  EL_CPPFLAGS=
-],
-[
-  for ac_dir in \
-	$prefix/include		\
-	$extra_include		\
-	/usr/local/include	\
-	/usr/include		\
-	; \
-  do
-  if test -r "$ac_dir/histedit.h"; then
-    CPPFLAGS="${ac_tmp_cppflags} -I$ac_dir"
-    AC_TRY_LINK([#include <histedit.h>], [int a = EL_GETCFN], [], [continue])
-    ac_edit_header=$ac_dir
-    break
-  fi
-  done
-  if test "x$ac_edit_header" = "x"; then
-    AC_MSG_RESULT([not found (fatal)])
-    AC_MSG_RESULT([Please use --with-includes to specify a valid path to your libedit headers]) 
-    AC_MSG_RESULT([Also, make sure you have the EL_GETCFN function.]) 
-    exit 2;
-  fi
-  AC_MSG_RESULT([$ac_edit_header])
-  EL_CPPFLAGS="-I$ac_edit_header"
-])
 
-AC_MSG_CHECKING([for libedit library])
+dnl tcl
+SC_PATH_TCLCONFIG
+SC_LOAD_TCLCONFIG
 
-AC_TRY_LINK([#include <histedit.h>], [el_set(0, EL_GETCFN)],
-[
-  AC_MSG_RESULT([found])
-  EL_LIB_SPEC="-ledit $LIBS"
-],
-[
-  for ac_dir in \
-	$exec_prefix/lib	\
-	$prefix/lib		\
-	$extra_lib		\
-	/usr/local/lib		\
-	/usr/lib		\
-	; \
-  do
-  if test -d $ac_dir; then
-    LDFLAGS="-L$ac_dir ${ac_tmp_ldflags}"
-    LIBS="-ledit ${ac_tmp_libs}"
-    AC_TRY_LINK([#include <histedit.h>], [el_set(0, EL_GETCFN)],
-		[], [continue])
-    ac_edit_lib=$ac_dir
-    break
-  fi
-  done
-  if test "x$ac_edit_lib" = "x"; then
-    AC_MSG_RESULT([not found (fatal)])
-    AC_MSG_ERROR([Please use --with-libraries to specify a valid path to your libedit library], 2) 
-  fi
-  AC_MSG_RESULT([$ac_edit_lib])
+SC_PATH_TKCONFIG
+SC_LOAD_TKCONFIG
 
-  EL_LIB_SPEC="-L$ac_edit_lib -ledit ${ac_tmp_libs}"
-])
+dnl runtime path
+rdir=
+for d in $LDFLAGS $LIBS $TCL_LIB_SPEC $TK_LIB_SPEC; do
+  case $next in dir) rdir=$rdir" "$d;; esac
+  next=
+  case $d in -L) next=dir;; -L*) rdir=$rdir" ${d#-L}";; esac
+done
+AC_SUBST(RUNTIME_PATH, [])
+for d in $rdir; do
+  case $d in
+    /lib*|/usr/lib*) ;;
+    *) RUNTIME_PATH=$RUNTIME_PATH" -R"$d ;;
+  esac
+done
 
-CPPFLAGS="$ac_tmp_cppflags"
-LDFLAGS="$ac_tmp_ldflags"
-LIBS="$ac_tmp_libs"
-
-AC_SUBST(EL_CPPFLAGS)
-AC_SUBST(EL_LIB_SPEC)
 
 dnl --- create the Makefiles --------------------------------------------
 dnl
+AC_CONFIG_FILES([
+        eltclsh.pc
+        Makefile
+        src/Makefile
+        tcl/Makefile
+])
 
-AC_OUTPUT(eltclsh.pc config.mk Makefile src/Makefile tcl/Makefile)
+AC_OUTPUT

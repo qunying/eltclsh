@@ -28,8 +28,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE  USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-
-package require eltclsh 1.10
+#                                       Anthony Mallet on Wed Oct 10 2001
 
 # shell's shift (should be added to tcl language :)
 proc shift { varName } {
@@ -247,7 +246,3 @@ proc mapscan { format cmdLine } {
     }
     return $result
 }
-
-
-package provide el::tools 1.0
-

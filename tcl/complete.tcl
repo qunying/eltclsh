@@ -701,5 +701,3 @@ namespace eval el {
 	return "$start $end $matches"
     }
 }
-
-package provide el::complete 1.0

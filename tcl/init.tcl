@@ -61,12 +61,6 @@ if { [info command signal] != "" } { namespace eval el {
     signal INT [namespace code "sighandler INT fatal"]
 }}
 
-# Require command-line completion
-if {[catch {
-    package require el::tools
-    package require el::complete
-} m]} { puts $m }
-
 # Preload packages
 if {[info exists ::argv]} {
     while {[set i [lsearch -exact $::argv -package]] >= 0} {

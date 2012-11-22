@@ -1,8 +1,6 @@
-/*	$LAAS$ */
-
-/* 
- * Copyright (c) 2001,2010-2011 LAAS/CNRS                       --  Sun Oct 14 2001
- * All rights reserved.                                    Anthony Mallet
+/*
+ * Copyright (c) 2001,2010-2012 LAAS/CNRS
+ * All rights reserved.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
  * modification, are permitted provided that the following conditions are
@@ -27,9 +25,10 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE   OF THIS SOFTWARE, EVEN   IF ADVISED OF   THE POSSIBILITY OF SUCH
  * DAMAGE.
+ *
+ *                                      Anthony Mallet on Sun Oct 14 2001
  */
-#include "config.h"
-__RCSID("$LAAS$");
+#include "elconfig.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -205,7 +204,7 @@ elTclEventLoop(EditLine *el, char *c)
 {
    ElTclInterpInfo *iinfo;
    el_get(el, EL_CLIENTDATA, &iinfo);
-   
+
    /* process Tcl events until there's some input available */
    while (iinfo->preReadSz == 0 && !feof(stdin))
       Tcl_DoOneEvent(0);
@@ -215,7 +214,7 @@ elTclEventLoop(EditLine *el, char *c)
       c[0] = '0';
       return -1;
    }
-       
+
    c[0] = iinfo->preRead[0];
    if (iinfo->preReadSz-- > 0)
       memmove(iinfo->preRead, iinfo->preRead+1, iinfo->preReadSz);
@@ -244,7 +243,7 @@ elTclRead(ClientData data, int mask)
    /* we know that there is at least one character (since we're
     * called from a select() but there might be more than one. Thus we
     * try to compute the actual number and we keep on the safe side in
-    * the case it is not possible to get that number */ 
+    * the case it is not possible to get that number */
 
 #ifdef FIONREAD
    if (ioctl(0, FIONREAD, &nRead)) {

@@ -1,8 +1,6 @@
-/*	$LAAS$ */
-
 /*
- * Copyright (c) 2001,2010 LAAS/CNRS                  --  Wed Oct 10 2001
- * All rights reserved.                                    Anthony Mallet
+ * Copyright (c) 2001,2010,2012 LAAS/CNRS
+ * All rights reserved.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
  * modification, are permitted provided that the following conditions are
@@ -27,9 +25,10 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE   OF THIS SOFTWARE, EVEN   IF ADVISED OF   THE POSSIBILITY OF SUCH
  * DAMAGE.
+ *
+ *                                      Anthony Mallet on Wed Oct 10 2001
  */
-#include "config.h"
-__RCSID("$LAAS$");
+#include "elconfig.h"
 
 #include "eltclsh.h"
 

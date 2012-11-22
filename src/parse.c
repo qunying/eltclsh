@@ -1,9 +1,7 @@
-/*	$LAAS$ */
-
-/* 
+/*
  * Copyright (c) 1997 Sun Microsystems, Inc.
  * Copyright (c) 1998 by Scriptics Corporation.
- * Copyright (C) 2001 LAAS/CNRS 
+ * Copyright (C) 2001 LAAS/CNRS
  *
  * This file contains procedures that  parse Tcl scripts. They do so in a
  * general-purpose fashion that can be  used for many different purposes,
@@ -37,8 +35,7 @@
  * USE   OF THIS SOFTWARE, EVEN   IF ADVISED OF   THE POSSIBILITY OF SUCH
  * DAMAGE.
  */
-#include "config.h"
-__RCSID("$LAAS$");
+#include "elconfig.h"
 
 #include <ctype.h>
 #include <string.h>
@@ -246,7 +243,7 @@ elTclParseCommand(string, numBytes, nested, parsePtr)
 				 * temporarily store a 0 sentinel
 				 * character. */
     int numBytes;		/* Total number of bytes in string.  If < 0,
-				 * the script consists of all bytes up to 
+				 * the script consists of all bytes up to
 				 * the first null character. */
     int nested;			/* Non-zero means this is a nested command:
 				 * close bracket should be considered
@@ -433,7 +430,7 @@ elTclParseCommand(string, numBytes, nested, parsePtr)
 	     * all of the work.
 	     */
 
-	    if (parseTokens(src, TYPE_SPACE|terminators, 
+	    if (parseTokens(src, TYPE_SPACE|terminators,
 		    parsePtr) != TCL_OK) {
 		goto error;
 	    }
@@ -489,7 +486,7 @@ elTclParseCommand(string, numBytes, nested, parsePtr)
 	if (src == parsePtr->end) {
 	    break;
 	}
-	if (src[-1] == '"') { 
+	if (src[-1] == '"') {
 	    parsePtr->errorType = TCL_PARSE_QUOTE_EXTRA;
 	} else {
 	    parsePtr->errorType = TCL_PARSE_BRACE_EXTRA;
@@ -835,7 +832,7 @@ parseVarName(string, numBytes, parsePtr)
 
     /*
      * The name of the variable can have three forms:
-     * 1. The $ sign is followed by an open curly brace.  Then 
+     * 1. The $ sign is followed by an open curly brace.  Then
      *    the variable name is everything up to the next close
      *    curly brace, and the variable is a scalar variable.
      * 2. The $ sign is not followed by an open curly brace.  Then
@@ -911,7 +908,7 @@ parseVarName(string, numBytes, parsePtr)
 		    != TCL_OK) {
 		goto error;
 	    }
-	    if ((parsePtr->term == end) || (*parsePtr->term != ')')) { 
+	    if ((parsePtr->term == end) || (*parsePtr->term != ')')) {
 		parsePtr->errorType = TCL_PARSE_MISSING_PAREN;
 		parsePtr->incomplete = 1;
 		src = parsePtr->term;
@@ -996,7 +993,7 @@ parseBraces(string, numBytes, parsePtr, termPtr)
     } else {
 	end = string + strlen(string);
     }
-    
+
     src = string+1;
     startIndex = parsePtr->numTokens;
 
@@ -1030,7 +1027,7 @@ parseBraces(string, numBytes, parsePtr, termPtr)
 		 * multiple tokens so that the backslash-newline can be
 		 * represented explicitly.
 		 */
-		
+
 		if ((src + 2) == end) {
 		    parsePtr->incomplete = 1;
 		}
@@ -1047,7 +1044,7 @@ parseBraces(string, numBytes, parsePtr, termPtr)
 		tokenPtr->size = length;
 		tokenPtr->numComponents = 0;
 		parsePtr->numTokens++;
-		
+
 		src += length;
 		tokenPtr++;
 		tokenPtr->type = TCL_TOKEN_TEXT;
@@ -1074,7 +1071,7 @@ parseBraces(string, numBytes, parsePtr, termPtr)
      * The last case ensures that there is a token (even if empty) that
      * describes the braced string.
      */
-    
+
     if ((src != tokenPtr->start)
 	    || (parsePtr->numTokens == startIndex)) {
 	tokenPtr->size = (src - tokenPtr->start);
@@ -1116,7 +1113,7 @@ parseBraces(string, numBytes, parsePtr, termPtr)
 
 static int
 parseQuotedString(string, numBytes, parsePtr, termPtr)
-    char *string;		/* String containing the quoted string. 
+    char *string;		/* String containing the quoted string.
 				 * The first character must be '"'. */
     int numBytes;		/* Total number of bytes in string. If < 0,
 				 * the string consists of all bytes up to
@@ -1130,13 +1127,13 @@ parseQuotedString(string, numBytes, parsePtr, termPtr)
 				 * close-quote if the parse succeeds. */
 {
     char *end;
-    
+
     if ((numBytes >= 0) || (string == NULL)) {
 	end = string + numBytes;
     } else {
 	end = string + strlen(string);
     }
-    
+
     if (parseTokens(string+1, TYPE_QUOTE, parsePtr) != TCL_OK) {
 	goto error;
     }

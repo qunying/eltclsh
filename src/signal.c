@@ -1,8 +1,6 @@
-/*	$LAAS$ */
-
-/* 
- * Copyright (c) 2001 LAAS/CNRS                       --  Wed Oct 10 2001
- * All rights reserved.                                    Anthony Mallet
+/*
+ * Copyright (c) 2001,2012 LAAS/CNRS
+ * All rights reserved.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
  * modification, are permitted provided that the following conditions are
@@ -27,9 +25,10 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE   OF THIS SOFTWARE, EVEN   IF ADVISED OF   THE POSSIBILITY OF SUCH
  * DAMAGE.
+ *
+ *                                      Anthony Mallet on Wed Oct 10 2001
  */
-#include "config.h"
-__RCSID("$LAAS$");
+#include "elconfig.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -80,7 +79,7 @@ static ElTclSignalContext *sigWinchContext;
 static int			elTclSignal(ClientData data,
 					Tcl_Interp *interp, int objc,
 					Tcl_Obj *const objv[]);
-static ElTclSignalContext *	getSignalContext(int signum, 
+static ElTclSignalContext *	getSignalContext(int signum,
 					ElTclInterpInfo *iinfo);
 static ElTclSignalContext *	createSignalContext(int signum,
 					ElTclInterpInfo *iinfo);
@@ -157,7 +156,7 @@ elTclHandlersExit(ElTclInterpInfo *iinfo)
 
 	 if (prev == NULL)
 	    sigWinchContext = ctx;
-	 else 
+	 else
 	    prev->next = ctx;
 
 	 free(swp);
@@ -171,14 +170,14 @@ elTclHandlersExit(ElTclInterpInfo *iinfo)
    for(i=0; i<ELTCL_MAXSIG; i++) {
       prev = NULL;
       for(ctx = signalContext[i]; ctx != NULL; ) {
-	 /* delete the handlers that are for us */ 
+	 /* delete the handlers that are for us */
 	 if (ctx->iinfo == iinfo) {
 	    swp = ctx;
 	    ctx = ctx->next;
 
 	    if (prev == NULL)
 	       signalContext[i] = ctx;
-	    else 
+	    else
 	       prev->next = ctx;
 
 	    if (swp->script != ELTCL_SIGDFL &&
@@ -247,7 +246,7 @@ elTclSignal(ClientData data, Tcl_Interp *interp, int objc,
       if (Tcl_GetIntFromObj(interp, objv[1], &signum) == TCL_ERROR)
 	 return TCL_ERROR;
    }
-   
+
    /* prepare the interpreter result so that this command returns the
     * previous action for that signal */
    ctx = getSignalContext(signum, iinfo);
@@ -259,7 +258,7 @@ elTclSignal(ClientData data, Tcl_Interp *interp, int objc,
       Tcl_SetObjResult(interp, ctx->script);
    }
 
-   /* if no action given, return current script associated with 
+   /* if no action given, return current script associated with
     * signal */
    if (objc == 2) { return TCL_OK; }
 
@@ -275,7 +274,7 @@ elTclSignal(ClientData data, Tcl_Interp *interp, int objc,
 	 if (signal(signum, SIG_DFL) == (void *)-1) goto error;
 
       if (ctx == NULL) return TCL_OK;
-     
+
       if (ctx->script != ELTCL_SIGDFL && ctx->script != ELTCL_SIGIGN) {
 	 Tcl_DecrRefCount(ctx->script);
 	 Tcl_AsyncDelete(ctx->asyncH);

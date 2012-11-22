@@ -1,8 +1,6 @@
-/*	"$LAAS$" */
-
-/* 
- * Copyright (c) 2001,2011 LAAS/CNRS                       --  Wed Oct 10 2001
- * All rights reserved.                                    Anthony Mallet
+/*
+ * Copyright (c) 2001,2011-2012 LAAS/CNRS
+ * All rights reserved.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
  * modification, are permitted provided that the following conditions are
@@ -27,9 +25,10 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE   OF THIS SOFTWARE, EVEN   IF ADVISED OF   THE POSSIBILITY OF SUCH
  * DAMAGE.
+ *
+ *                                      Anthony Mallet on Wed Oct 10 2001
  */
-#include "config.h"
-__RCSID("$LAAS$");
+#include "elconfig.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -128,7 +127,7 @@ elTclCompletion(EditLine *el, int ch)
 	     count-2, count>3?"ies":"y");
       fflush(stdout);
 
-      if (el_getc(iinfo->el, &c) <= 0) { 
+      if (el_getc(iinfo->el, &c) <= 0) {
 	 fputc('\n', stdout);
 	 Tcl_DecrRefCount(cmdLine);
 	 return CC_REDISPLAY;
@@ -152,7 +151,7 @@ elTclCompletion(EditLine *el, int ch)
       end++;
       again = 1;
       if (end >= length0) { end--; break; }
- 
+
       for(i=3; i<count; i++) {
 	 Tcl_ListObjIndex(iinfo->interp, matches[i], 0, &cmd[1]);
 	 string1 = Tcl_GetStringFromObj(cmd[1], &length1);
@@ -208,7 +207,7 @@ elTclCompletion(EditLine *el, int ch)
 	 Tcl_ListObjIndex(iinfo->interp, matches[start], 2, &arg);
 	 string1 = Tcl_GetStringFromObj(arg, &length1);
 	 fputs(string1, stdout);
-	 
+
 	 for(k=length0+length1; k<max; k++) fputc(' ', stdout);
       }
       fputc('\n', stdout);
@@ -239,7 +238,7 @@ elTclBreakCommandLine(ClientData data, Tcl_Interp *interp,
       Tcl_WrongNumArgs(interp, 1, objv, "string");
       return TCL_ERROR;
    }
-    
+
    cmd = Tcl_DuplicateObj(objv[1]);
    start = line = Tcl_GetStringFromObj(cmd, &length);
 
@@ -261,7 +260,7 @@ elTclBreakCommandLine(ClientData data, Tcl_Interp *interp,
 
    /* build result */
    Tcl_DStringInit(&result);
-   
+
    c = parse.commandStart[parse.commandSize];
    parse.commandStart[parse.commandSize] = 0;
    Tcl_DStringAppendElement(&result, parse.commandStart);

@@ -13,4 +13,3 @@ datarootdir=@datarootdir@
 datadir=@datadir@/eltcl
 
 ELTCLSH_TOOL=${exec_prefix}/@ELTCLSH@
-

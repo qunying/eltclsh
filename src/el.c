@@ -126,11 +126,13 @@ elTclHistory(ClientData data, Tcl_Interp *interp,
 	     int objc, Tcl_Obj *const objv[])
 {
   enum hidx {
-    hidx_add, hidx_file, hidx_save, hidx_size
+    hidx_add, hidx_change, hidx_event, hidx_file, hidx_save, hidx_size,
+    hidx_clear
   };
   static const char *args[] = {
-    [hidx_add] = "add", [hidx_file] = "file", [hidx_save] = "save",
-    [hidx_size] = "size", NULL
+    [hidx_add] = "add", [hidx_change] = "change", [hidx_event] = "event",
+    [hidx_file] = "file", [hidx_save] = "save", [hidx_size] = "size",
+    [hidx_clear] = "clear", NULL
   };
 
   ElTclInterpInfo *iinfo = data;
@@ -150,11 +152,52 @@ elTclHistory(ClientData data, Tcl_Interp *interp,
         return TCL_ERROR;
       }
       string = Tcl_GetStringFromObj(objv[2], NULL);
-      if (string == NULL) {
-        Tcl_WrongNumArgs(interp, 2, objv, "string");
+      history(iinfo->history, &ev, H_ENTER, string);
+      break;
+
+    case hidx_change:
+      if (objc > 4 || objc < 3) {
+        Tcl_WrongNumArgs(interp, 2, objv, "newValue ?event?");
         return TCL_ERROR;
       }
-      history(iinfo->history, &ev, H_ENTER, string);
+      string = Tcl_GetStringFromObj(objv[2], NULL);
+      if (!string) abort();
+      if (objc > 3) {
+        if (Tcl_GetIntFromObj(interp, objv[3], &s) != TCL_OK)
+          return TCL_ERROR;
+        history(iinfo->history, &ev, s<=0?H_FIRST:H_LAST);
+        history(iinfo->history, &ev, H_SET, ev.num+s);
+        if (ev.num) {
+          Tcl_AppendResult(interp, ev.str, NULL);
+          return TCL_ERROR;
+        }
+      }
+      history(iinfo->history, &ev, H_CURR);
+      *(char *)ev.str = '\0'; /* sadly, one must hack into the internals */
+      history(iinfo->history, &ev, H_ADD, string);
+      break;
+
+    case hidx_event:
+      if (objc > 3) {
+        Tcl_WrongNumArgs(interp, 2, objv, "?event?");
+        return TCL_ERROR;
+      }
+      if (objc > 2) {
+        if (Tcl_GetIntFromObj(interp, objv[2], &s) != TCL_OK)
+          return TCL_ERROR;
+        history(iinfo->history, &ev, s<=0?H_FIRST:H_LAST);
+        history(iinfo->history, &ev, H_SET, ev.num+s);
+        if (ev.num) {
+          Tcl_AppendResult(interp, ev.str, NULL);
+          return TCL_ERROR;
+        }
+      }
+      history(iinfo->history, &ev, H_CURR);
+      string = Tcl_Alloc(strlen(ev.str)+1);
+      strcpy(string, ev.str);
+      while (string[strlen(string)-1] == '\n')
+        string[strlen(string)-1] = '\0';
+      Tcl_SetResult(interp, string, TCL_DYNAMIC);
       break;
 
     case hidx_file:
@@ -185,6 +228,14 @@ elTclHistory(ClientData data, Tcl_Interp *interp,
         return TCL_ERROR;
 
       history(iinfo->history, &ev, H_SETSIZE, iinfo->histSize);
+      break;
+
+    case hidx_clear:
+      if (objc != 2) {
+        Tcl_WrongNumArgs(interp, 2, objv, "");
+        return TCL_ERROR;
+      }
+      history(iinfo->history, &ev, H_CLEAR);
       break;
   }
 

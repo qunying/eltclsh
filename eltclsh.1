@@ -1,5 +1,5 @@
 .\"	$LAAS$ */
-.\" Copyright (c) 2003,2011 LAAS/CNRS                       --  Mon Jul  7 2003
+.\" Copyright (c) 2003,2011-2012 LAAS/CNRS                       --  Mon Jul  7 2003
 .\" All rights reserved.
 .\"
 .\" Redistribution and use  in source  and binary  forms,  with or without
@@ -51,6 +51,26 @@ eltclsh provides a few specific commands to configure interactive editing
 Add
 .Ar string
 to the history of commands.
+.It Sy el::history event Ar ?event?
+Returns the value of the event given by
+.Ar event .
+If
+.Ar event
+is positive, it refers to the event with that number (all events are numbered
+starting at 1). If the number is negative, it selects an event relative to the
+current event (-1 refers to the previous event, -2 to the one before that, and
+so on). Event 0 refers to the current event.
+.Ar event
+defaults to -1.
+.It Sy el::history change Ar ?string? ?event?
+Replaces the value recorded for an event with
+.Ar string .
+.Ar Event
+specifies the event to replace, and defaults to the current event. This
+command is intended for use in commands that implement new forms of history
+substitution and wish to replace the current event (which invokes the
+substitution) with the command created through substitution. The return value
+is an empty string.
 .It Sy el::history file Ar ?filename?
 Load history from
 .Ar filename
@@ -71,6 +91,8 @@ History is automatically saved on exit.
 Set history length to
 .Ar length
 or return current length.
+.It Sy el::history clear
+Erase the history list. The current keep limit is retained.
 .El
 .Sh SEE ALSO
 .Xr tclsh 1 .

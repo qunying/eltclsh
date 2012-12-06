@@ -1,3 +1,7 @@
+eltclsh 1.14 released december 6, 2012
+
+ 45. Add new el::history sub-commands: event, change and clear.
+
 eltclsh 1.13 released november 22, 2012
 
  44. Provide a single eltclsh tcl package, including el::tools and el::complete

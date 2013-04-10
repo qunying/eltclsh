@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2012 LAAS/CNRS
+# Copyright (c) 2012-2013 LAAS/CNRS
 # All rights reserved.
 #
 # Permission to use, copy, modify, and distribute this software for any purpose
@@ -38,7 +38,8 @@ version.tcl: Makefile
 	$(ECHO) 'package provide $(PACKAGE_NAME) $(PACKAGE_VERSION)';
 
 pkgIndex.tcl: Makefile
-	l='[list load [file join ${libdir} libeltclsh.so]]';	\
+	l='[info sharedlibextension]';				\
+	l='[list load [file join ${libdir} libeltclsh'"$$l"']]';\
 	l="$$l"'|[list source [file join $$dir version.tcl]]';	\
 	for s in $(dist_sys_DATA); do				\
 	  l="$$l"'|[list source [file join $$dir '"$$s"']]';	\

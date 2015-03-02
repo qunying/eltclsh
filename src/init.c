@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001,2010-2013 LAAS/CNRS
+ * Copyright (c) 2001,2010-2013,2015 LAAS/CNRS
  * All rights reserved.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -30,7 +30,7 @@
  */
 #include "elconfig.h"
 
-static char copyright[] = " - Copyright (C) 2001-2013 LAAS-CNRS";
+static char copyright[] = " - Copyright (C) 2001-2013,2015 LAAS-CNRS";
 static char *version = ELTCLSH_VERSION;
 
 #include <stdio.h>
@@ -250,7 +250,7 @@ elTclPrompt(EditLine *el)
 	 strlcat(buf, " > ", sizeof(buf));
 	 prompt = buf;
       } else
-	 prompt = "» ";
+	 prompt = ": ";
 
    } else {
       code = Tcl_EvalObj(iinfo->interp, promptCmdPtr);

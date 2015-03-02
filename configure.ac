@@ -2,7 +2,7 @@ dnl
 dnl configure.in --
 dnl	process this file with autoconf to produce a configure script.
 dnl
-AC_INIT([eltclsh],[1.14],[openrobots@laas.fr])
+AC_INIT([eltclsh],[1.15],[openrobots@laas.fr])
 AC_PREREQ(2.59)
 
 AC_CONFIG_MACRO_DIR([m4])

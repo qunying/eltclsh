@@ -1,3 +1,8 @@
+eltclsh 1.15 released march 2, 2015
+
+ 47. Fix potential segfault when printing interactive prompt.
+ 46. Do not hardcode .so in pkgIndex.tcl
+
 eltclsh 1.14 released december 6, 2012
 
  45. Add new el::history sub-commands: event, change and clear.

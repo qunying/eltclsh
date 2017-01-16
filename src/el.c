@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001,2010-2012 LAAS/CNRS
+ * Copyright (c) 2001,2010-2012,2017 LAAS/CNRS
  * All rights reserved.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -262,7 +262,7 @@ elTclEventLoop(EditLine *el, char *c)
 
    if (iinfo->preReadSz == 0 && feof(stdin)) {
       /* eof and no pending character: leave */
-      c[0] = '0';
+      c[0] = '\0';
       return -1;
    }
 

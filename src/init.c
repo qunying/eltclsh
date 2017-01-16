@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001,2010-2013,2015 LAAS/CNRS
+ * Copyright (c) 2001,2010-2013,2015,2017 LAAS/CNRS
  * All rights reserved.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -30,7 +30,7 @@
  */
 #include "elconfig.h"
 
-static char copyright[] = " - Copyright (C) 2001-2013,2015 LAAS-CNRS";
+static char copyright[] = " - Copyright (C) 2001-2017 LAAS-CNRS";
 static char *version = ELTCLSH_VERSION;
 
 #include <stdio.h>
@@ -256,10 +256,8 @@ elTclPrompt(EditLine *el)
       code = Tcl_EvalObj(iinfo->interp, promptCmdPtr);
 
       if (code != TCL_OK) {
-	 Tcl_Channel inChannel, outChannel, errChannel;
+	 Tcl_Channel errChannel;
 
-	 inChannel = Tcl_GetStdChannel(TCL_STDIN);
-	 outChannel = Tcl_GetStdChannel(TCL_STDOUT);
 	 errChannel = Tcl_GetStdChannel(TCL_STDERR);
 	 if (errChannel) {
 #if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4

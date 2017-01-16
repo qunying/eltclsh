@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 1997 Sun Microsystems, Inc.
  * Copyright (c) 1998 by Scriptics Corporation.
- * Copyright (C) 2001 LAAS/CNRS
+ * Copyright (C) 2001,1998,2017 LAAS/CNRS
  *
  * This file contains procedures that  parse Tcl scripts. They do so in a
  * general-purpose fashion that can be  used for many different purposes,
@@ -1126,14 +1126,6 @@ parseQuotedString(string, numBytes, parsePtr, termPtr)
 				 * after the quoted string's terminating
 				 * close-quote if the parse succeeds. */
 {
-    char *end;
-
-    if ((numBytes >= 0) || (string == NULL)) {
-	end = string + numBytes;
-    } else {
-	end = string + strlen(string);
-    }
-
     if (parseTokens(string+1, TYPE_QUOTE, parsePtr) != TCL_OK) {
 	goto error;
     }

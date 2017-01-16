@@ -251,9 +251,11 @@ elTclHistory(ClientData data, Tcl_Interp *interp,
  */
 
 int
-elTclEventLoop(EditLine *el, char *c)
+elTclEventLoop(EditLine *el, wchar_t *c)
 {
    ElTclInterpInfo *iinfo;
+   int mbSz;
+
    el_get(el, EL_CLIENTDATA, &iinfo);
 
    /* process Tcl events until there's some input available */
@@ -263,12 +265,20 @@ elTclEventLoop(EditLine *el, char *c)
    if (iinfo->preReadSz == 0 && feof(stdin)) {
       /* eof and no pending character: leave */
       c[0] = '\0';
-      return -1;
+      return 0;
    }
 
-   c[0] = iinfo->preRead[0];
-   if (iinfo->preReadSz-- > 0)
-      memmove(iinfo->preRead, iinfo->preRead+1, iinfo->preReadSz);
+   mbSz = mblen(iinfo->preRead, iinfo->preReadSz);
+   if (mbSz > 0) {
+     mbSz = mbtowc(c, iinfo->preRead, mbSz);
+     if (mbSz > 0) {
+       iinfo->preReadSz -= mbSz;
+       memmove(iinfo->preRead, iinfo->preRead + mbSz, iinfo->preReadSz);
+     } else {
+       iinfo->preReadSz = 0;
+       return -1;
+     }
+   }
 
    return 1;
 }

@@ -1,7 +1,7 @@
 /*	$LAAS$ */
 
 /* 
- * Copyright (c) 2001,2010-2011 LAAS/CNRS                       --  Wed Oct 10 2001
+ * Copyright (c) 2001,2010-2011,2017 LAAS/CNRS                       --  Wed Oct 10 2001
  * All rights reserved.                                    Anthony Mallet
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -112,7 +112,7 @@ int		elTclGetc(ClientData data, Tcl_Interp *interp, int objc,
 			Tcl_Obj *const objv[]);
 int		elTclHistory(ClientData data, Tcl_Interp *interp,
 			int objc, Tcl_Obj *const objv[]);
-int		elTclEventLoop(EditLine *el, char *c);
+int		elTclEventLoop(EditLine *el, wchar_t *c);
 void		elTclRead(ClientData data, int mask);
 int		elTclGetWindowSize(int fd, int *lins, int *cols);
 

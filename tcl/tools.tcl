@@ -1,5 +1,5 @@
 #
-#  Copyright (c) 2001,2010,2012 LAAS/CNRS
+#  Copyright (c) 2001,2010,2012,2018 LAAS/CNRS
 #  All rights reserved.
 #
 #
@@ -28,31 +28,13 @@
 #
 #                                       Anthony Mallet on Wed Oct 10 2001
 
-# shell's shift (should be added to tcl language :)
+# shell's shift (lassign was added in tcl-8.5, this procedure could be dropped
+# at some point)
 proc shift { varName } {
     upvar $varName l
     set h [lindex $l 0]
     set l [lrange $l 1 end]
     return $h
-}
-
-# return the same list in reverse order
-proc lreverse { list } {
-
-    set reverse ""
-    foreach e $list {
-	set reverse [linsert $reverse -1 $e]
-    }
-    return $reverse
-}
-
-# aply command map on each element of list, returning the a new list
-proc lmap { list map } {
-    set mapped {}
-    foreach e $list {
-	lappend mapped [eval $map $e]
-    }
-    return $mapped
 }
 
 # print line wrapped to specified width

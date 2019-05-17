@@ -36,8 +36,8 @@ compile eltclsh:
 
 eltclsh is known to run on the following platforms:
 
-- Sparc Solaris (tested on Solaris 2.5.1 through 9).
 - ix86 Linux (tested on Fedora, Ubuntu, Debian)
+- Sparc Solaris (tested on Solaris 2.5.1 through 9).
 - NetBSD 1.6 and later
 - OpenBSD 3.2 and later
 

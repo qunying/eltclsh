@@ -1,6 +1,4 @@
-#	$Id: README 2012/01/10 16:36:51 mallet $
-
-Copyright (c) 2001-2012 LAAS/CNRS
+Copyright (c) 2001-2019 LAAS/CNRS
 
 eltclsh stands for ``editline tcl shell''. This is an interactive shell
 for the TCL programming language. It provides command line editing,

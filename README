@@ -29,7 +29,7 @@ compile eltclsh:
 - The GNU make utility, version 3.79 or higher. eltclsh Makefiles use
   some GNU make extensions and thus won't work with other make
   implementations. Note the GNU make is the standard make on most Linux
-  systems. (<http://www.gnu.org/software/make/make.html>).
+  systems. (<https://www.gnu.org/software/make/make.html>).
 
 
 --- SUPPORTED PLATFORMS -------------------------------------------------
@@ -45,7 +45,7 @@ eltclsh is known to run on the following platforms:
 --- GETTING ELTCLSH -----------------------------------------------------
 
 The lastest version is available from:
-http://homepages.laas.fr/mallet/soft/shell/eltclsh
+https://homepages.laas.fr/mallet/soft/shell/eltclsh
 
 
 --- INSTALLATION INSTRUCTIONS -------------------------------------------

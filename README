@@ -21,10 +21,10 @@ compile eltclsh:
 - editline library (a.k.a. libedit). The editline library provides
   generic line editing and history functions, similar to those found in
   sh(1). It is present by default on *BSD systems, but you probably need
-  to install it if you run another system. You need a decently recent
-  version, as eltclsh need some features that have been added by October
-  2001. We maintain a packaged version of the library here:
-  (<http://softs.laas.fr/openrobots/libs/editline.php>).
+  to install it if you run another system. The package is usually called
+  "libedit-dev" or "libedit-devel". If you can't find a packaged version
+  for your system, the portable sources are available at
+  https://thrysoee.dk/editline/ 
 
 - The GNU make utility, version 3.79 or higher. eltclsh Makefiles use
   some GNU make extensions and thus won't work with other make

@@ -35,6 +35,7 @@ namespace eval el {
     # builtin default completion rules
     variable completionPatterns {
 	{ ^(::)?after$ {p 1 {cancel idle info}} }
+	{ ^(::)?l?append$ {p 1 v} }
 	{ ^(::)?array$
 	    {p 1 {
 		anymore donesearch exists get names nextelement
@@ -42,9 +43,19 @@ namespace eval el {
 	    }}
 	    { p 2 A }
 	}
-	{ ^(::)?after$ {p 1 {format scan}} }
+	{ ^(::)?binary$ {p 1 {decode encode format scan}} }
 	{ ^(::)?catch$ {p 2 v} }
 	{ ^(::)?cd$ {p 1 d} }
+        { ^(::)?chan$
+          {p 1 { blocked close configure copy create eof event flush gets names
+            pending pipe pop postevent push puts read seek tell truncate }}
+          {n ^(blocked|close|configure|copy|eof|event|flush)$ {[file channels]}}
+          {n ^(gets|pop|postevent|push|puts|read|seek|tell)$ {[file channels]}}
+          {n ^(truncate)$ {[file channels]}}
+          {c ^- { -nonewline -blocking -buffering -encoding -eofchar
+            -translation}}
+          {n ^-encoding$ {[encoding names]}}
+        }
 	{ ^(::)?clock$
 	    {p 1 {format scan seconds}}
 	    {N ^format$ {-format -gmt}}
@@ -53,14 +64,21 @@ namespace eval el {
 	    {N ^-gmt$ {-format -base}}
 	}
 	{ ^(::)?close$ {p 1 {[file channels]}}}
-	{ ^(::)?encoding$ {p 1 {convertfrom convertto names system}}}
+        { ^(::)?dict$
+          {p 1 {append create exists filter for get incr info keys lappend map
+            merge remove replace set size unset update values with}}
+          {n ^(append|incr|lappend|set|unset|update|with)$ v}
+        }
+        { ^(::)?encoding$
+          {p 1 {convertfrom convertto names system}}
+          {n ^(convertfrom|convertto|system)$ {[encoding names]}}
+        }
 	{ ^(::)?eof$ {p 1 {[file channels]}}}
 	{ ^(::)?exec$
 	    {C {@} {[file channels]}}
 	    {C {<|>|&} F}
 	    {p 1 {-keepnewline}}
 	}
-	{ ^(::)?l?append$ {p 1 v} }
 	{ ^(::)?fblocked$ {p 1 {[file channels]}}}
 	{ ^(::)?fconfigure$
 	    {p 1 {[file channels]}}
@@ -96,10 +114,10 @@ namespace eval el {
 	{ ^(::)?foreach$ {p 1 v}}
 	{ ^(::)?gets$ {p 1 {[file channels]}} {p 2 v}}
 	{ ^(::)?glob$
-	    {p 1 {-directory -join -nocomplain -path -types --}}
 	    {n {^-(directory|path)$} d}
 	    {C {[bcdflpsrwx] } {b c d f l p s r w x}}
 	    {n {^-types$} {b c d f l p s r w x}}
+	    {c ^- {-directory -join -nocomplain -path -types --}}
 	}
 	{ ^(::)?global$ {p .* v}}
 	{ ^(::)?history$
@@ -128,11 +146,20 @@ namespace eval el {
 	    {N ^expose$ {[interp hidden]}}
 	    {p 3 c}
 	}
+        { ^(::)?lassign$
+          {p 1 {}}
+          {p .* v}
+	}
+        { ^(::)?lmap$ {p 1 v}}
 	{ ^(::)?load$
 	    {p 1 F}
 	    {p 3 {[interp slaves]}}
 	}
-	{ ^(::)?lsearch$ {p 1 {-exact -glob -regexp}}}
+        { ^(::)?lsearch$
+          {c ^- {-exact -glob -regexp -sorted -all -inline -not -start -ascii
+            -dictionary -integer -nocase -real -decreasing -increasing -index}}
+        }
+        { ^(::)?lset$ {p 1 v}}
 	{ ^(::)?lsort$
 	    {p 1 {
 		-ascii -dictionary -integer -real -command -increasing
@@ -169,6 +196,7 @@ namespace eval el {
 	    {n ^forget|ifneeded|versions$ k}
 	    {n ^unknown$ c}
 	}
+        { ^(::)?parray$ {p 1 A}}
 	{ ^(::)?pid$ {p 1 {[file channels]}}}
 	{ ^(::)?pkg::create$
 	    {p 1 {-name -version -load -source}}
@@ -181,7 +209,8 @@ namespace eval el {
 	}
 	{ ^(::)?puts$
 	    {c ^- {-nonewline}}
-	    {p 1|2 {[file channels]}}
+	    {p 1 {[file channels]}}
+	    {n ^- {[file channels]}}
 	}
 	{ ^(::)?read$
 	    {c ^- {-nonewline}}
@@ -458,7 +487,7 @@ namespace eval el {
 		if { $nitems == 1 } {
 		    set completeon "command namespace"
 		} else {
-		    set completeon "variable namespace"
+		    set completeon "variable namespace file directory"
 		}
 	    }
 	}

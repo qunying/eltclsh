@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2001,2012 LAAS/CNRS
+# Copyright (c) 2001,2012,2020 LAAS/CNRS
 # All rights reserved.
 #
 #
@@ -276,17 +276,13 @@ namespace eval el {
 	    incr nitems
 	}
 
-	# get the namespace hierarchy
-	set new [namespace qualifiers "[lindex $last 1]"]
-	if { $new == "" } { set new "::" }
-	while { $new != "" } {
-	    set current $new
-	    set new ""
-	    foreach name $current { catch {
-		eval lappend new [namespace children $name]
-	    }}
-	    eval lappend namespaces $new
-	}
+        # get the namespace hierarchy
+        set namespaces [list]
+        catch {
+          set namespaces [namespace eval :: [subst {
+            namespace children {[namespace qualifiers [lindex $last 1]]}
+          }]]
+        }
 
 	# compute the kind of completion wanted, based on last item
 	set lasttokens [lindex $last 4]
@@ -491,14 +487,6 @@ namespace eval el {
 	# array name
 	if { [lsearch $completeon "arrayname"] >= 0 } {
 	    set list [uplevel \#0 info vars [list [list ${name1}*]]]
-	    if { [llength $list] == 0 } {
-		# dig into children namespaces
-		foreach namespace $namespaces {
-		    eval lappend list \
-			[uplevel \#0 info vars \
-			     [list [list ${namespace}::${name1}*]]]
-		}
-	    }
 	    foreach match $list {
 		if { [uplevel \#0 array exists [list [list $match]]] } {
 		    lappend matches "$match { } ()"
@@ -509,14 +497,6 @@ namespace eval el {
 	# variable
 	if { [lsearch $completeon "variable"] >= 0 } {
 	    set list [uplevel \#0 info vars [list [list ${name1}*]]]
-	    if { [llength $list] == 0 } {
-		# dig into children namespaces
-		foreach namespace $namespaces {
-		    eval lappend list \
-			[uplevel \#0 info vars \
-			     [list [list ${namespace}::${name1}*]]]
-		}
-	    }
 	    foreach match $list {
 		if { [uplevel \#0 array exists [list [list $match]]] } {
 		    lappend matches "$match ( ()"
@@ -530,14 +510,6 @@ namespace eval el {
 	foreach corp { command proc } {
 	    if { [lsearch $completeon $corp] >= 0 } {
 		set list [uplevel \#0 info $corp [list [list ${name1}*]]]
-		if { [llength $list] == 0 } {
-		    # dig into children namespaces
-		    foreach namespace $namespaces {
-			eval lappend list \
-			    [uplevel \#0 info $corp \
-				 [list [list ${namespace}::${name1}*]]]
-		    }
-		}
 		foreach match $list {
 		    lappend matches "$match { } {}"
 		}

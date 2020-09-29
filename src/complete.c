@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001,2011-2012 LAAS/CNRS
+ * Copyright (c) 2001,2011-2012,2020 LAAS/CNRS
  * All rights reserved.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -103,7 +103,7 @@ elTclCompletion(EditLine *el, int ch)
    Tcl_GetIntFromObj(iinfo->interp, matches[0], &start);
    Tcl_GetIntFromObj(iinfo->interp, matches[1], &end);
 
-   if (count == 2) {
+   if (count < 3) {
       /* no match */
       Tcl_DecrRefCount(cmdLine);
       return CC_ERROR;

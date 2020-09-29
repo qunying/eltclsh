@@ -1,3 +1,19 @@
+eltclsh 1.18 released September 29, 2020
+
+ 53. Redisplay completion when a common prefix is appended, before prompting
+     for displaying all possibilities
+ 52. Add some recent (8.6) TCL commands to the completion engine
+ 51. Do not complete on variable and commands in children namespaces
+
+eltclsh 1.17 released August 8, 2018
+
+ 50. Drop local implementation of lreverse and lmap (John Thomas)
+
+eltclsh 1.16 released January 16, 2016
+
+ 49. editline switched to a wchar_t EL_GETCFN (Andreas Dixius)
+ 48. Fix a NUL char wrongly coded as '0' (Andreas Dixius)
+
 eltclsh 1.15 released march 2, 2015
 
  47. Fix potential segfault when printing interactive prompt.

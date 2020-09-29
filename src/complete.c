@@ -55,8 +55,8 @@ elTclCompletion(EditLine *el, int ch)
    const LineInfo *linfo;
    Tcl_Obj *cmd[2], *buffer, *arg, **matches, *cmdLine;
    Tcl_Channel outChannel;
-   int i,j,k, start, end, count, length0, length1, max, oldLen;
-   char *string0, *string1, *old;
+   int i,j,k, start, end, count, length0, length1, max;
+   char *string0, *string1;
    int again, ncols, nitems;
    char c;
 
@@ -96,6 +96,7 @@ elTclCompletion(EditLine *el, int ch)
    }
 
    Tcl_DecrRefCount(cmd[1]);
+   Tcl_DecrRefCount(cmdLine);
 
    /* get result and display */
    buffer = Tcl_GetObjResult(iinfo->interp);
@@ -105,7 +106,6 @@ elTclCompletion(EditLine *el, int ch)
 
    if (count < 3) {
       /* no match */
-      Tcl_DecrRefCount(cmdLine);
       return CC_ERROR;
    }
 
@@ -117,7 +117,6 @@ elTclCompletion(EditLine *el, int ch)
       el_insertstr(el, Tcl_GetStringFromObj(arg, NULL));
       Tcl_ListObjIndex(iinfo->interp, matches[2], 1, &arg);
       el_insertstr(el, Tcl_GetStringFromObj(arg, NULL));
-      Tcl_DecrRefCount(cmdLine);
       return CC_REFRESH;
    }
 
@@ -162,17 +161,17 @@ elTclCompletion(EditLine *el, int ch)
 	 }
       }
    } while (again);
+   end++;
 
-   old = Tcl_GetStringFromObj(cmdLine, &oldLen);
-   if (end+start >= oldLen) {
-      c = string0[end+1];
-      string0[end+1] = 0;
-      el_insertstr(el, string0);
-      string0[end+1] = c;
-   } else {
-      el_insertstr(el, old + start);
+   /* insert common part */
+   if (end > 0) {
+     char str[end+1];
+     strncpy(str, string0, end);
+     str[end] = 0;
+     el_insertstr(el, str);
    }
-   Tcl_DecrRefCount(cmdLine);
+
+   }
 
    /* find the biggest match (for multicol display) */
    max = 0;

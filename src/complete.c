@@ -120,28 +120,6 @@ elTclCompletion(EditLine *el, int ch)
       return CC_REFRESH;
    }
 
-   if (count-2 > iinfo->completionQueryItems && iinfo->completionQueryItems) {
-      /* ask user */
-      printf("\nDisplay all %d possibilit%s? [y/n] ",
-	     count-2, count>3?"ies":"y");
-      fflush(stdout);
-
-      if (el_getc(iinfo->el, &c) <= 0) {
-	 fputc('\n', stdout);
-	 Tcl_DecrRefCount(cmdLine);
-	 return CC_REDISPLAY;
-      }
-
-      if (c != 'y' && c != 'Y') {
-	 fputc(c, stdout);
-	 fputc('\n', stdout);
-	 Tcl_DecrRefCount(cmdLine);
-	 return CC_REDISPLAY;
-      }
-
-      fputc(c, stdout);
-   }
-
    /* find the smallest common part in every matches */
    Tcl_ListObjIndex(iinfo->interp, matches[2], 0, &cmd[0]);
    string0 = Tcl_GetStringFromObj(cmd[0], &length0);
@@ -171,6 +149,27 @@ elTclCompletion(EditLine *el, int ch)
      el_insertstr(el, str);
    }
 
+   /* ask user if too many items are to be displayed */
+   if (count-2 > iinfo->completionQueryItems && iinfo->completionQueryItems) {
+     if (end > linfo->cursor - linfo->buffer - start)
+       return CC_REDISPLAY;
+
+      printf("\nDisplay all %d possibilit%s? [y/n] ",
+	     count-2, count>3?"ies":"y");
+      fflush(stdout);
+
+      if (el_getc(iinfo->el, &c) <= 0) {
+	 fputc('\n', stdout);
+	 return CC_REDISPLAY;
+      }
+
+      if (c != 'y' && c != 'Y') {
+	 fputc(c, stdout);
+	 fputc('\n', stdout);
+	 return CC_REDISPLAY;
+      }
+
+      fputc(c, stdout);
    }
 
    /* find the biggest match (for multicol display) */

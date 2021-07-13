@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2012 LAAS/CNRS
+# Copyright (c) 2012,2021 LAAS/CNRS
 # All rights reserved.
 #
 # Permission to use, copy, modify, and distribute this software for any purpose
@@ -27,7 +27,7 @@ bin_PROGRAMS=		eltclsh elwish
 eltclsh_LDFLAGS=	${RUNTIME_PATH}
 eltclsh_LDADD=		libcommon.la ${TCL_LIB_SPEC}
 
-elwish_CPPFLAGS=	${TK_INCLUDE_SPEC}
+elwish_CPPFLAGS=	${TK_INCLUDE_SPEC} ${TK_XINCLUDES}
 elwish_LDFLAGS=		${RUNTIME_PATH}
 elwish_LDADD=		libcommon.la ${TK_LIB_SPEC} ${TCL_LIB_SPEC}
 

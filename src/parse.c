@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 1997 Sun Microsystems, Inc.
- * Copyright (c) 1998 by Scriptics Corporation.
- * Copyright (C) 2001,1998,2017 LAAS/CNRS
+ * Copyright (c) 1998,2022 by Scriptics Corporation.
+ * Copyright (C) 2001,1998,2017,1998,2022 LAAS/CNRS
  *
  * This file contains procedures that  parse Tcl scripts. They do so in a
  * general-purpose fashion that can be  used for many different purposes,
@@ -1011,10 +1011,10 @@ parseBraces(string, numBytes, parsePtr, termPtr)
 	}
 	if (*src == '}') {
 	    level--;
+	    src++;
 	    if (level == 0) {
 		break;
 	    }
-	    src++;
 	} else if (*src == '{') {
 	    level++;
 	    src++;
@@ -1054,8 +1054,6 @@ parseBraces(string, numBytes, parsePtr, termPtr)
 		src += length;
 	    }
 	} else if (src == end) {
-	    parsePtr->errorType = TCL_PARSE_MISSING_BRACE;
-	    parsePtr->incomplete = 1;
 	    break;
 	} else {
 	    src++;
@@ -1078,7 +1076,7 @@ parseBraces(string, numBytes, parsePtr, termPtr)
 	parsePtr->numTokens++;
     }
     if (termPtr != NULL) {
-	*termPtr = src+1;
+	*termPtr = src;
     }
     return TCL_OK;
 }

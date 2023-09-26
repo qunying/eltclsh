@@ -282,12 +282,6 @@ namespace eval el {
 	# the matching rule (empty if none applies)
 	set rule ""
 
-	# just one weird case which is best worked around like this
-	if {[string index $string end] == ":" &&
-	    [string index $string end-1] != ":"} {
-	    append string ":"
-	}
-
 	# break the string up into its constituent elements
 	set parse [el::parse $string]
 	set end [lindex $parse 2]
@@ -670,6 +664,14 @@ namespace eval el {
 		eval $findmatch
 	    }
 	}
+
+        # just one weird case which is best worked around like this
+        if {[string index $name1 end] == ":" &&
+            [string index $name1 end-1] != ":"} {
+          if {[llength [matches "$name1:"]] > 2} {
+            lappend matches "$name1: {} {}"
+          }
+        }
 
 	# last thing: if the incomplete word has a namespace or directory
 	# pattern which is present in all the matches, it is not

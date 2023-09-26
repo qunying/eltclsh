@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2001,2012,2020 LAAS/CNRS
+# Copyright (c) 2001,2012,2020,2023 LAAS/CNRS
 # All rights reserved.
 #
 #
@@ -305,14 +305,6 @@ namespace eval el {
 	    incr nitems
 	}
 
-        # get the namespace hierarchy
-        set namespaces [list]
-        catch {
-          set namespaces [namespace eval :: [subst {
-            namespace children {[namespace qualifiers [lindex $last 1]]}
-          }]]
-        }
-
 	# compute the kind of completion wanted, based on last item
 	set lasttokens [lindex $last 4]
 	set lasttoken [lindex $lasttokens end]
@@ -546,7 +538,15 @@ namespace eval el {
 	}
 
 	# namespaces
-	if { [lsearch $completeon "namespace"] >= 0 } {
+        if { [lsearch $completeon "namespace"] >= 0 } {
+            # get the namespace hierarchy
+            set namespaces [list]
+            catch {
+              set namespaces [namespace eval :: [subst {
+                namespace children {[namespace qualifiers $name1]}
+              }]]
+            }
+
 	    foreach namespace $namespaces {
 		if {[string match ${name1}* ${namespace}]} {
 		    lappend matches "${namespace}:: {} {}"

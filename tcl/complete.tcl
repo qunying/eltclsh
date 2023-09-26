@@ -510,6 +510,9 @@ namespace eval el {
 	    set list [uplevel \#0 info vars [list [list ${name1}*]]]
 	    foreach match $list {
 		if { [uplevel \#0 array exists [list [list $match]]] } {
+                    if {[string match ::${name1}* $match]} {
+                      set match [string range $match 2 end]
+                    }
 		    lappend matches "$match { } ()"
 		}
 	    }
@@ -519,6 +522,9 @@ namespace eval el {
 	if { [lsearch $completeon "variable"] >= 0 } {
 	    set list [uplevel \#0 info vars [list [list ${name1}*]]]
 	    foreach match $list {
+                if {[string match ::${name1}* $match]} {
+                  set match [string range $match 2 end]
+                }
 		if { [uplevel \#0 array exists [list [list $match]]] } {
 		    lappend matches "$match ( ()"
 		} else {
@@ -532,6 +538,9 @@ namespace eval el {
 	    if { [lsearch $completeon $corp] >= 0 } {
 		set list [uplevel \#0 info $corp [list [list ${name1}*]]]
 		foreach match $list {
+                    if {[string match ::${name1}* $match]} {
+                      set match [string range $match 2 end]
+                    }
 		    lappend matches "$match { } {}"
 		}
 	    }

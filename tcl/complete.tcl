@@ -685,7 +685,7 @@ namespace eval el {
 		incr slash [string length $pattern]
 		foreach match $matches {
 		    set string [lindex $match 0]
-		    if { ! [string equal -length $slash $name1 $match]} {
+		    if { ! [string equal -length $slash $name1 $string]} {
 			set ok 0
 			break
 		    }

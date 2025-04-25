@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001,2010-2013,2015,2017-2018,2020,2023 LAAS/CNRS
+ * Copyright (c) 2001, 2010-2013, 2015, 2017-2018, 2020, 2023, 2025 LAAS/CNRS
  * All rights reserved.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -30,7 +30,7 @@
  */
 #include "elconfig.h"
 
-static char copyright[] = " - Copyright (C) 2001-2023 LAAS-CNRS";
+static char copyright[] = " - Copyright (C) 2001-2025 LAAS-CNRS";
 static char *version = ELTCLSH_VERSION;
 
 #include <stdio.h>
@@ -66,10 +66,7 @@ Eltclsh_Init(Tcl_Interp *interp)
    Tcl_DString initFile;
    Tcl_Obj *obj;
    HistEvent ev;
-#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
-   const
-#endif
-     char *eltclLibrary[2];
+   const char *eltclLibrary[2];
 
    /* initialize stubs (they appeared in 8.1) */
    if (Tcl_InitStubs(interp, "8.1", 0) == NULL) {
@@ -260,11 +257,7 @@ elTclPrompt(EditLine *el)
 
 	 errChannel = Tcl_GetStdChannel(TCL_STDERR);
 	 if (errChannel) {
-#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
 	    const char *bytes;
-#else
-	    char *bytes;
-#endif /* TCL_VERSION */
 	    bytes = Tcl_GetStringResult(iinfo->interp);
 	    Tcl_Write(errChannel, bytes, strlen(bytes));
 	    Tcl_Write(errChannel, "\n", 1);
@@ -371,11 +364,7 @@ elTclInteractive(ClientData data,
     Tcl_IncrRefCount(iinfo->command);
 
     iinfo->gotPartial = 0;
-#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
     code = Tcl_RecordAndEvalObj(iinfo->interp, command, 0);
-#else
-    code = Tcl_EvalObj(iinfo->interp, command);
-#endif /* TCL_VERSION */
 
     Tcl_DecrRefCount(command);
 

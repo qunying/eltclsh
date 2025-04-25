@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001,2010,2012 LAAS/CNRS
+ * Copyright (c) 2001, 2010, 2012, 2025 LAAS/CNRS
  * All rights reserved.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -40,13 +40,8 @@
  */
 
 
-#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
 int
 main(int argc, const char *argv[])
-#else
-int
-main(int argc, char *argv[])
-#endif /* TCL_VERSION */
 {
    elTclshLoop(argc, argv, NULL);
    return 0;

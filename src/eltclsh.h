@@ -1,7 +1,5 @@
-/*	$LAAS$ */
-
-/* 
- * Copyright (c) 2001,2010-2011,2017 LAAS/CNRS                       --  Wed Oct 10 2001
+/*
+ * Copyright (c) 2001, 2010-2011, 2017, 2025 LAAS/CNRS -- Wed Oct 10 2001
  * All rights reserved.                                    Anthony Mallet
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -27,6 +25,8 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE   OF THIS SOFTWARE, EVEN   IF ADVISED OF   THE POSSIBILITY OF SUCH
  * DAMAGE.
+ *
+ *                                      Anthony Mallet on Wed Oct 10 2001
  */
 #ifndef H_ELTCLSH
 #define H_ELTCLSH
@@ -80,13 +80,8 @@ typedef int (*ElTclAppInitProc)(Tcl_Interp *);
  * Prototypes -----------------------------------------------------------
  */
 
-#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
-void		elTclshLoop(int argc, const char **argv,
+void		elTclshLoop(int argc, const char * const *argv,
 			ElTclAppInitProc appInitProc);
-#else
-void		elTclshLoop(int argc, char **argv,
-			ElTclAppInitProc appInitProc);
-#endif /* TCL_VERSION */
 int		elTclInteractive(ClientData data, Tcl_Interp *interp, int objc,
 			Tcl_Obj *const objv[]);
 int		elTclExit(ClientData data, Tcl_Interp *interp, int objc,

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2004,2008-2010,2012 LAAS/CNRS
+ * Copyright (c) 2001-2004, 2008-2010, 2012, 2025 LAAS/CNRS
  * All rights reserved.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -45,20 +45,12 @@
  * Main loop: it reads commands and execute them
  */
 
-#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
 void
-elTclshLoop(int argc, const char **argv, ElTclAppInitProc appInitProc)
-#else
-void
-elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
-#endif /* TCL_VERSION */
+elTclshLoop(int argc, const char * const *argv, ElTclAppInitProc appInitProc)
 {
    Tcl_Interp *interp;
    Tcl_Obj *resultPtr, *obj;
-#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
-   const
-#endif
-     char *fileName, *args;
+   const char *fileName, *args;
    char buffer[1000], *bytes;
    int code, tty, length;
    int exitCode = 0;
@@ -126,11 +118,7 @@ elTclshLoop(int argc, char **argv, ElTclAppInitProc appInitProc)
    if (appInitProc && (*appInitProc)(interp) != TCL_OK) {
       errChannel = Tcl_GetStdChannel(TCL_STDERR);
       if (errChannel) {
-#if TCL_MAJOR_VERSION >= 8 && TCL_MINOR_VERSION >= 4
 	 const char *msg;
-#else
-	 char *msg;
-#endif /* TCL_VERSION */
 
 	 msg = Tcl_GetVar(interp, "errorInfo", TCL_GLOBAL_ONLY);
 	 if (msg != NULL) {

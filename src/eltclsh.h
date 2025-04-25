@@ -34,6 +34,11 @@
 #include <tcl.h>
 #include <histedit.h>
 
+#if TCL_MAJOR_VERSION < 9
+/* backward compatibility: tcl-8 has no Tcl_Size and uses int in API */
+typedef int Tcl_Size;
+#endif
+
 #include "parse.h"
 
 /* A structure that groups together the various parameters that control

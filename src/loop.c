@@ -52,7 +52,8 @@ elTclshLoop(int argc, const char * const *argv, ElTclAppInitProc appInitProc)
    Tcl_Obj *resultPtr, *obj;
    const char *fileName, *args;
    char buffer[1000], *bytes;
-   int code, tty, length;
+   int code, tty;
+   Tcl_Size length;
    int exitCode = 0;
    Tcl_Channel errChannel;
 

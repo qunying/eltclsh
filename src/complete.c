@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001,2011-2012,2020 LAAS/CNRS
+ * Copyright (c) 2001, 2011-2012, 2020, 2025 LAAS/CNRS
  * All rights reserved.
  *
  * Redistribution and use  in source  and binary  forms,  with or without
@@ -55,7 +55,8 @@ elTclCompletion(EditLine *el, int ch)
    const LineInfo *linfo;
    Tcl_Obj *cmd[2], *buffer, *arg, **matches, *cmdLine;
    Tcl_Channel outChannel;
-   int i,j,k, start, end, count, length0, length1, max;
+   int i,j,k, start, end, max;
+   Tcl_Size count, length0, length1;
    char *string0, *string1;
    int again, ncols, nitems;
    char c;
@@ -155,7 +156,7 @@ elTclCompletion(EditLine *el, int ch)
        return CC_REDISPLAY;
 
       printf("\nDisplay all %d possibilit%s? [y/n] ",
-	     count-2, count>3?"ies":"y");
+	     (unsigned int)count-2, count>3?"ies":"y");
       fflush(stdout);
 
       if (el_getc(iinfo->el, &c) <= 0) {
@@ -230,7 +231,8 @@ elTclBreakCommandLine(ClientData data, Tcl_Interp *interp,
    Tcl_Obj *cmd, *num;
    Tcl_DString result;
    char *line, *start, c;
-   int length, i;
+   Tcl_Size length;
+   int i;
 
    if (objc != 2) {
       Tcl_WrongNumArgs(interp, 1, objv, "string");

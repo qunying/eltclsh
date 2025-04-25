@@ -288,7 +288,8 @@ elTclInteractive(ClientData data,
   HistEvent ev;
   Tcl_Obj *resultPtr, *command;
   Tcl_Channel inChannel, outChannel, errChannel;
-  int code, tty, length;
+  int code, tty;
+  Tcl_Size length;
   char *bytes;
 
   tty = isatty(0);
@@ -324,11 +325,12 @@ elTclInteractive(ClientData data,
   for(;/*eternity*/;)  {
     if (tty) {
       const char *line;
+      int n;
 
-      line = el_gets(iinfo->el, &length);
+      line = el_gets(iinfo->el, &n);
       if (line == NULL) goto done;
 
-      command = Tcl_NewStringObj(line, length);
+      command = Tcl_NewStringObj(line, n);
       Tcl_AppendObjToObj(iinfo->command, command);
 
     } else {

@@ -69,7 +69,7 @@ Eltclsh_Init(Tcl_Interp *interp)
    const char *eltclLibrary[2];
 
    /* initialize stubs (they appeared in 8.1) */
-   if (Tcl_InitStubs(interp, "8.1", 0) == NULL) {
+   if (Tcl_InitStubs(interp, TCL_VERSION, 0) == NULL) {
      return TCL_ERROR;
    }
 

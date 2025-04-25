@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 1997 Sun Microsystems, Inc.
- * Copyright (c) 1998,2022 by Scriptics Corporation.
- * Copyright (C) 2001,1998,2017,1998,2022 LAAS/CNRS
+ * Copyright (c) 1998 by Scriptics Corporation.
+ * Copyright (C) 2001, 2017, 2022, 2025 LAAS/CNRS
  *
  * This file contains procedures that  parse Tcl scripts. They do so in a
  * general-purpose fashion that can be  used for many different purposes,
@@ -234,26 +234,26 @@ static int	parseQuotedString(char *string, int numBytes,
  */
 
 int
-elTclParseCommand(string, numBytes, nested, parsePtr)
-    char *string;		/* First character of string containing
+elTclParseCommand(
+    char *string,		/* First character of string containing
 				 * one or more Tcl commands.  The string
 				 * must be in writable memory and must
 				 * have one additional byte of space at
 				 * string[length] where we can
 				 * temporarily store a 0 sentinel
 				 * character. */
-    int numBytes;		/* Total number of bytes in string.  If < 0,
+    int numBytes,		/* Total number of bytes in string.  If < 0,
 				 * the script consists of all bytes up to
 				 * the first null character. */
-    int nested;			/* Non-zero means this is a nested command:
+    int nested,			/* Non-zero means this is a nested command:
 				 * close bracket should be considered
 				 * a command terminator. If zero, then close
 				 * bracket has no special meaning. */
-    register ElTclParse *parsePtr;
+    register ElTclParse *parsePtr
     				/* Structure to fill in with information
 				 * about the parsed command; any previous
 				 * information in the structure is
-				 * ignored. */
+				 * ignored. */)
 {
     register char *src;		/* Points to current character
 				 * in the command. */
@@ -536,15 +536,15 @@ elTclParseCommand(string, numBytes, nested, parsePtr)
  */
 
 static int
-parseTokens(src, mask, parsePtr)
-    register char *src;		/* First character to parse. */
-    int mask;			/* Specifies when to stop parsing.  The
+parseTokens(
+    register char *src,		/* First character to parse. */
+    int mask,			/* Specifies when to stop parsing.  The
 				 * parse stops at the first unquoted
 				 * character whose CHAR_TYPE contains
 				 * any of the bits in mask. */
-    ElTclParse *parsePtr;	/* Information about parse in progress.
+    ElTclParse *parsePtr	/* Information about parse in progress.
 				 * Updated with additional tokens and
-				 * termination information. */
+				 * termination information. */)
 {
     int type, originalTokens, varToken;
     char utfBytes[TCL_UTF_MAX];
@@ -709,9 +709,9 @@ parseTokens(src, mask, parsePtr)
  */
 
 void
-elTclFreeParse(parsePtr)
-    ElTclParse *parsePtr;	/* Structure that was filled in by a
-				 * previous call to Tcl_ParseCommand. */
+elTclFreeParse(
+    ElTclParse *parsePtr	/* Structure that was filled in by a
+				 * previous call to Tcl_ParseCommand. */)
 {
     if (parsePtr->tokenPtr != parsePtr->staticTokens) {
 	ckfree((char *) parsePtr->tokenPtr);
@@ -739,16 +739,16 @@ elTclFreeParse(parsePtr)
  */
 
 static void
-expandTokenArray(parsePtr)
-    ElTclParse *parsePtr;	/* Parse structure whose token space
-				 * has overflowed. */
+expandTokenArray(
+    ElTclParse *parsePtr	/* Parse structure whose token space
+				 * has overflowed. */)
 {
     int newCount;
     ElTclToken *newPtr;
 
     newCount = parsePtr->tokensAvailable*2;
     newPtr = (ElTclToken *) ckalloc((unsigned)(newCount*sizeof(ElTclToken)));
-    memcpy((VOID *) newPtr, (VOID *) parsePtr->tokenPtr,
+    memcpy((void *) newPtr, (void *) parsePtr->tokenPtr,
 	    (size_t) (parsePtr->tokensAvailable * sizeof(ElTclToken)));
     if (parsePtr->tokenPtr != parsePtr->staticTokens) {
 	ckfree((char *) parsePtr->tokenPtr);
@@ -784,14 +784,14 @@ expandTokenArray(parsePtr)
  */
 
 static int
-parseVarName(string, numBytes, parsePtr)
-    char *string;		/* String containing variable name.  First
+parseVarName(
+    char *string,		/* String containing variable name.  First
 				 * character must be "$". */
-    int numBytes;		/* Total number of bytes in string.  If < 0,
+    int numBytes,		/* Total number of bytes in string.  If < 0,
 				 * the string consists of all bytes up to the
 				 * first null character. */
-    ElTclParse *parsePtr;	/* Structure to fill in with information
-				 * about the variable name. */
+    ElTclParse *parsePtr	/* Structure to fill in with information
+				 * about the variable name. */)
 {
     ElTclToken *tokenPtr;
     char *end, *src;
@@ -968,19 +968,19 @@ parseVarName(string, numBytes, parsePtr)
  */
 
 static int
-parseBraces(string, numBytes, parsePtr, termPtr)
-    char *string;		/* String containing the string in braces.
+parseBraces(
+    char *string,		/* String containing the string in braces.
 				 * The first character must be '{'. */
-    int numBytes;		/* Total number of bytes in string. If < 0,
+    int numBytes,		/* Total number of bytes in string. If < 0,
 				 * the string consists of all bytes up to
 				 * the first null character. */
-    register ElTclParse *parsePtr;
+    register ElTclParse *parsePtr,
     				/* Structure to fill in with information
 				 * about the string. */
-    char **termPtr;		/* If non-NULL, points to word in which to
+    char **termPtr		/* If non-NULL, points to word in which to
 				 * store a pointer to the character just
 				 * after the terminating '}' if the parse
-				 * was successful. */
+				 * was successful. */)
 
 {
     char utfBytes[TCL_UTF_MAX];	/* For result of backslash substitution. */
@@ -1110,19 +1110,19 @@ parseBraces(string, numBytes, parsePtr, termPtr)
  */
 
 static int
-parseQuotedString(string, numBytes, parsePtr, termPtr)
-    char *string;		/* String containing the quoted string.
+parseQuotedString(
+    char *string,		/* String containing the quoted string.
 				 * The first character must be '"'. */
-    int numBytes;		/* Total number of bytes in string. If < 0,
+    int numBytes,		/* Total number of bytes in string. If < 0,
 				 * the string consists of all bytes up to
 				 * the first null character. */
-    register ElTclParse *parsePtr;
+    register ElTclParse *parsePtr,
     				/* Structure to fill in with information
 				 * about the string. */
-    char **termPtr;		/* If non-NULL, points to word in which to
+    char **termPtr		/* If non-NULL, points to word in which to
 				 * store a pointer to the character just
 				 * after the quoted string's terminating
-				 * close-quote if the parse succeeds. */
+				 * close-quote if the parse succeeds. */)
 {
     if (parseTokens(string+1, TYPE_QUOTE, parsePtr) != TCL_OK) {
 	goto error;
